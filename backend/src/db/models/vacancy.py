@@ -1,17 +1,17 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, relationship, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from db.models.skill import Skill
 from src.db.models import Base
 
 if TYPE_CHECKING:
-    from src.db.models.application import Application
     from db.models.user import User
+    from src.db.models.application import Application
 
 
 class Vacancy(Base):
