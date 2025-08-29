@@ -6,7 +6,7 @@ from src.db import AbstractSQLAlchemyStorage
 from src.db.models import User
 
 
-class UserRepository(AbstractSQLAlchemyStorage):
+class UserRepository:
     storage: AbstractSQLAlchemyStorage
 
     def update_storage(self, storage: AbstractSQLAlchemyStorage) -> Self:
@@ -66,3 +66,6 @@ class UserRepository(AbstractSQLAlchemyStorage):
             await session.delete(user)
             await session.commit()
             return user
+
+
+user_repository: UserRepository = UserRepository()
