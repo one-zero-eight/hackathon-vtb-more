@@ -18,6 +18,10 @@ $defs:
         title: Db Url
         type: string
         writeOnly: true
+      files_dir:
+        format: path
+        title: Files Dir
+        type: string
       session_secret_key:
         example: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         format: password

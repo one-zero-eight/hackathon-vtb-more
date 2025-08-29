@@ -17,7 +17,10 @@ class ApiSettings(BaseModel):
         ],
     )
     "PostgreSQL database connection URL"
+    files_dir: Path = Path("data/files")
+    "Path to the directory where files will be stored"
     session_secret_key: SecretStr = Field(..., example="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+
 
 
 class Settings(BaseModel):
