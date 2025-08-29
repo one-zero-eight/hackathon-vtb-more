@@ -5,8 +5,11 @@ description = "Add your description here"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.116.1",
+    "fastapi-derive-responses>=0.1.4",
+    "fastapi-swagger>=0.3.29",
     "ruff>=0.12.11",
     "sqlalchemy>=2.0.43",
+    "uvicorn>=0.35.0",
 ]
 
 [tool.ruff]
