@@ -7,8 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.db.models import Base
 
 if TYPE_CHECKING:
-    from db.models.vacancy import Vacancy
-    from src.db.models.application import Application
+    from src.db.models import Application, Vacancy
 
 
 class User(Base):

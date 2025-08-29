@@ -4,6 +4,8 @@ version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.12"
 dependencies = [
+    "asyncpg>=0.30.0",
+    "colorlog>=6.9.0",
     "fastapi>=0.116.1",
     "fastapi-derive-responses>=0.1.4",
     "fastapi-swagger>=0.3.29",

@@ -17,13 +17,14 @@ class VacancyRepository:
     def _create_session(self) -> AsyncSession:
         return self.storage.create_session()
 
-    async def create_vacancy(self, name: str, description: str, salary: float | None, required_experience: int,
+    async def create_vacancy(self, name: str, description: str, salary: float | None, city: str, required_experience: int,
                              open_time: datetime.datetime, close_time: datetime.datetime, is_active: bool, user_id: int) -> Vacancy:
         async with self._create_session() as session:
             vacancy = Vacancy(
                 name=name,
                 description=description,
                 salary=salary,
+                city=city,
                 required_experience=required_experience,
                 open_time=open_time,
                 close_time=close_time,
@@ -52,7 +53,9 @@ class VacancyRepository:
         self,
         vacancy_id: int, 
         name: str | None = None, 
-        description: str | None = None, 
+        description: str | None = None,
+        salary: float | None = None,
+        city: str | None = None,
         required_experience: int | None = None, 
         open_time: datetime.datetime | None = None, 
         close_time: datetime.datetime | None = None, 
@@ -68,6 +71,10 @@ class VacancyRepository:
                 vacancy.name = name
             if description is not None:
                 vacancy.description = description
+            if salary is not None:
+                vacancy.salary = salary
+            if city is not None:
+                vacancy.city = city
             if required_experience is not None:
                 vacancy.required_experience = required_experience
             if open_time is not None:
@@ -82,3 +89,6 @@ class VacancyRepository:
             await session.commit()
             await session.refresh(vacancy)
             return vacancy
+
+
+vacancy_repository: VacancyRepository = VacancyRepository()
