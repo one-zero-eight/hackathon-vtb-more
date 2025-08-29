@@ -34,15 +34,6 @@ class ApplicationRepository:
             application = await session.get(Application, application_id)
             return application
 
-    async def delete_application(self, application_id: int) -> Application | None:
-        async with self._create_session() as session:
-            application = await session.get(Application, application_id)
-            if application is None:
-                return None
-            await session.delete(application)
-            await session.commit()
-            return application
-
     async def edit_application(
         self,
         application_id: int,
@@ -67,5 +58,16 @@ class ApplicationRepository:
                 application.vacancy_id = vacancy_id
 
             await session.commit()
-            await session.refresh(application)
             return application
+
+    async def delete_application(self, application_id: int) -> Application | None:
+        async with self._create_session() as session:
+            application = await session.get(Application, application_id)
+            if application is None:
+                return None
+            await session.delete(application)
+            await session.commit()
+            return application
+
+
+application_repository: ApplicationRepository = ApplicationRepository()
