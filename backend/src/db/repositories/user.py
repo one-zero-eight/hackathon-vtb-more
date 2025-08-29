@@ -33,7 +33,7 @@ class UserRepository:
             user = await session.get(User, user_id)
             return user
 
-    async def update_user(
+    async def edit_user(
         self,
         user_id: int,
         name: str | None = None,

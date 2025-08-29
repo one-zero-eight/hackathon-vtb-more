@@ -7,6 +7,7 @@ dependencies = [
     "fastapi>=0.116.1",
     "fastapi-derive-responses>=0.1.4",
     "fastapi-swagger>=0.3.29",
+    "pyyaml>=6.0.2",
     "ruff>=0.12.11",
     "sqlalchemy>=2.0.43",
     "uvicorn>=0.35.0",

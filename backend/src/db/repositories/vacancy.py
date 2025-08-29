@@ -1,7 +1,8 @@
+import datetime
 from typing import Self
 
 from sqlalchemy.ext.asyncio import AsyncSession
-import datetime
+
 from src.db import AbstractSQLAlchemyStorage
 from src.db.models import Vacancy
 
@@ -16,8 +17,8 @@ class VacancyRepository:
     def _create_session(self) -> AsyncSession:
         return self.storage.create_session()
 
-    async def create_vacancy(self, name: str, description: str, salary: float | None, required_experience: int, \
-                                 open_time: datetime.datetime, close_time: datetime.datetime, is_active: bool, user_id: int) -> Vacancy:
+    async def create_vacancy(self, name: str, description: str, salary: float | None, required_experience: int,
+                             open_time: datetime.datetime, close_time: datetime.datetime, is_active: bool, user_id: int) -> Vacancy:
         async with self._create_session() as session:
             vacancy = Vacancy(
                 name=name,
@@ -25,8 +26,8 @@ class VacancyRepository:
                 salary=salary,
                 required_experience=required_experience,
                 open_time=open_time,
-                close_time=close_time, # do we need to pass it?
-                is_active=is_active, # should be True by default?
+                close_time=close_time,
+                is_active=is_active,
                 user_id=user_id
             )
             session.add(vacancy)
