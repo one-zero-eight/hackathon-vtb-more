@@ -22,15 +22,23 @@ $defs:
         format: path
         title: Files Dir
         type: string
-      session_secret_key:
+      secret_key:
         example: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         format: password
-        title: Session Secret Key
+        title: Secret Key
         type: string
         writeOnly: true
+      encryption_algorithm:
+        default: HS256
+        title: Encryption Algorithm
+        type: string
+      token_expiration_in_minutes:
+        default: 60
+        title: Token Expiration In Minutes
+        type: integer
     required:
     - db_url
-    - session_secret_key
+    - secret_key
     title: ApiSettings
     type: object
 properties:

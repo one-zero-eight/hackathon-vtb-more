@@ -1,4 +1,5 @@
 $schema: "./settings.schema.yaml"
 api_settings:
   db_url: "postgresql+asyncpg://postgres:postgres@localhost:5432/postgres"
-  session_secret_key: ""  # use `openssl rand -hex 32` to generate a random key
+  secret_key: ""  # use `openssl rand -hex 32` to generate a random key
+  token_expiration_in_minutes: 60

@@ -19,7 +19,11 @@ class ApiSettings(BaseModel):
     "PostgreSQL database connection URL"
     files_dir: Path = Path("data/files")
     "Path to the directory where files will be stored"
-    session_secret_key: SecretStr = Field(..., example="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+    secret_key: SecretStr = Field(..., example="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+    encryption_algorithm: str = "HS256"
+    "The encryption algorithm for encryption/decryption in auth"
+    token_expiration_in_minutes: int = 60
+    "Token expiration time in minutes"
 
 
 
