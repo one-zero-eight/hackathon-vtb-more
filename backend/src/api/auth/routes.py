@@ -41,5 +41,5 @@ async def login(credentials: LoginRequest, user_repository: UserRepository = Dep
 
 
 @router.get("/me", response_model=UserResponse)
-async def read_me(current_user: Annotated[User, Depends(get_current_user)]) -> UserResponse:
+async def read_me(current_user: User = Depends(get_current_user)) -> UserResponse:
     return UserResponse.model_validate(current_user)

@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db import AbstractSQLAlchemyStorage
 from src.db.models import Application
-from src.schemas.application import Status
+from src.schemas import Status
 
 
 class ApplicationRepository:

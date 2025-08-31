@@ -1,6 +1,6 @@
-from src.schemas.application import Status
+from src.schemas import Status
 
 
 def check_application() -> Status:
     # TODO: Implement me
-    pass
+    return Status.REJECTED
