@@ -1,14 +1,13 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
 from passlib.context import CryptContext
 
 from src.api.auth.dependecies import get_current_user
 from src.api.auth.util import create_access_token
 from src.db.models import User
 from src.db.repositories import user_repository
-from src.schemas import RegisterRequest, TokenResponse, UserResponse
+from src.schemas import LoginRequest, RegisterRequest, TokenResponse, UserResponse
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -31,11 +30,9 @@ async def register(payload: RegisterRequest) -> UserResponse:
 
 
 @router.post("/token", response_model=TokenResponse)
-async def login(form: Annotated[OAuth2PasswordRequestForm, Depends()]) -> TokenResponse:
-    # OAuth2PasswordRequestForm provides fields username and password
-    # Here username is treated as email
-    user = await user_repository.get_user_by_email(form.username)
-    if not user or not pwd_context.verify(form.password, user.hashed_password):
+async def login(credentials: LoginRequest) -> TokenResponse:
+    user = await user_repository.get_user_by_email(credentials.email)
+    if not user or not pwd_context.verify(credentials.password, user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
     token = create_access_token({"sub": str(user.id)})
