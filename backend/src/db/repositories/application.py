@@ -10,6 +10,9 @@ from src.schemas.application import Status
 class ApplicationRepository:
     storage: AbstractSQLAlchemyStorage
 
+    def __init__(self, storage: AbstractSQLAlchemyStorage) -> None:
+        self.storage = storage
+
     def update_storage(self, storage: AbstractSQLAlchemyStorage) -> Self:
         self.storage = storage
         return self
@@ -68,6 +71,3 @@ class ApplicationRepository:
             await session.delete(application)
             await session.commit()
             return application
-
-
-application_repository: ApplicationRepository = ApplicationRepository()

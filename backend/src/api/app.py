@@ -1,4 +1,4 @@
-from fastapi import APIRouter, FastAPI
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 from fastapi_swagger import patch_fastapi

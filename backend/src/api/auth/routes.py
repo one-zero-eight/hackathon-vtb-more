@@ -3,10 +3,11 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from passlib.context import CryptContext
 
-from src.api.auth.dependecies import get_current_user
+from src.api.auth.dependencies import get_current_user
 from src.api.auth.util import create_access_token
+from src.api.repositories.dependencies import get_user_repository
 from src.db.models import User
-from src.db.repositories import user_repository
+from src.db.repositories import UserRepository
 from src.schemas import LoginRequest, RegisterRequest, TokenResponse, UserResponse
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
@@ -14,7 +15,7 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-async def register(payload: RegisterRequest) -> UserResponse:
+async def register(payload: RegisterRequest, user_repository: UserRepository = Depends(get_user_repository)) -> UserResponse:
     existing = await user_repository.get_user_by_email(str(payload.email))
     if existing:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already in use")
@@ -30,7 +31,7 @@ async def register(payload: RegisterRequest) -> UserResponse:
 
 
 @router.post("/token", response_model=TokenResponse)
-async def login(credentials: LoginRequest) -> TokenResponse:
+async def login(credentials: LoginRequest, user_repository: UserRepository = Depends(get_user_repository)) -> TokenResponse:
     user = await user_repository.get_user_by_email(credentials.email)
     if not user or not pwd_context.verify(credentials.password, user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")

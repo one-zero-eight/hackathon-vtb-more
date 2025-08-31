@@ -9,6 +9,9 @@ from src.db.models import Skill, SkillType
 class SkillRepository:
     storage: AbstractSQLAlchemyStorage
 
+    def __init__(self, storage: AbstractSQLAlchemyStorage) -> None:
+        self.storage = storage
+
     def update_storage(self, storage: AbstractSQLAlchemyStorage) -> Self:
         self.storage = storage
         return self
@@ -78,6 +81,9 @@ class SkillRepository:
 class SkillTypeRepository:
     storage: AbstractSQLAlchemyStorage
 
+    def __init__(self, storage: AbstractSQLAlchemyStorage) -> None:
+        self.storage = storage
+
     def update_storage(self, storage: AbstractSQLAlchemyStorage) -> Self:
         self.storage = storage
         return self
@@ -127,7 +133,3 @@ class SkillTypeRepository:
 
             await session.commit()
             return skill_type
-
-
-skill_repository: SkillRepository = SkillRepository()
-skill_type_repository: SkillTypeRepository = SkillTypeRepository()

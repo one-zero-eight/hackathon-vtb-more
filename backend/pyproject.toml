@@ -31,3 +31,9 @@ lint.ignore = [
     "PLR"
 ]
 lint.extend-select = ["I", "UP", "PL"]
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "alembic",
+]

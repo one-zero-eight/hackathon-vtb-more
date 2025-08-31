@@ -10,6 +10,9 @@ from src.db.models import Vacancy
 class VacancyRepository:
     storage: AbstractSQLAlchemyStorage
 
+    def __init__(self, storage: AbstractSQLAlchemyStorage) -> None:
+        self.storage = storage
+
     def update_storage(self, storage: AbstractSQLAlchemyStorage) -> Self:
         self.storage = storage
         return self
@@ -89,6 +92,3 @@ class VacancyRepository:
             await session.commit()
             await session.refresh(vacancy)
             return vacancy
-
-
-vacancy_repository: VacancyRepository = VacancyRepository()
