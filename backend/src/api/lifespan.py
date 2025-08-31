@@ -16,9 +16,6 @@ async def lifespan(app: FastAPI):
     storage = SQLAlchemyStorage.from_url(api_settings.db_url.get_secret_value())
     app.state.storage = storage
 
-    settings_path = os.getenv("SETTINGS_PATH", "settings.yaml")
-    app.state.settings = Settings.from_yaml(Path(settings_path))
-
     try:
         yield
     finally:
