@@ -17,8 +17,3 @@ public.pem
 
 ### OS ###
 .DS_Store
-
-### Data ###
-data/files/*
-!data/files/.gitkeep
-

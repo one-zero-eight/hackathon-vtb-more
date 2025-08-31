@@ -1,5 +1,6 @@
 from typing import Self
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db import AbstractSQLAlchemyStorage
@@ -8,6 +9,9 @@ from src.db.models import User
 
 class UserRepository:
     storage: AbstractSQLAlchemyStorage
+
+    def __init__(self, storage: AbstractSQLAlchemyStorage) -> None:
+        self.storage = storage
 
     def update_storage(self, storage: AbstractSQLAlchemyStorage) -> Self:
         self.storage = storage
@@ -28,10 +32,17 @@ class UserRepository:
             await session.commit()
             return user
 
-    async def get_user(self, user_id: str) -> User | None:
+    async def get_user(self, user_id: int) -> User | None:
         async with self._create_session() as session:
             user = await session.get(User, user_id)
             return user
+
+    async def get_user_by_email(self, email: str) -> User | None:
+        async with self._create_session() as session:
+            result = await session.execute(
+                select(User).where(User.email == email)
+            )
+            return result.scalar_one_or_none()
 
     async def edit_user(
         self,
@@ -66,6 +77,3 @@ class UserRepository:
             await session.delete(user)
             await session.commit()
             return user
-
-
-user_repository: UserRepository = UserRepository()

@@ -4,11 +4,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db import AbstractSQLAlchemyStorage
 from src.db.models import Application
-from src.schemas.application import Status
+from src.schemas import Status
 
 
 class ApplicationRepository:
     storage: AbstractSQLAlchemyStorage
+
+    def __init__(self, storage: AbstractSQLAlchemyStorage) -> None:
+        self.storage = storage
 
     def update_storage(self, storage: AbstractSQLAlchemyStorage) -> Self:
         self.storage = storage
@@ -68,6 +71,3 @@ class ApplicationRepository:
             await session.delete(application)
             await session.commit()
             return application
-
-
-application_repository: ApplicationRepository = ApplicationRepository()

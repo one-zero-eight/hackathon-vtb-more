@@ -7,8 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.db.models import Base
 
 if TYPE_CHECKING:
-    from db.models.vacancy import Vacancy
-    from src.db.models.application import Application
+    from src.db.models import Application, Vacancy
 
 
 class User(Base):
@@ -17,7 +16,7 @@ class User(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
 
     name: Mapped[str]
-    email: Mapped[str]
+    email: Mapped[str] = mapped_column(unique=True, index=True)
     hashed_password: Mapped[str]
 
     is_admin: Mapped[bool]

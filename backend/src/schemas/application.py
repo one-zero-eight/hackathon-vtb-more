@@ -1,5 +1,7 @@
 from enum import StrEnum
 
+from src.schemas.pydantic_base import BaseSchema
+
 
 class Status(StrEnum):
     APPROVED = "approved"
@@ -7,3 +9,13 @@ class Status(StrEnum):
     APPROVED_FOR_INTERVIEW = "approved_for_interview"
     REJECTED_FOR_INTERVIEW = "rejected_for_interview"
     IN_INTERVIEW = "in_interview"
+
+
+class ApplicationResponse(BaseSchema):
+    id: int
+    cv: str
+    status: str
+    user_id: int
+    vacancy_id: int
+
+    model_config = dict(from_attributes=True)

@@ -6,12 +6,10 @@ from typing import TYPE_CHECKING
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from db.models.skill import Skill
 from src.db.models import Base
 
 if TYPE_CHECKING:
-    from db.models.user import User
-    from src.db.models.application import Application
+    from src.db.models import Application, Skill, User
 
 
 class Vacancy(Base):
@@ -22,6 +20,7 @@ class Vacancy(Base):
     name: Mapped[str]
     description: Mapped[str]
     salary: Mapped[float | None]
+    city: Mapped[str]
 
     required_experience: Mapped[int]  # required experience in years
 
