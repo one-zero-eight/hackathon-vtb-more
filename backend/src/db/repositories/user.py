@@ -39,9 +39,7 @@ class UserRepository:
 
     async def get_user_by_email(self, email: str) -> User | None:
         async with self._create_session() as session:
-            result = await session.execute(
-                select(User).where(User.email == email)
-            )
+            result = await session.execute(select(User).where(User.email == email))
             return result.scalar_one_or_none()
 
     async def edit_user(

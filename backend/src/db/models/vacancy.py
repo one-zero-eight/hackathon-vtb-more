@@ -21,7 +21,7 @@ class Vacancy(Base):
     description: Mapped[str]
     salary: Mapped[float | None]
     city: Mapped[str]
-
+    weekly_hours_occupancy: Mapped[int]
     required_experience: Mapped[int]  # required experience in years
 
     open_time: Mapped[datetime.datetime] = mapped_column(default=datetime.datetime.now)

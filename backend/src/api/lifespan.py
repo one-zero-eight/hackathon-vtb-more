@@ -13,7 +13,8 @@ async def lifespan(app: FastAPI):
     storage = SQLAlchemyStorage.from_url(api_settings.db_url.get_secret_value())
     app.state.storage = storage
 
-    yield
-
-    # Application shutdown
-    await storage.close_connection()
+    try:
+        yield
+    finally:
+        # Application shutdown
+        await storage.close_connection()
