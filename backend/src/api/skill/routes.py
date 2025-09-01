@@ -1,13 +1,9 @@
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi import status as http_status
-from fastapi import Request
 
-from src.api.application.pre_interview_check import check_application
-from src.api.application.util import save_upload_to_path
-from src.api.auth.dependencies import get_current_user, require_admin
+from src.api.auth.dependencies import require_admin
 from src.api.repositories.dependencies import get_skill_repository, get_skill_type_repository
-from src.config import api_settings
-from src.db.models import SkillType, Skill, User
+from src.db.models import User
 from src.db.repositories import SkillRepository, SkillTypeRepository
 from src.schemas import SkillsResponse, SkillTypeResponse
 
@@ -35,6 +31,18 @@ async def create_skill(
         vacancy_id,
     )
 
+    return SkillsResponse.model_validate(skill)
+
+@router.delete("/get-skill", response_model=SkillsResponse)
+async def get_skill(
+    skill_id: int,
+    skills_repository: SkillRepository = Depends(get_skill_repository),
+    user: User = Depends(require_admin)
+):
+    skill = await skills_repository.get_skill(skill_id)
+    if not skill:
+        raise HTTPException(404, "No such skill")
+        
     return SkillsResponse.model_validate(skill)
 
 @router.patch("/edit-skill", response_model=SkillsResponse)
@@ -83,6 +91,17 @@ async def create_skilltype(
 
     return SkillTypeResponse.model_validate(skillType)
 
+@router.delete("/get-skill", response_model=SkillsResponse)
+async def get_skilltype(
+    skill_id: int,
+    skills_repository: SkillTypeRepository = Depends(get_skill_type_repository),
+    user: User = Depends(require_admin)
+):
+    skill_type = await skills_repository.get_skill_type(skill_id)
+    if not skill_type:
+        raise HTTPException(404, "No such skill type")
+        
+    return SkillsResponse.model_validate(skill_type)
 
 @router.patch("/edit-type", response_model=SkillTypeResponse)
 async def edit_skilltype(
