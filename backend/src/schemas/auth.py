@@ -19,7 +19,7 @@ class RegisterRequest(BaseSchema):
     name: str
     email: EmailStr
     password: str
-    is_admin: bool = True
+    is_admin: bool = False
 
 
 class LoginRequest(BaseSchema):
