@@ -6,55 +6,55 @@ from src.db import AbstractSQLAlchemyStorage
 from src.db.models import Skill, SkillType
 
 
-class SkillTypeRepository:
-    storage: AbstractSQLAlchemyStorage
+# class SkillTypeRepository:
+#     storage: AbstractSQLAlchemyStorage
 
-    def update_storage(self, storage: AbstractSQLAlchemyStorage) -> Self:
-        self.storage = storage
-        return self
+#     def update_storage(self, storage: AbstractSQLAlchemyStorage) -> Self:
+#         self.storage = storage
+#         return self
 
-    def _create_session(self) -> AsyncSession:
-        return self.storage.create_session()
+#     def _create_session(self) -> AsyncSession:
+#         return self.storage.create_session()
 
-    async def create_skillType(self, name: str) -> SkillType:
-        async with self._create_session() as session:
-            skill_type = SkillType(
-                name=name
-            )
-            session.add(skill_type)
-            await session.commit()
-            await session.refresh(skill_type)
-            return skill_type
+#     async def create_skillType(self, name: str) -> SkillType:
+#         async with self._create_session() as session:
+#             skill_type = SkillType(
+#                 name=name
+#             )
+#             session.add(skill_type)
+#             await session.commit()
+#             await session.refresh(skill_type)
+#             return skill_type
 
-    async def get_skillType(self, skill_type_id: int) -> SkillType | None:
-        async with self._create_session() as session:
-            return await session.get(SkillType, skill_type_id)
+#     async def get_skillType(self, skill_type_id: int) -> SkillType | None:
+#         async with self._create_session() as session:
+#             return await session.get(SkillType, skill_type_id)
 
-    async def edit_skillType(
-        self,
-        skill_type_id: int,
-        name: str | None = None,
-    ) -> SkillType | None:
-        async with self._create_session() as session:
-            skill_type = await session.get(SkillType, skill_type_id)
-            if skill_type is None:
-                return None
+#     async def edit_skillType(
+#         self,
+#         skill_type_id: int,
+#         name: str | None = None,
+#     ) -> SkillType | None:
+#         async with self._create_session() as session:
+#             skill_type = await session.get(SkillType, skill_type_id)
+#             if skill_type is None:
+#                 return None
 
-            if name is not None:
-                skill_type.name = name
+#             if name is not None:
+#                 skill_type.name = name
 
-            await session.commit()
-            await session.refresh(skill_type)
-            return skill_type
+#             await session.commit()
+#             await session.refresh(skill_type)
+#             return skill_type
     
-    async def delete_skillType(self, skill_type_id: int) -> SkillType | None:
-        async with self._create_session() as session:
-            skill_type = await session.get(SkillType, skill_type_id)
-            if skill_type is None:
-                return None
-            await session.delete(skill_type)
-            await session.commit()
-            return skill_type
+#     async def delete_skillType(self, skill_type_id: int) -> SkillType | None:
+#         async with self._create_session() as session:
+#             skill_type = await session.get(SkillType, skill_type_id)
+#             if skill_type is None:
+#                 return None
+#             await session.delete(skill_type)
+#             await session.commit()
+#             return skill_type
         
         
 class SkillRepository:
@@ -159,7 +159,7 @@ class SkillTypeRepository:
             skill_type = await session.get(SkillType, skill_type_id)
             return skill_type
 
-    async def delete_skill_type(self, skill_type_id: int) -> Skill | None:
+    async def delete_skill_type(self, skill_type_id: int) -> SkillType | None:
         async with self._create_session() as session:
             skill_type = await session.get(SkillType, skill_type_id)
             if skill_type is None:
@@ -173,7 +173,7 @@ class SkillTypeRepository:
         self,
         skill_type_id: int,
         name: str | None = None,
-    ) -> Skill | None:
+    ) -> SkillType | None:
         async with self._create_session() as session:
             skill_type = await session.get(SkillType, skill_type_id)
             if skill_type is None:
