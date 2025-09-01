@@ -26,7 +26,7 @@ async def create_skill(
     skill_type_id: int,
     vacancy_id: int,
     skills_repository: SkillRepository = Depends(get_skill_repository),
-    # user: User = Depends(require_admin)
+    user: User = Depends(require_admin)
 ):
     skill = await skills_repository.create_skill(
         weight, 
@@ -45,7 +45,7 @@ async def edit_skill(
     skill_type_id: int | None = None,
     vacancy_id: int | None = None,
     skills_repository: SkillRepository = Depends(get_skill_repository),
-    # user: User = Depends(require_admin)
+    user: User = Depends(require_admin)
 ):
     skill = await skills_repository.edit_skill(skill_id, weight, details, skill_type_id, vacancy_id)
     if skill is None:
@@ -57,7 +57,7 @@ async def edit_skill(
 async def delete_skill(
     skill_id: int,
     skills_repository: SkillRepository = Depends(get_skill_repository),
-    # user: User = Depends(require_admin)
+    user: User = Depends(require_admin)
 ):
     skill = await skills_repository.delete_skill(skill_id)
     if skill is None:
@@ -77,7 +77,7 @@ async def delete_skill(
 async def create_skilltype(
     name: str, 
     skillType_repository: SkillTypeRepository = Depends(get_skill_type_repository),
-    #user: User = Depends(require_admin)
+    user: User = Depends(require_admin)
 ):
     skillType = await skillType_repository.create_skill_type(name)
 
@@ -89,7 +89,7 @@ async def edit_skilltype(
     skill_type_id: int,
     name: str, 
     skillType_repository: SkillTypeRepository = Depends(get_skill_type_repository),
-    # user: User = Depends(require_admin)
+    user: User = Depends(require_admin)
 ):
     skillType = await skillType_repository.edit_skill_type(skill_type_id, name)
     if skillType is None:
@@ -101,7 +101,7 @@ async def edit_skilltype(
 async def delete_skilltype(
     skill_type_id: int,
     skillType_repository: SkillTypeRepository = Depends(get_skill_type_repository),
-    # user: User = Depends(require_admin)
+    user: User = Depends(require_admin)
 ):
     skillType = await skillType_repository.delete_skill_type(skill_type_id)
     if skillType is None:
