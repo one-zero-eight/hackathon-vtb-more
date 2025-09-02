@@ -2,6 +2,7 @@ from pydantic import ConfigDict
 
 from src.schemas.pydantic_base import BaseSchema
 
+
 class PreInterviewResponse(BaseSchema):
     id: int
     is_recommended: bool

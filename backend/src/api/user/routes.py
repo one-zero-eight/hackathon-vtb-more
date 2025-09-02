@@ -1,6 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi import status as http_status
-
 from passlib.context import CryptContext
 
 from src.api.auth.dependencies import get_current_user, require_admin
@@ -8,7 +7,6 @@ from src.api.repositories.dependencies import get_user_repository
 from src.db.models import User
 from src.db.repositories import UserRepository
 from src.schemas import UserCreate, UserResponse
-
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -113,4 +111,4 @@ async def delete_user_endpoint(
     if deleted is None:
         raise HTTPException(status_code=http_status.HTTP_404_NOT_FOUND, detail="No such user")
 
-
+    return Response(status_code=http_status.HTTP_204_NO_CONTENT)

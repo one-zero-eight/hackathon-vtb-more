@@ -1,16 +1,17 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi import status as http_status
 
-from src.api.auth.dependencies import require_admin, get_current_user
+from src.api.auth.dependencies import get_current_user, require_admin
 from src.api.repositories.dependencies import get_vacancy_repository
 from src.db.models import User
 from src.db.repositories import VacancyRepository
-from src.schemas import VacancyResponse, VacancyCreateRequest, VacancyEditRequest
+from src.schemas import VacancyCreateRequest, VacancyEditRequest, VacancyResponse
 
 router = APIRouter(prefix="/vacancy", tags=["Vacancy"])
 
+
 @router.post(
-    "/create",
+    "",
     response_model=VacancyResponse,
     status_code=http_status.HTTP_201_CREATED,
 )
@@ -18,22 +19,22 @@ async def create_vacancy(
     request: VacancyCreateRequest,
     user: User = Depends(require_admin),
     vacancy_repository: VacancyRepository = Depends(get_vacancy_repository)
-):
-
-   vacancy = await vacancy_repository.create_vacancy(
-      request.name,
-      request.description,
-      request.salary,
-      request.city,
-      request.weekly_hours_occupancy,
-      request.required_experience,
-      request.open_time,
-      request.close_time,
-      request.is_active,
-      user.id
-   )
+) -> VacancyResponse:
+    vacancy = await vacancy_repository.create_vacancy(
+        request.name,
+        request.description,
+        request.salary,
+        request.city,
+        request.weekly_hours_occupancy,
+        request.required_experience,
+        request.open_time,
+        request.close_time,
+        request.is_active,
+        user.id,
+    )
    
-   return VacancyResponse.model_validate(vacancy)
+    return VacancyResponse.model_validate(vacancy)
+
 
 @router.get(
     "/{vacancy_id}",
@@ -41,14 +42,14 @@ async def create_vacancy(
 )
 async def get_vacancy(
     vacancy_id: int,
-    user: User = Depends(get_current_user),
+    _: User = Depends(get_current_user),
     vacancy_repository: VacancyRepository = Depends(get_vacancy_repository)
-):
-   vacancy = await vacancy_repository.get_vacancy(vacancy_id)
-   if vacancy is None:
+) -> VacancyResponse:
+    vacancy = await vacancy_repository.get_vacancy(vacancy_id)
+    if vacancy is None:
       raise HTTPException(404, "Vacancy not found")
-   
-   return VacancyResponse.model_validate(vacancy)
+
+    return VacancyResponse.model_validate(vacancy)
 
 
 @router.patch(
@@ -58,26 +59,28 @@ async def get_vacancy(
 async def edit_vacancy(
     vacancy_id: int,
     request: VacancyEditRequest,
-    user: User = Depends(require_admin),
+    _: User = Depends(require_admin),
     vacancy_repository: VacancyRepository = Depends(get_vacancy_repository)
-):
+) -> VacancyResponse:
     vacancy = await vacancy_repository.edit_vacancy(
-        vacancy_id,
-        request.name,
-        request.description,
-        request.salary,
-        request.city,
-        request.required_experience,
-        request.weekly_hours_occupancy,
-        request.open_time, 
-        request.close_time,
-        request.is_active,
-        user.id
-        )
+        vacancy_id=vacancy_id,
+        name=request.name,
+        description=request.description,
+        salary=request.salary,
+        city=request.city,
+        required_experience=request.required_experience,
+        weekly_hours_occupancy=request.weekly_hours_occupancy,
+        open_time=request.open_time,
+        close_time=request.close_time,
+        is_active=request.is_active,
+        user_id=request.user_id,
+    )
+
     if vacancy is None:
        raise HTTPException(404, "Vacancy not found")
     
     return VacancyResponse.model_validate(vacancy)
+
 
 @router.delete(
    "/{vacancy_id}",
@@ -85,11 +88,11 @@ async def edit_vacancy(
 )
 async def delete_vacancy(
     vacancy_id: int,
-    user: User = Depends(require_admin),
+    _: User = Depends(require_admin),
     vacancy_repository: VacancyRepository = Depends(get_vacancy_repository)
 ):
     vacancy = await vacancy_repository.delete_vacancy(vacancy_id)
     if vacancy is None:
        raise HTTPException(404, "Vacancy not found")
     
-    return VacancyResponse.model_validate(vacancy)
+    return Response(status_code=http_status.HTTP_204_NO_CONTENT)

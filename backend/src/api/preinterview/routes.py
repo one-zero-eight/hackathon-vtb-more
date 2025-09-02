@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi import status as http_status
 
 from src.api.auth.dependencies import require_admin
@@ -7,9 +7,11 @@ from src.db.models import User
 from src.db.repositories import PreInterviewResultRepository
 from src.schemas import PreInterviewResponse
 
-router = APIRouter(prefix="/preinterview", tags=["Preinterview results"])
-
 # TODO: Test endpoints
+
+router = APIRouter(prefix="/preinterview", tags=["Pre-interview results"])
+
+
 @router.post(
     "/create",
     response_model=PreInterviewResponse,
@@ -20,15 +22,16 @@ async def create_preinterview(
     score: float,
     application_id: int,
     preinterview_repository: PreInterviewResultRepository = Depends(get_preinterview_repository),
-    user: User = Depends(require_admin)
-):
+    _: User = Depends(require_admin)
+) -> PreInterviewResponse:
     preinterview = await preinterview_repository.create_result(
-        is_recommended,
-        score,
-        application_id
+        is_recommended=is_recommended,
+        score=score,
+        application_id=application_id,
     )
 
     return PreInterviewResponse.model_validate(preinterview)
+
 
 @router.get(
     "/{result_id}",
@@ -37,14 +40,15 @@ async def create_preinterview(
 async def get_preinterview(
     result_id: int,
     preinterview_repository: PreInterviewResultRepository = Depends(get_preinterview_repository),
-    user: User = Depends(require_admin) # not sure if should require admin
-):
+    _: User = Depends(require_admin)
+) -> PreInterviewResponse:
     preinterview = await preinterview_repository.get_result(result_id)
 
     if preinterview is None:
         raise HTTPException(404, 'Invalid result_id')
 
     return PreInterviewResponse.model_validate(preinterview)
+
 
 @router.patch(
     "/{result_id}",
@@ -56,13 +60,13 @@ async def edit_preinterview(
     score: float | None = None,
     application_id: int | None = None,
     preinterview_repository: PreInterviewResultRepository = Depends(get_preinterview_repository),
-    user: User = Depends(require_admin)
+    _: User = Depends(require_admin)
 ):
     preinterview = await preinterview_repository.edit_result(
-        result_id,
-        is_recommended,
-        score,
-        application_id
+        result_id=result_id,
+        is_recommended=is_recommended,
+        score=score,
+        application_id=application_id
     )
 
     if preinterview is None:
@@ -78,11 +82,11 @@ async def edit_preinterview(
 async def delete_preinterview(
     result_id: int,
     preinterview_repository: PreInterviewResultRepository = Depends(get_preinterview_repository),
-    user: User = Depends(require_admin)
+    _: User = Depends(require_admin)
 ):
     preinterview = await preinterview_repository.delete_result(result_id)
 
     if preinterview is None:
         raise HTTPException(404, 'Invalid result_id')
 
-    return PreInterviewResponse.model_validate(preinterview)
+    return Response(status_code=http_status.HTTP_204_NO_CONTENT)

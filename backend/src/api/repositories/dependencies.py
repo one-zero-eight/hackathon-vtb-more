@@ -2,11 +2,11 @@ from fastapi import Depends, Request
 
 from src.db.repositories import (
     ApplicationRepository,
+    PreInterviewResultRepository,
     SkillRepository,
     SkillTypeRepository,
     UserRepository,
     VacancyRepository,
-    PreInterviewResultRepository,
 )
 from src.db.storage import AbstractSQLAlchemyStorage
 

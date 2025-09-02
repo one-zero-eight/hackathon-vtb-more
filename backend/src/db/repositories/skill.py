@@ -5,57 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.db import AbstractSQLAlchemyStorage
 from src.db.models import Skill, SkillType
 
-# class SkillTypeRepository:
-#     storage: AbstractSQLAlchemyStorage
 
-#     def update_storage(self, storage: AbstractSQLAlchemyStorage) -> Self:
-#         self.storage = storage
-#         return self
-
-#     def _create_session(self) -> AsyncSession:
-#         return self.storage.create_session()
-
-#     async def create_skillType(self, name: str) -> SkillType:
-#         async with self._create_session() as session:
-#             skill_type = SkillType(
-#                 name=name
-#             )
-#             session.add(skill_type)
-#             await session.commit()
-#             await session.refresh(skill_type)
-#             return skill_type
-
-#     async def get_skillType(self, skill_type_id: int) -> SkillType | None:
-#         async with self._create_session() as session:
-#             return await session.get(SkillType, skill_type_id)
-
-#     async def edit_skillType(
-#         self,
-#         skill_type_id: int,
-#         name: str | None = None,
-#     ) -> SkillType | None:
-#         async with self._create_session() as session:
-#             skill_type = await session.get(SkillType, skill_type_id)
-#             if skill_type is None:
-#                 return None
-
-#             if name is not None:
-#                 skill_type.name = name
-
-#             await session.commit()
-#             await session.refresh(skill_type)
-#             return skill_type
-    
-#     async def delete_skillType(self, skill_type_id: int) -> SkillType | None:
-#         async with self._create_session() as session:
-#             skill_type = await session.get(SkillType, skill_type_id)
-#             if skill_type is None:
-#                 return None
-#             await session.delete(skill_type)
-#             await session.commit()
-#             return skill_type
-        
-        
 class SkillRepository:
     storage: AbstractSQLAlchemyStorage
 
@@ -107,7 +57,7 @@ class SkillRepository:
             skill_id: int,
             weight: float | None = None,
             details: str | None = None,
-            skill_type_id: int | None= None,
+            skill_type_id: int | None = None,
             vacancy_id: int | None = None,
     ) -> Skill | None:
         async with self._create_session() as session:

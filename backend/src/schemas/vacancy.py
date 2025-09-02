@@ -1,30 +1,37 @@
 import datetime
-from src.schemas.pydantic_base import BaseSchema
-from pydantic import ConfigDict, BaseModel
-from typing import Optional
 
-class VacancyCreateRequest(BaseModel):
+from pydantic import ConfigDict
+
+from src.schemas.pydantic_base import BaseSchema
+
+
+class VacancyCreateRequest(BaseSchema):
     name: str
     description: str
-    salary: Optional[float] = None
+    salary: float | None = None
     city: str
     weekly_hours_occupancy: int
     required_experience: int
+
     open_time: datetime.datetime = datetime.datetime.now()
     close_time: datetime.datetime = datetime.datetime.now() + datetime.timedelta(days=7)
+
     is_active: bool = True
 
 
-class VacancyEditRequest(BaseModel):
-    name: Optional[str] = None
-    description: Optional[str] = None
-    salary: Optional[float] = None
-    city: Optional[str] = None
-    weekly_hours_occupancy: Optional[int] = None
-    required_experience: Optional[int] = None
-    open_time: Optional[datetime.datetime] = None
-    close_time: Optional[datetime.datetime] = None
-    is_active: Optional[bool] = None
+class VacancyEditRequest(BaseSchema):
+    name: str | None = None
+    description: str | None = None
+    salary: float | None = None
+    city: str | None = None
+    weekly_hours_occupancy: int | None = None
+    required_experience: int | None = None
+
+    open_time: datetime.datetime | None = None
+    close_time: datetime.datetime | None = None
+
+    is_active: bool | None = None
+    user_id: int | None = None
 
 
 class VacancyResponse(BaseSchema):
@@ -41,7 +48,6 @@ class VacancyResponse(BaseSchema):
     close_time: datetime.datetime
 
     is_active: bool
-
     user_id: int
     
     model_config = ConfigDict(from_attributes=True)

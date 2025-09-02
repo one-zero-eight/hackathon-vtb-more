@@ -20,9 +20,19 @@ class VacancyRepository:
     def _create_session(self) -> AsyncSession:
         return self.storage.create_session()
 
-    async def create_vacancy(self, name: str, description: str, salary: float | None, city: str, 
-                             weekly_hours_occupancy: int, required_experience: int, open_time: datetime.datetime, 
-                             close_time: datetime.datetime, is_active: bool, user_id: int) -> Vacancy:
+    async def create_vacancy(
+        self,
+        name: str,
+        description: str,
+        salary: float | None,
+        city: str,
+        weekly_hours_occupancy: int,
+        required_experience: int,
+        open_time: datetime.datetime,
+        close_time: datetime.datetime,
+        is_active: bool,
+        user_id: int
+    ) -> Vacancy:
         async with self._create_session() as session:
             vacancy = Vacancy(
                 name=name,

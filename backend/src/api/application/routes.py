@@ -1,7 +1,7 @@
 from pathlib import Path
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, UploadFile
 from fastapi import status as http_status
 
 from src.api.application.pre_interview_check import check_application
@@ -71,7 +71,7 @@ async def get_application(
     application_id: int,
     application_repository: ApplicationRepository = Depends(get_application_repository),
     user: User = Depends(get_current_user),
-) -> ApplicationResponse | None:
+) -> ApplicationResponse:
     application = await application_repository.get_application(application_id)
     if not application:
         raise HTTPException(status_code=404, detail="No such application")
@@ -138,3 +138,5 @@ async def delete_application(
     application = await application_repository.delete_application(application_id)
     if application is None:
         raise HTTPException(status_code=404, detail="No such application")
+
+    return Response(status_code=http_status.HTTP_204_NO_CONTENT)
