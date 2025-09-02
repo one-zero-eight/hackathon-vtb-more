@@ -1,0 +1,107 @@
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  backend-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Backend Build and Run
+        run: |
+          cd backend 
+          docker compose build --pull
+          docker compose up -d --build
+        env:
+          POSTGRES_PASSWORD: postgres
+
+      - name: Containers healthcheck
+        run: docker ps
+
+      - name: Stop-n-clean
+        run: |
+          cd backend
+          docker compose down
+
+  frontend-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Node.js setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: pnpm setup
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          run_install: false
+
+      - name: pnpm cache retrieval
+        uses: actions/checkout@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Frontend env setup
+        run: |
+          cd frontend
+          pnpm install
+          pnpm check
+          pnpm build
+
+  deploy:
+    needs: [backend-ci, frontend-ci]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Получение кода
+        uses: actions/checkout@v4
+
+      - name: Настройка SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SERVER_PRIVATE }}
+
+      - name: Проверка подключения
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+          ssh -vvv -T ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} echo "Успех!"
+
+      - name: Добавление known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Деплой бэкенда
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
+          cd ${{ secrets.BACKEND_PATH }} && \
+          git config pull.rebase true && \
+          git pull && \
+          docker compose down && \
+          docker images -q backend-api | grep . && docker rmi backend-api || echo 'No image to remove' && \
+          docker volume rm backend_postgres || echo 'Volume not found' && \
+          docker compose up -d"
+
+      - name: Деплой фронтенда
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "cd ${{ secrets.FRONTEND_PATH }} && git pull && export PATH=$PATH:/root/.local/share/pnpm/ && pnpm install && pnpm build && pm2 restart frontend || pm2 start pnpm --name frontend -- start"
