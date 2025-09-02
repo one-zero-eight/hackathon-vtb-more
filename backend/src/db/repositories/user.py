@@ -75,3 +75,8 @@ class UserRepository:
             await session.delete(user)
             await session.commit()
             return user
+
+    async def list_users(self) -> list[User]:
+        async with self._create_session() as session:
+            result = await session.execute(select(User))
+            return list(result.scalars().all())

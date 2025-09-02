@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 from src.schemas.pydantic_base import BaseSchema
 from pydantic import ConfigDict, BaseModel
+=======
+>>>>>>> c7cbbd0774c22d899eead0d0ac1bd08548213ebb
 import datetime
 from typing import Optional
 
@@ -27,6 +30,11 @@ class VacancyEditRequest(BaseModel):
     open_time: Optional[datetime.datetime] = None
     close_time: Optional[datetime.datetime] = None
     is_active: Optional[bool] = None
+
+from pydantic import ConfigDict
+
+from src.schemas.pydantic_base import BaseSchema
+
 
 class VacancyResponse(BaseSchema):
     id: int

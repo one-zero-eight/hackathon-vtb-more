@@ -25,9 +25,17 @@ app.add_middleware(
 from src.api.application.routes import router as application_router  # noqa: E402
 from src.api.auth.routes import router as auth_router  # noqa: E402
 from src.api.skill.routes import router as skills_router  # noqa: E402
+<<<<<<< HEAD
 from src.api.vacancy.routes import router as vacancy_router # noqa: E402
+=======
+from src.api.user.routes import router as user_router  # noqa: E402
+>>>>>>> c7cbbd0774c22d899eead0d0ac1bd08548213ebb
 
 app.include_router(application_router)
 app.include_router(auth_router)
 app.include_router(skills_router)
+<<<<<<< HEAD
 app.include_router(vacancy_router)
+=======
+app.include_router(user_router)
+>>>>>>> c7cbbd0774c22d899eead0d0ac1bd08548213ebb
