@@ -1,9 +1,6 @@
-<<<<<<< HEAD
+import datetime
 from src.schemas.pydantic_base import BaseSchema
 from pydantic import ConfigDict, BaseModel
-=======
->>>>>>> c7cbbd0774c22d899eead0d0ac1bd08548213ebb
-import datetime
 from typing import Optional
 
 class VacancyCreateRequest(BaseModel):
@@ -17,8 +14,6 @@ class VacancyCreateRequest(BaseModel):
     close_time: datetime.datetime = datetime.datetime.now() + datetime.timedelta(days=7)
     is_active: bool = True
 
-from pydantic import BaseModel
-from typing import Optional
 
 class VacancyEditRequest(BaseModel):
     name: Optional[str] = None
@@ -30,10 +25,6 @@ class VacancyEditRequest(BaseModel):
     open_time: Optional[datetime.datetime] = None
     close_time: Optional[datetime.datetime] = None
     is_active: Optional[bool] = None
-
-from pydantic import ConfigDict
-
-from src.schemas.pydantic_base import BaseSchema
 
 
 class VacancyResponse(BaseSchema):

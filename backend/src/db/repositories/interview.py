@@ -19,9 +19,9 @@ class PreInterviewResultRepository:
     def _create_session(self) -> AsyncSession:
         return self.storage.create_session()
 
-    async def create_result(self, is_recommended: bool, score: float) -> PreInterviewResult:
+    async def create_result(self, is_recommended: bool, score: float, application_id: int) -> PreInterviewResult:
         async with self._create_session() as session:
-            result = PreInterviewResult(is_recommended=is_recommended, score=score)
+            result = PreInterviewResult(is_recommended=is_recommended, score=score, application_id=application_id)
             session.add(result)
             await session.commit()
             return result

@@ -6,6 +6,7 @@ from src.db.repositories import (
     SkillTypeRepository,
     UserRepository,
     VacancyRepository,
+    PreInterviewResultRepository,
 )
 from src.db.storage import AbstractSQLAlchemyStorage
 
@@ -45,3 +46,8 @@ def get_vacancy_repository(
     storage: AbstractSQLAlchemyStorage = Depends(get_storage),
 ) -> VacancyRepository:
     return VacancyRepository(storage)
+
+def get_preinterview_repository(
+    storage: AbstractSQLAlchemyStorage = Depends(get_storage),
+) -> PreInterviewResultRepository:
+    return PreInterviewResultRepository(storage)
