@@ -21,7 +21,9 @@ fi
 
 # Загружаем nvm в текущую сессию
 export NVM_DIR="$HOME/.nvm"
+set +u
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+set -u
 
 # Устанавливаем Node.js (последний LTS)
 nvm install --lts
