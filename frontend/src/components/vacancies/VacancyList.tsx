@@ -15,9 +15,11 @@ const VacancyList: React.FC<VacancyListProps> = ({
 }) => {
   if (vacancies.length === 0) {
     return (
-      <div className="w-full text-center py-16">
-        <div className="text-gray-400 dark:text-gray-500 text-6xl mb-4">🔍</div>
-        <div className="text-gray-500 dark:text-gray-400 text-xl font-medium mb-2">
+      <div className="w-full text-center py-8 md:py-16">
+        <div className="text-gray-400 dark:text-gray-500 text-4xl md:text-6xl mb-4">
+          🔍
+        </div>
+        <div className="text-gray-500 dark:text-gray-400 text-lg md:text-xl font-medium mb-2">
           Вакансии не найдены
         </div>
         <div className="text-gray-400 dark:text-gray-500 text-sm mb-6">
@@ -34,10 +36,10 @@ const VacancyList: React.FC<VacancyListProps> = ({
   }
 
   return (
-    <div className="flex-6 flex flex-col gap-4 min-h-[30vh] rounded-3xl items-center">
+    <div className="w-full flex flex-col gap-4 min-h-[30vh] rounded-2xl md:rounded-3xl items-center">
       <div className="w-full mb-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100">
             Доступные вакансии ({vacancies.length})
           </h2>
           <div className="flex items-center space-x-4">
