@@ -20,13 +20,15 @@ class VacancyRepository:
     def _create_session(self) -> AsyncSession:
         return self.storage.create_session()
 
-    async def create_vacancy(self, name: str, description: str, salary: float | None, city: str, required_experience: int,
-                             open_time: datetime.datetime, close_time: datetime.datetime, is_active: bool, user_id: int) -> Vacancy:
+    async def create_vacancy(self, name: str, description: str, salary: float | None, city: str, 
+                             weekly_hours_occupancy: int, required_experience: int, open_time: datetime.datetime, 
+                             close_time: datetime.datetime, is_active: bool, user_id: int) -> Vacancy:
         async with self._create_session() as session:
             vacancy = Vacancy(
                 name=name,
                 description=description,
                 salary=salary,
+                weekly_hours_occupancy=weekly_hours_occupancy,
                 city=city,
                 required_experience=required_experience,
                 open_time=open_time,
@@ -59,6 +61,7 @@ class VacancyRepository:
         description: str | None = None,
         salary: float | None = None,
         city: str | None = None,
+        weekly_hours_occupancy: int | None = None,
         required_experience: int | None = None, 
         open_time: datetime.datetime | None = None, 
         close_time: datetime.datetime | None = None, 
@@ -78,6 +81,8 @@ class VacancyRepository:
                 vacancy.salary = salary
             if city is not None:
                 vacancy.city = city
+            if weekly_hours_occupancy is not None:
+                vacancy.weekly_hours_occupancy = weekly_hours_occupancy
             if required_experience is not None:
                 vacancy.required_experience = required_experience
             if open_time is not None:

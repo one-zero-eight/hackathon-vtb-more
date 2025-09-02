@@ -33,7 +33,7 @@ async def create_skill(
 
     return SkillsResponse.model_validate(skill)
 
-@router.delete("/get-skill", response_model=SkillsResponse)
+@router.get("/get-skill", response_model=SkillsResponse)
 async def get_skill(
     skill_id: int,
     skills_repository: SkillRepository = Depends(get_skill_repository),
@@ -91,7 +91,7 @@ async def create_skilltype(
 
     return SkillTypeResponse.model_validate(skillType)
 
-@router.delete("/get-skill", response_model=SkillsResponse)
+@router.get("/get-type", response_model=SkillsResponse)
 async def get_skilltype(
     skill_id: int,
     skills_repository: SkillTypeRepository = Depends(get_skill_type_repository),
