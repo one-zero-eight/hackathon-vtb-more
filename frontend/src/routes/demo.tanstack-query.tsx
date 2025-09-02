@@ -1,9 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
+import { createFileRoute } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/demo/tanstack-query')({
   component: TanStackQueryDemo,
-})
+});
 
 function TanStackQueryDemo() {
   const { data } = useQuery({
@@ -15,7 +15,7 @@ function TanStackQueryDemo() {
         { id: 3, name: 'Charlie' },
       ]),
     initialData: [],
-  })
+  });
 
   return (
     <div
@@ -30,7 +30,7 @@ function TanStackQueryDemo() {
           TanStack Query Simple Promise Handling
         </h1>
         <ul className="mb-4 space-y-2">
-          {data.map((todo) => (
+          {data.map(todo => (
             <li
               key={todo.id}
               className="bg-white/10 border border-white/20 rounded-lg p-3 backdrop-blur-sm shadow-md"
@@ -41,5 +41,5 @@ function TanStackQueryDemo() {
         </ul>
       </div>
     </div>
-  )
+  );
 }
