@@ -5,7 +5,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.db import AbstractSQLAlchemyStorage
 from src.db.models import Skill, SkillType
 
-
 # class SkillTypeRepository:
 #     storage: AbstractSQLAlchemyStorage
 

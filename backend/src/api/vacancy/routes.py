@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException
+import datetime
+
+from fastapi import APIRouter, Depends
 from fastapi import status as http_status
 
 from src.api.auth.dependencies import require_admin
@@ -6,8 +8,6 @@ from src.api.repositories.dependencies import get_vacancy_repository
 from src.db.models import User
 from src.db.repositories import VacancyRepository
 from src.schemas import VacancyResponse
-import datetime
-import time
 
 # create, get, delete, edit
 
