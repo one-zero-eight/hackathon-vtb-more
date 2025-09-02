@@ -9,7 +9,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # автодополнение
 EOF
 
-source ~/.bashrc
+[ -s ~/.bashrc ] && source ~/.bashrc
 # enable in fish
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/nvm.fish
 cat << 'EOF' >> ~/.config/fish/config.fish
@@ -19,7 +19,7 @@ EOF
 
 fisher install edc/bass
 
-source ~/.config/fish/config.fish
+[ -s ~/.config/fish/config.fish ] && source ~/.config/fish/config.fish
 
 # node installation
 nvm install latest
@@ -29,5 +29,5 @@ curl -fsSL https://get.pnpm.io/install.sh | sh -
 echo "export PATH="$HOME/.local/share/pnpm:$PATH"" >> ~/.bashrc
 echo "export PATH="$HOME/.local/share/pnpm:$PATH"" >> ~/.config/fish/config.fish
 
-source ~/.bashrc
-source ~/.config/fish/config.fish
+[ -s ~/.bashrc ] && source ~/.bashrc
+[ -s ~/.config/fish/config.fish ] && source ~/.config/fish/config.fish
