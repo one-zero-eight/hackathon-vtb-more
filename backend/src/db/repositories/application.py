@@ -1,5 +1,6 @@
 from typing import Self
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db import AbstractSQLAlchemyStorage
@@ -36,6 +37,11 @@ class ApplicationRepository:
         async with self._create_session() as session:
             application = await session.get(Application, application_id)
             return application
+
+    async def get_all_applications(self) -> list[Application]:
+        async with self._create_session() as session:
+            result = await session.execute(select(Application))
+            return result.scalars().all()
 
     async def edit_application(
         self,
