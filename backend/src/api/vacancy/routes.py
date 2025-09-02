@@ -1,19 +1,11 @@
-import datetime
-
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi import status as http_status
 
 from src.api.auth.dependencies import require_admin, get_current_user
 from src.api.repositories.dependencies import get_vacancy_repository
 from src.db.models import User
 from src.db.repositories import VacancyRepository
-<<<<<<< HEAD
 from src.schemas import VacancyResponse, VacancyCreateRequest, VacancyEditRequest
-=======
-from src.schemas import VacancyResponse
-
-# create, get, delete, edit
->>>>>>> c7cbbd0774c22d899eead0d0ac1bd08548213ebb
 
 router = APIRouter(prefix="/vacancy", tags=["Vacancy"])
 
