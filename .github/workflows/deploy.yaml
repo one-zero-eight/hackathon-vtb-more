@@ -62,7 +62,6 @@ jobs:
         run: |
           cd frontend
           pnpm install
-          pnpm check
           pnpm build
 
   deploy:

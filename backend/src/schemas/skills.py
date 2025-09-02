@@ -1,5 +1,7 @@
-from src.schemas.pydantic_base import BaseSchema
 from pydantic import ConfigDict
+
+from src.schemas.pydantic_base import BaseSchema
+
 
 class SkillsResponse(BaseSchema):
     id: int

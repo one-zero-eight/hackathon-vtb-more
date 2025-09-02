@@ -18,9 +18,26 @@ class RelativePathFilter(logging.Filter):
         return True
 
 
-with open("logging.yaml") as f:
-    config = yaml.safe_load(f)
-    logging.config.dictConfig(config)
+# Try to find logging.yaml in common locations
+logging_config_path = None
+possible_paths = [
+    "logging.yaml",  # Current directory
+    os.path.join(os.path.dirname(__file__), "..", "..", "logging.yaml"),  # Relative to this file
+    os.path.join(os.getcwd(), "logging.yaml"),  # Current working directory
+]
+
+for path in possible_paths:
+    if os.path.exists(path):
+        logging_config_path = path
+        break
+
+if logging_config_path and os.path.exists(logging_config_path):
+    with open(logging_config_path) as f:
+        config = yaml.safe_load(f)
+        logging.config.dictConfig(config)
+else:
+    # Fallback to basic logging if config file not found
+    logging.basicConfig(level=logging.INFO)
 
 logger = logging.getLogger("src")
 logger.addFilter(RelativePathFilter())
