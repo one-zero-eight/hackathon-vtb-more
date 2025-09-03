@@ -74,38 +74,36 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
-      - name: Получение кода
+      - name: Code retrieval
         uses: actions/checkout@v4
 
-      - name: Настройка SSH
-        uses: webfactory/ssh-agent@v0.9.0
+      - name: Install dependencies for build scripts
+        run: sudo apt-get update && sudo apt-get install -y sed coreutils
+
+      - name: Deploy backend via Appleboy SSH
+        uses: appleboy/ssh-action@v0.1.10
         with:
-          ssh-private-key: ${{ secrets.SERVER_PRIVATE }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_PRIVATE }}
+          script: |
+            cd ${{ secrets.BACKEND_PATH }}
+            docker compose down
+            git pull
+            docker compose build --pull
+            docker compose up -d
 
-      - name: Проверка подключения
-        run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-          ssh -vvv -T ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} echo "Успех!"
-
-      - name: Добавление known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Деплой бэкенда
-        run: |
-          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
-          cd ${{ secrets.BACKEND_PATH }} && \
-          git config pull.rebase true && \
-          git pull && \
-          docker compose down && \
-          docker images -q backend-api | grep . && docker rmi backend-api || echo 'No image to remove' && \
-          docker volume rm backend_postgres || echo 'Volume not found' && \
-          docker compose up -d"
-
-      - name: Деплой фронтенда
-        run: |
-          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "cd ${{ secrets.FRONTEND_PATH }} && git pull && export PATH=$PATH:/root/.local/share/pnpm/ && pnpm install && pnpm build && pm2 restart frontend || pm2 start pnpm --name frontend -- start"
+      - name: Deploy frontend via Appleboy SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_PRIVATE }}
+          script: |
+            cd ${{ secrets.FRONTEND_PATH }}
+            git pull
+            export PATH=$PATH:/root/.local/share/pnpm/
+            pnpm install
+            pnpm build
+            pm2 delete frontend 2> /dev/null || true
+            pm2 start pnpm --name frontend -- start
