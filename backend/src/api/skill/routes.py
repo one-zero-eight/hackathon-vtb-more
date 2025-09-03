@@ -71,12 +71,12 @@ async def delete_skill(
     skill_id: int,
     skills_repository: SkillRepository = Depends(get_skill_repository),
     _: User = Depends(require_admin),
-) -> SkillsResponse:
+):
     skill = await skills_repository.delete_skill(skill_id)
     if skill is None:
         raise HTTPException(404, "Invalid skill_id")
         
-    return SkillsResponse.model_validate(skill)
+    return Response(status_code=http_status.HTTP_204_NO_CONTENT)
 
 
 skills_type_router = APIRouter(prefix="/skills_type", tags=["Skills Type"], route_class=AutoDeriveResponsesAPIRoute)
