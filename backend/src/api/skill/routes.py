@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi import status as http_status
+from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 
 from src.api.auth.dependencies import require_admin
 from src.api.repositories.dependencies import get_skill_repository, get_skill_type_repository
@@ -7,14 +8,10 @@ from src.db.models import User
 from src.db.repositories import SkillRepository, SkillTypeRepository
 from src.schemas import SkillsResponse, SkillTypeCreateRequest, SkillTypeResponse, SkillTypeUpdateRequest
 
-skills_router = APIRouter(prefix="/skills", tags=["Skills"])
+skills_router = APIRouter(prefix="/skills", tags=["Skills"], route_class=AutoDeriveResponsesAPIRoute)
 
 
-@skills_router.post(
-    "",
-    response_model=SkillsResponse,
-    status_code=http_status.HTTP_201_CREATED,
-)
+@skills_router.post("", status_code=http_status.HTTP_201_CREATED)
 async def create_skill(
     weight: float,
     details: str,
@@ -33,7 +30,7 @@ async def create_skill(
     return SkillsResponse.model_validate(skill)
 
 
-@skills_router.get("/{skill_id}", response_model=SkillsResponse)
+@skills_router.get("/{skill_id}")
 async def get_skill(
     skill_id: int,
     skills_repository: SkillRepository = Depends(get_skill_repository),
@@ -46,7 +43,7 @@ async def get_skill(
     return SkillsResponse.model_validate(skill)
 
 
-@skills_router.patch("/{skill_id}", response_model=SkillsResponse)
+@skills_router.patch("/{skill_id}")
 async def edit_skill(
     skill_id: int,
     weight: float | None = None,
@@ -69,7 +66,7 @@ async def edit_skill(
     return SkillsResponse.model_validate(skill)
 
 
-@skills_router.delete("/{skill_id}", response_model=SkillsResponse)
+@skills_router.delete("/{skill_id}", status_code=http_status.HTTP_204_NO_CONTENT)
 async def delete_skill(
     skill_id: int,
     skills_repository: SkillRepository = Depends(get_skill_repository),
@@ -82,14 +79,10 @@ async def delete_skill(
     return SkillsResponse.model_validate(skill)
 
 
-skills_type_router = APIRouter(prefix="/skills_type", tags=["Skills Type"])
+skills_type_router = APIRouter(prefix="/skills_type", tags=["Skills Type"], route_class=AutoDeriveResponsesAPIRoute)
 
 
-@skills_type_router.post(
-    "",
-    response_model=SkillTypeResponse,
-    status_code=http_status.HTTP_201_CREATED
-)
+@skills_type_router.post("", status_code=http_status.HTTP_201_CREATED)
 async def create_skill_type(
     data: SkillTypeCreateRequest,
     skill_type_repository: SkillTypeRepository = Depends(get_skill_type_repository),
@@ -100,7 +93,7 @@ async def create_skill_type(
     return SkillTypeResponse.model_validate(skill_type)
 
 
-@skills_type_router.get("/{skill_id}", response_model=SkillsResponse)
+@skills_type_router.get("/{skill_id}")
 async def get_skill_type(
     skill_id: int,
     skills_repository: SkillTypeRepository = Depends(get_skill_type_repository),
@@ -113,7 +106,7 @@ async def get_skill_type(
     return SkillsResponse.model_validate(skill_type)
 
 
-@skills_type_router.patch("", response_model=SkillTypeResponse)
+@skills_type_router.patch("")
 async def edit_skill_type(
     data: SkillTypeUpdateRequest,
     skill_type_repository: SkillTypeRepository = Depends(get_skill_type_repository),
@@ -126,7 +119,7 @@ async def edit_skill_type(
     return SkillTypeResponse.model_validate(skill_type)
 
 
-@skills_type_router.delete("/{skill_type_id}", response_model=SkillTypeResponse)
+@skills_type_router.delete("/{skill_type_id}", status_code=http_status.HTTP_204_NO_CONTENT)
 async def delete_skill_type(
     skill_type_id: int,
     skill_type_repository: SkillTypeRepository = Depends(get_skill_type_repository),

@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi import status as http_status
+from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 
 from src.api.auth.dependencies import get_current_user, require_admin
 from src.api.repositories.dependencies import get_vacancy_repository
@@ -7,14 +8,10 @@ from src.db.models import User
 from src.db.repositories import VacancyRepository
 from src.schemas import VacancyCreateRequest, VacancyEditRequest, VacancyResponse
 
-router = APIRouter(prefix="/vacancy", tags=["Vacancy"])
+router = APIRouter(prefix="/vacancy", tags=["Vacancy"], route_class=AutoDeriveResponsesAPIRoute)
 
 
-@router.post(
-    "",
-    response_model=VacancyResponse,
-    status_code=http_status.HTTP_201_CREATED,
-)
+@router.post("", status_code=http_status.HTTP_201_CREATED)
 async def create_vacancy(
     request: VacancyCreateRequest,
     user: User = Depends(require_admin),
@@ -36,10 +33,7 @@ async def create_vacancy(
     return VacancyResponse.model_validate(vacancy)
 
 
-@router.get(
-    "/{vacancy_id}",
-    response_model=VacancyResponse,
-)
+@router.get("/{vacancy_id}")
 async def get_vacancy(
     vacancy_id: int,
     _: User = Depends(get_current_user),
@@ -52,10 +46,7 @@ async def get_vacancy(
     return VacancyResponse.model_validate(vacancy)
 
 
-@router.patch(
-   "/{vacancy_id}",
-    response_model=VacancyResponse
-)
+@router.patch("/{vacancy_id}")
 async def edit_vacancy(
     vacancy_id: int,
     request: VacancyEditRequest,
@@ -82,10 +73,7 @@ async def edit_vacancy(
     return VacancyResponse.model_validate(vacancy)
 
 
-@router.delete(
-   "/{vacancy_id}",
-   response_model=VacancyResponse
-)
+@router.delete("/{vacancy_id}", status_code=http_status.HTTP_204_NO_CONTENT)
 async def delete_vacancy(
     vacancy_id: int,
     _: User = Depends(require_admin),

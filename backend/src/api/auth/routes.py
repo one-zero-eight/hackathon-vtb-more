@@ -1,5 +1,6 @@
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 from passlib.context import CryptContext
 
 from src.api.auth.dependencies import get_current_user
@@ -9,11 +10,11 @@ from src.db.models import User
 from src.db.repositories import UserRepository
 from src.schemas import LoginRequest, RegisterRequest, TokenResponse, UserResponse
 
-router = APIRouter(prefix="/auth", tags=["Authentication"])
+router = APIRouter(prefix="/auth", tags=["Authentication"], route_class=AutoDeriveResponsesAPIRoute)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/register", status_code=status.HTTP_201_CREATED)
 async def register(payload: RegisterRequest, user_repository: UserRepository = Depends(get_user_repository)) -> UserResponse:
     existing = await user_repository.get_user_by_email(str(payload.email))
     if existing:
@@ -29,7 +30,7 @@ async def register(payload: RegisterRequest, user_repository: UserRepository = D
     return UserResponse.model_validate(user)
 
 
-@router.post("/token", response_model=TokenResponse)
+@router.post("/token")
 async def login(credentials: LoginRequest, user_repository: UserRepository = Depends(get_user_repository)) -> TokenResponse:
     user = await user_repository.get_user_by_email(credentials.email)
     if not user or not pwd_context.verify(credentials.password, user.hashed_password):
@@ -39,6 +40,6 @@ async def login(credentials: LoginRequest, user_repository: UserRepository = Dep
     return TokenResponse(access_token=token)
 
 
-@router.get("/me", response_model=UserResponse)
+@router.get("/me")
 async def read_me(current_user: User = Depends(get_current_user)) -> UserResponse:
     return UserResponse.model_validate(current_user)

@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, UploadFile
 from fastapi import status as http_status
+from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 
 from src.api.application.pre_interview_check import check_application
 from src.api.application.util import save_upload_to_path
@@ -13,7 +14,7 @@ from src.db.models import User
 from src.db.repositories import ApplicationRepository
 from src.schemas import ApplicationResponse, Status
 
-router = APIRouter(prefix="/applications", tags=["Applications"])
+router = APIRouter(prefix="/applications", tags=["Applications"], route_class=AutoDeriveResponsesAPIRoute)
 
 
 async def save_file(file: UploadFile) -> Path:
@@ -34,11 +35,7 @@ async def save_file(file: UploadFile) -> Path:
     return dest_path
 
 
-@router.post(
-    "",
-    response_model=ApplicationResponse,
-    status_code=http_status.HTTP_201_CREATED,
-)
+@router.post("", status_code=http_status.HTTP_201_CREATED)
 async def create_application(
     file: UploadFile = File(...),
     vacancy_id: int = Form(...),
@@ -82,11 +79,7 @@ async def get_application(
     return ApplicationResponse.model_validate(application)
 
 
-@router.patch(
-    "/{application_id}",
-    response_model=ApplicationResponse,
-    status_code=http_status.HTTP_200_OK,
-)
+@router.patch("/{application_id}", status_code=http_status.HTTP_200_OK)
 async def edit_application_endpoint(
     application_id: int,
     file: UploadFile | None = File(None),
