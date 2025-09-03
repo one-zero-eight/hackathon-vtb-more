@@ -39,30 +39,35 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Node.js setup
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
       - name: pnpm setup
         uses: pnpm/action-setup@v4
         with:
           version: latest
           run_install: false
+          package_json_file: './frontend/package.json'
 
-      - name: pnpm cache retrieval
-        uses: actions/checkout@v4
+      - name: Node.js setup
+        uses: actions/setup-node@v4
         with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: '22'
+          cache: 'pnpm'
+          cache-dependency-path: './frontend/pnpm-lock.yaml'
 
-      - name: Frontend env setup
-        run: |
-          cd frontend
-          pnpm install
-          pnpm build
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: '~/.pnpm-store'
+          key: "pnpm-${{ runner.os }}-${{ hashFiles('frontend/pnpm-lock.yaml') }}"
+          restore-keys: |
+            pnpm-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+        working-directory: frontend
+
+      - name: Build
+        run: pnpm run build
+        working-directory: frontend
 
   deploy:
     needs: [backend-ci, frontend-ci]
