@@ -102,7 +102,7 @@ jobs:
           script: |
             cd ${{ secrets.FRONTEND_PATH }}
             git pull
-            export PATH=$PATH:/root/.local/share/pnpm/
+            pnpm add -g pm2
             pnpm install
             pnpm build
             pm2 delete frontend 2> /dev/null || true
