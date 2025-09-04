@@ -102,8 +102,7 @@ jobs:
           script: |
             cd ${{ secrets.FRONTEND_PATH }}
             git pull
-            pnpm add -g pm2
             pnpm install
             pnpm build
-            pm2 delete frontend 2> /dev/null || true
-            pm2 start pnpm --name frontend -- start
+            mv ${{ secrets.FRONTEND_PATH }}/dist /var/www/
+            sudo systemctl restart nginx
