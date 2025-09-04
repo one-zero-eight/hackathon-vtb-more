@@ -26,10 +26,17 @@ class ApiSettings(BaseModel):
     "Token expiration time in minutes"
 
 
+class OpenAITextSettings(BaseModel):
+    api_key: SecretStr = Field(...)
+    "OpenAI API key"
+    model: str = Field(...)
+    "OpenAI text model"
+
 
 class Settings(BaseModel):
     model_config = ConfigDict(json_schema_extra={"title": "Settings"}, extra="ignore")
     api_settings: ApiSettings | None = None
+    open_ai_text_settings: OpenAITextSettings | None = None
 
     @classmethod
     def from_yaml(cls, path: Path) -> "Settings":

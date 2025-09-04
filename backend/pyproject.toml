@@ -12,6 +12,7 @@ dependencies = [
     "fastapi-derive-responses>=0.1.4",
     "fastapi-swagger>=0.3.29",
     "gunicorn>=23.0.0",
+    "openai>=1.105.0",
     "passlib>=1.7.4",
     "pydantic[email]>=2.11.7",
     "python-jose>=3.5.0",

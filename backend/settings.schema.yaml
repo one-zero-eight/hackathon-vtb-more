@@ -41,10 +41,30 @@ $defs:
     - secret_key
     title: ApiSettings
     type: object
+  OpenAITextSettings:
+    properties:
+      api_key:
+        format: password
+        title: Api Key
+        type: string
+        writeOnly: true
+      model:
+        title: Model
+        type: string
+    required:
+    - api_key
+    - model
+    title: OpenAITextSettings
+    type: object
 properties:
   api_settings:
     anyOf:
     - $ref: '#/$defs/ApiSettings'
+    - type: 'null'
+    default: null
+  open_ai_text_settings:
+    anyOf:
+    - $ref: '#/$defs/OpenAITextSettings'
     - type: 'null'
     default: null
 title: Settings

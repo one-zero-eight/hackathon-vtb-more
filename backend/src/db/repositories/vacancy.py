@@ -29,7 +29,7 @@ class VacancyRepository:
         weekly_hours_occupancy: int,
         required_experience: int,
         open_time: datetime.datetime,
-        close_time: datetime.datetime,
+        close_time: datetime.datetime | None,
         is_active: bool,
         user_id: int
     ) -> Vacancy:

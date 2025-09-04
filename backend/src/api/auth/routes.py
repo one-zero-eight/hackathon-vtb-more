@@ -18,7 +18,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 async def register(payload: RegisterRequest, user_repository: UserRepository = Depends(get_user_repository)) -> UserResponse:
     existing = await user_repository.get_user_by_email(str(payload.email))
     if existing:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already in use")
+        raise HTTPException(status_code=409, detail="Email already in use")
 
     hashed = pwd_context.hash(payload.password)
     user = await user_repository.create_user(

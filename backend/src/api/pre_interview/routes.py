@@ -8,8 +8,6 @@ from src.db.models import User
 from src.db.repositories import PreInterviewResultRepository
 from src.schemas import PreInterviewResponse
 
-# TODO: Test endpoints
-
 router = APIRouter(prefix="/preinterview", tags=["Pre-interview results"], route_class=AutoDeriveResponsesAPIRoute)
 
 

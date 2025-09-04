@@ -14,7 +14,7 @@ class VacancyCreateRequest(BaseSchema):
     required_experience: int
 
     open_time: datetime.datetime = datetime.datetime.now()
-    close_time: datetime.datetime = datetime.datetime.now() + datetime.timedelta(days=7)
+    close_time: datetime.datetime | None = None
 
     is_active: bool = True
 
@@ -45,7 +45,7 @@ class VacancyResponse(BaseSchema):
     required_experience: int  # required experience in years
 
     open_time: datetime.datetime
-    close_time: datetime.datetime
+    close_time: datetime.datetime | None
 
     is_active: bool
     user_id: int
