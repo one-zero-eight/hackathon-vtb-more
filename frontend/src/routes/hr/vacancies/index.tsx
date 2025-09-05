@@ -195,7 +195,8 @@ function RouteComponent() {
   };
 
   const hasActiveFilters = useMemo(
-    () => Object.values(filters).some(f => f.length > 0) || query.trim().length > 0,
+    () =>
+      Object.values(filters).some(f => f.length > 0) || query.trim().length > 0,
     [filters, query]
   );
 
@@ -210,7 +211,10 @@ function RouteComponent() {
       />
 
       {/* Search Bar */}
-      <SearchBar placeholder="🔍 Поиск по вашим вакансиям, навыкам, городам..." onSearch={handleSearch} />
+      <SearchBar
+        placeholder="🔍 Поиск по вашим вакансиям, навыкам, городам..."
+        onSearch={handleSearch}
+      />
 
       {/* HR actions */}
       <div className="container-w -mt-2 flex items-center justify-between gap-2">
@@ -246,7 +250,8 @@ function RouteComponent() {
           className="w-full bg-white dark:bg-slate-800/40 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-slate-600/30 hover:bg-gray-50 dark:hover:bg-slate-700/40"
         >
           <Filter className="w-4 h-4 mr-2" />
-          Фильтры {hasActiveFilters && `(${Object.values(filters).flat().length})`}
+          Фильтры{' '}
+          {hasActiveFilters && `(${Object.values(filters).flat().length})`}
         </Button>
       </div>
 
@@ -289,7 +294,9 @@ function RouteComponent() {
           <div className="absolute bottom-0 left-0 right-0 bg-white dark:bg-slate-900 rounded-t-3xl p-6 max-h-[90vh] overflow-y-auto">
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Фильтры</h3>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                Фильтры
+              </h3>
               <Button
                 variant="ghost"
                 size="sm"
@@ -311,7 +318,10 @@ function RouteComponent() {
 
             {/* Apply Button */}
             <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-              <Button onClick={() => setIsFiltersModalOpen(false)} className="w-full bg-primary hover:bg-primary/90">
+              <Button
+                onClick={() => setIsFiltersModalOpen(false)}
+                className="w-full bg-primary hover:bg-primary/90"
+              >
                 Применить фильтры
               </Button>
             </div>
@@ -322,7 +332,13 @@ function RouteComponent() {
   );
 }
 
-function StatusBadge({ status, statusText }: { status: HRVacancy['status']; statusText: string }) {
+function StatusBadge({
+  status,
+  statusText,
+}: {
+  status: HRVacancy['status'];
+  statusText: string;
+}) {
   const styles: Record<HRVacancy['status'], string> = {
     active: 'bg-green-100 text-green-700',
     draft: 'bg-gray-100 text-gray-700',
@@ -330,7 +346,9 @@ function StatusBadge({ status, statusText }: { status: HRVacancy['status']; stat
     archived: 'bg-yellow-100 text-yellow-700',
   };
   return (
-    <span className={`px-2 md:px-3 py-1 text-xs md:text-sm font-medium rounded-full ${styles[status]}`}>
+    <span
+      className={`px-2 md:px-3 py-1 text-xs md:text-sm font-medium rounded-full ${styles[status]}`}
+    >
       {statusText}
     </span>
   );
@@ -348,7 +366,9 @@ function HRVacancyList({
   if (vacancies.length === 0) {
     return (
       <div className="w-full text-center py-8 md:py-16">
-        <div className="text-gray-400 dark:text-gray-500 text-4xl md:text-6xl mb-4">🔍</div>
+        <div className="text-gray-400 dark:text-gray-500 text-4xl md:text-6xl mb-4">
+          🔍
+        </div>
         <div className="text-gray-500 dark:text-gray-400 text-lg md:text-xl font-medium mb-2">
           Вакансии не найдены
         </div>
@@ -369,7 +389,9 @@ function HRVacancyList({
     <div className="w-full flex flex-col gap-4 min-h-[30vh] rounded-2xl md:rounded-3xl items-center">
       <div className="w-full mb-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100">Ваши вакансии ({vacancies.length})</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100">
+            Ваши вакансии ({vacancies.length})
+          </h2>
           <div className="flex items-center space-x-4">
             {vacancies.length !== totalCount && (
               <span className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 px-3 py-1 rounded-full">
@@ -381,13 +403,19 @@ function HRVacancyList({
       </div>
 
       {vacancies.map((vacancy, index) => (
-        <HRVacancyCard key={vacancy.id} vacancy={vacancy} index={index} />)
-      )}
+        <HRVacancyCard key={vacancy.id} vacancy={vacancy} index={index} />
+      ))}
     </div>
   );
 }
 
-function HRVacancyCard({ vacancy, index }: { vacancy: HRVacancy; index: number }) {
+function HRVacancyCard({
+  vacancy,
+  index,
+}: {
+  vacancy: HRVacancy;
+  index: number;
+}) {
   return (
     <div
       className="w-full md:w-[95%] bg-white dark:bg-slate-900/40 rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-gray-100 dark:border-slate-600/30 hover:shadow-md dark:hover:shadow-lg hover:border-gray-200 dark:hover:border-slate-500/50 transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm"
@@ -399,35 +427,66 @@ function HRVacancyCard({ vacancy, index }: { vacancy: HRVacancy; index: number }
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
-            <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100">{vacancy.title}</h3>
-            <StatusBadge status={vacancy.status} statusText={vacancy.statusText} />
+            <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100">
+              {vacancy.title}
+            </h3>
+            <StatusBadge
+              status={vacancy.status}
+              statusText={vacancy.statusText}
+            />
           </div>
 
           <div className="mb-3 md:mb-4">
-            <span className="text-2xl md:text-3xl font-bold text-green-600">{vacancy.money.toLocaleString()} ₽</span>
-            <span className="text-base md:text-lg text-gray-600 dark:text-gray-400 ml-2">за месяц</span>
+            <span className="text-2xl md:text-3xl font-bold text-green-600">
+              {vacancy.money.toLocaleString()} ₽
+            </span>
+            <span className="text-base md:text-lg text-gray-600 dark:text-gray-400 ml-2">
+              за месяц
+            </span>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 text-gray-600 dark:text-gray-400 mb-3 md:mb-4">
-            <span className="px-2 md:px-3 py-1 bg-green-100 text-green-700 text-xs md:text-sm font-medium rounded-full">{vacancy.type}</span>
-            <span className="px-2 md:px-3 py-1 bg-orange-100 text-orange-700 text-xs md:text-sm font-medium rounded-full">{vacancy.hardSkills[0]}</span>
+            <span className="px-2 md:px-3 py-1 bg-green-100 text-green-700 text-xs md:text-sm font-medium rounded-full">
+              {vacancy.type}
+            </span>
+            <span className="px-2 md:px-3 py-1 bg-orange-100 text-orange-700 text-xs md:text-sm font-medium rounded-full">
+              {vacancy.hardSkills[0]}
+            </span>
             {vacancy.softSkills[1] && (
-              <span className="px-2 md:px-3 py-1 bg-blue-100 text-blue-700 text-xs md:text-sm font-medium rounded-full">{vacancy.softSkills[1]}</span>
+              <span className="px-2 md:px-3 py-1 bg-blue-100 text-blue-700 text-xs md:text-sm font-medium rounded-full">
+                {vacancy.softSkills[1]}
+              </span>
             )}
           </div>
 
           <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-            <div className="flex items-center gap-1"><Users className="w-4 h-4" /> {vacancy.applicationsCount} откликов</div>
-            <div className="flex items-center gap-1"><Eye className="w-4 h-4" /> {vacancy.viewsCount} просмотров</div>
+            <div className="flex items-center gap-1">
+              <Users className="w-4 h-4" /> {vacancy.applicationsCount} откликов
+            </div>
+            <div className="flex items-center gap-1">
+              <Eye className="w-4 h-4" /> {vacancy.viewsCount} просмотров
+            </div>
           </div>
         </div>
 
         <div className="lg:ml-4 flex flex-col sm:flex-row gap-2 sm:items-start">
-          <Link to="/hr/vacancies/$id/applicants" params={{ id: vacancy.id.toString() }} className="inline-flex">
-            <Button className="w-full lg:w-auto bg-indigo-600 hover:bg-indigo-700 text-white">Кандидаты</Button>
+          <Link
+            to="/hr/vacancies/$id/applicants"
+            params={{ id: vacancy.id.toString() }}
+            className="inline-flex"
+          >
+            <Button className="w-full lg:w-auto bg-indigo-600 hover:bg-indigo-700 text-white">
+              Кандидаты
+            </Button>
           </Link>
-          <Link to="/hr/vacancies/$id/update" params={{ id: vacancy.id.toString() }} className="inline-flex">
-            <Button variant="outline" className="gap-2"><Pencil className="w-4 h-4" /> Редактировать</Button>
+          <Link
+            to="/hr/vacancies/$id/update"
+            params={{ id: vacancy.id.toString() }}
+            className="inline-flex"
+          >
+            <Button variant="outline" className="gap-2">
+              <Pencil className="w-4 h-4" /> Редактировать
+            </Button>
           </Link>
         </div>
       </div>

@@ -9,6 +9,7 @@ import {
   Briefcase,
   Users,
   Home,
+  User,
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useNavigate } from '@tanstack/react-router';
@@ -20,6 +21,7 @@ export default function Navbar() {
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
+  const token = localStorage.getItem('token');
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -33,7 +35,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container-w mx-auto">
         <div className="flex justify-between items-center h-16">
           {/* Логотип */}
@@ -80,6 +82,11 @@ export default function Navbar() {
             </Button>
 
             {/* Кнопки авторизации */}
+            {token ? (
+              <div className="hidden sm:flex cursor-pointer items-center space-x-3" onClick={() => navigate({ to: '/user/profile' })}>
+                <User className="w-6 h-6" />
+              </div>
+            ) : (
             <div className="hidden sm:flex items-center space-x-3">
               <Button
                 variant="outline"
@@ -97,7 +104,7 @@ export default function Navbar() {
                 Регистрация
               </Button>
             </div>
-
+            )}
             {/* Мобильное меню кнопка */}
             <Button
               variant="ghost"

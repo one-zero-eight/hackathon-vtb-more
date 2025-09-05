@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
-
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { $api } from '@/api';
+import { useNavigate } from '@tanstack/react-router';
+import { useToast } from './toast-1';
 // --- SUB-COMPONENTS ---
 
 const GlassInputWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -12,26 +14,81 @@ const GlassInputWrapper = ({ children }: { children: React.ReactNode }) => (
 // --- MAIN COMPONENT ---
 
 export const SignInPage: React.FC = () => {
+  const navigate = useNavigate();
+  const { showToast } = useToast();
   const [authState, setAuthState] = useState<'signup' | 'login'>('login');
   const [showPassword, setShowPassword] = useState(false);
+  const [userData, setUserData] = useState({
+    full_name: '',
+    email: '',
+    password: '',
+    confirm_password: '',
+  });
 
-  const onSignIn = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Вход в систему');
+
+
+
+  // First, create a mutation hook
+  const registerMutation = $api.useMutation('post', '/auth/register');
+  const loginMutation = $api.useMutation('post', '/auth/token');
+  const signUp = async () => {
+    if (userData.password !== userData.confirm_password) {
+      showToast('Пароли не совпадают', 'error', "top-right");
+      return;
+    }
+    if (!userData.email || !userData.password || !userData.full_name) {
+      showToast('Заполните все поля', 'error', "top-right");
+      return;
+    }
+    try {
+      const response = await registerMutation.mutateAsync({
+        body: {
+          email: userData.email,
+          password: userData.password,
+          name: userData.full_name,
+          is_admin: false,
+        },
+      });
+      localStorage.setItem('token', response.access_token);
+      showToast('Аккаунт успешно создан', 'success', "top-right");
+      navigate({ to: '/user/profile' });
+    } catch (error) {
+      showToast('Ошибка при создании аккаунта', 'error', "top-right");
+    }
   };
 
-  const onResetPassword = () => {
-    console.log('Сброс пароля');
+
+  const signIn = async () => {
+    try {
+      if (!userData.email || !userData.password) {
+        showToast('Заполните все поля', 'error', "top-right");
+        return;
+      }
+      const response = await loginMutation.mutateAsync({
+        body: {
+          email: userData.email,
+          password: userData.password,
+        },
+      });
+      localStorage.setItem('token', response.access_token);
+      showToast('Вход в систему', 'success', "top-right");
+      navigate({ to: '/user/profile' });
+    } catch (error) {
+      showToast('Ошибка при входе в систему', 'error', "top-right");
+    }
   };
 
-  const onCreateAccount = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const onSwitch = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    setAuthState('signup');
+    if(authState == "login")
+      setAuthState("signup")
+    
+    else 
+      setAuthState('login');
   };
 
-  const onSwitchToLogin = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    setAuthState('login');
+  const handleUserData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -51,7 +108,7 @@ export const SignInPage: React.FC = () => {
                 Создайте аккаунт для начала работы
               </p>
 
-              <form className="space-y-5" onSubmit={onSignIn}>
+              <form className="space-y-5" onSubmit={(e)=>e.preventDefault()}>
                 <div className="animate-fade-in animation-delay-300">
                   <label className="text-sm font-medium text-muted-foreground mb-2 block">
                     Полное имя
@@ -62,6 +119,7 @@ export const SignInPage: React.FC = () => {
                       type="text"
                       placeholder="Введите ваше полное имя"
                       className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none"
+                      onChange={handleUserData}
                     />
                   </GlassInputWrapper>
                 </div>
@@ -76,6 +134,7 @@ export const SignInPage: React.FC = () => {
                       type="email"
                       placeholder="Введите ваш email адрес"
                       className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none"
+                      onChange={handleUserData}
                     />
                   </GlassInputWrapper>
                 </div>
@@ -91,6 +150,7 @@ export const SignInPage: React.FC = () => {
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Введите пароль"
                         className="w-full bg-transparent text-sm p-4 pr-12 rounded-2xl focus:outline-none"
+                        onChange={handleUserData}
                       />
                       <button
                         type="button"
@@ -118,6 +178,7 @@ export const SignInPage: React.FC = () => {
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Повторите пароль"
                         className="w-full bg-transparent text-sm p-4 pr-12 rounded-2xl focus:outline-none"
+                        onChange={handleUserData}
                       />
                       <button
                         type="button"
@@ -134,22 +195,17 @@ export const SignInPage: React.FC = () => {
                   </GlassInputWrapper>
                 </div>
 
-                <div className="animate-fade-in animation-delay-700 flex items-center justify-between text-sm">
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      name="rememberMe"
-                      className="custom-checkbox"
-                    />
-                    <span className="text-foreground/90">Запомнить меня</span>
-                  </label>
-                </div>
-
                 <button
+                  onClick={signUp}
                   type="submit"
-                  className="animate-fade-in animation-delay-700 w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                  className="animate-fade-in animation-delay-700 w-full rounded-2xl bg-primary py-4 font-medium  flex items-center justify-center text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer"
+                  disabled={registerMutation.isPending}
                 >
-                  Создать аккаунт
+                  {registerMutation.isPending ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    'Создать аккаунт'
+                  )}
                 </button>
               </form>
 
@@ -157,7 +213,7 @@ export const SignInPage: React.FC = () => {
                 Уже есть аккаунт?{' '}
                 <a
                   href="#"
-                  onClick={onSwitchToLogin}
+                  onClick={onSwitch}
                   className="text-violet-400 hover:underline transition-colors"
                 >
                   Войти
@@ -180,7 +236,7 @@ export const SignInPage: React.FC = () => {
                 Войдите в свой аккаунт
               </p>
 
-              <form className="space-y-5" onSubmit={onSignIn}>
+              <form className="space-y-5" onSubmit={(e)=>e.preventDefault()}>
                 <div className="animate-fade-in animation-delay-300">
                   <label className="text-sm font-medium text-muted-foreground mb-2 block">
                     Email адрес
@@ -191,6 +247,7 @@ export const SignInPage: React.FC = () => {
                       type="email"
                       placeholder="Введите ваш email адрес"
                       className="w-full bg-transparent text-sm p-4 rounded-2xl focus:outline-none"
+                      onChange={handleUserData}
                     />
                   </GlassInputWrapper>
                 </div>
@@ -206,6 +263,7 @@ export const SignInPage: React.FC = () => {
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Введите пароль"
                         className="w-full bg-transparent text-sm p-4 pr-12 rounded-2xl focus:outline-none"
+                        onChange={handleUserData}
                       />
                       <button
                         type="button"
@@ -222,32 +280,14 @@ export const SignInPage: React.FC = () => {
                   </GlassInputWrapper>
                 </div>
 
-                <div className="animate-fade-in animation-delay-500 flex items-center justify-between text-sm">
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      name="rememberMe"
-                      className="custom-checkbox"
-                    />
-                    <span className="text-foreground/90">Запомнить меня</span>
-                  </label>
-                  <a
-                    href="#"
-                    onClick={e => {
-                      e.preventDefault();
-                      onResetPassword();
-                    }}
-                    className="hover:underline text-violet-400 transition-colors"
-                  >
-                    Забыли пароль?
-                  </a>
-                </div>
 
                 <button
+                  onClick={signIn}
                   type="submit"
-                  className="animate-fade-in animation-delay-600 w-full rounded-2xl bg-primary py-4 font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+                  className="animate-fade-in animation-delay-700 w-full rounded-2xl bg-primary py-4 font-medium  flex items-center justify-center text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer"
+                  disabled={loginMutation.isPending}
                 >
-                  Войти
+                  {loginMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Войти"}
                 </button>
               </form>
 
@@ -255,7 +295,7 @@ export const SignInPage: React.FC = () => {
                 Нет аккаунта?{' '}
                 <a
                   href="#"
-                  onClick={onCreateAccount}
+                  onClick={onSwitch}
                   className="text-violet-400 hover:underline transition-colors"
                 >
                   Создать аккаунт

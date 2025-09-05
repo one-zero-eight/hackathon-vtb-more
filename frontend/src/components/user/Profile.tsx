@@ -48,7 +48,7 @@ const Profile = () => {
   }, [profile.applications, selectedStatus]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-black py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen  py-8 px-4 sm:px-6 lg:px-8">
       <div className="container-w mx-auto space-y-8">
         {/* Header */}
         <div className="text-center">

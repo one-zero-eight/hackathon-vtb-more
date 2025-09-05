@@ -21,7 +21,7 @@ const VacancyDetail: React.FC = () => {
 
   if (!vacancy) {
     return (
-      <div className="container-w mx-auto py-8 md:py-16 text-center px-4">
+      <div className="container-w   mx-auto py-8 md:py-16 text-center px-4">
         <div className="text-4xl md:text-6xl mb-4">😕</div>
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
           Вакансия не найдена
@@ -55,7 +55,7 @@ const VacancyDetail: React.FC = () => {
   };
 
   return (
-    <div className="container-w mx-auto py-4 md:py-8 px-4">
+    <div className="container-w  mx-auto py-4 md:py-8 px-4">
       {/* Header with back button */}
       <div className="mb-6 md:mb-8">
         <Button

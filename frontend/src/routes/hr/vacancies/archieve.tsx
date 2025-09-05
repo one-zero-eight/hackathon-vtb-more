@@ -6,5 +6,5 @@ export const Route = createFileRoute('/hr/vacancies/archieve')({
 });
 
 function RouteComponent() {
-  return <Archieve/>
+  return <Archieve />;
 }
