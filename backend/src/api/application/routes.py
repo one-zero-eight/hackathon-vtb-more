@@ -8,11 +8,16 @@ from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 from src.api.application.pre_interview_check import check_application
 from src.api.application.util import save_upload_to_path
 from src.api.auth.dependencies import get_current_user, require_admin
-from src.api.repositories.dependencies import get_application_repository
+from src.api.repositories.dependencies import (
+    get_application_repository,
+    get_preinterview_repository,
+    get_vacancy_repository,
+)
 from src.config import api_settings
 from src.db.models import User
-from src.db.repositories import ApplicationRepository
+from src.db.repositories import ApplicationRepository, PreInterviewResultRepository, VacancyRepository
 from src.schemas import ApplicationResponse, Status
+from src.services.pre_interview import pre_interview_assessment
 
 router = APIRouter(prefix="/applications", tags=["Applications"], route_class=AutoDeriveResponsesAPIRoute)
 
@@ -40,6 +45,8 @@ async def create_application(
     file: UploadFile = File(...),
     vacancy_id: int = Form(...),
     application_repository: ApplicationRepository = Depends(get_application_repository),
+    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository),
+    preinterview_repository: PreInterviewResultRepository = Depends(get_preinterview_repository),
     user: User = Depends(get_current_user),
 ) -> ApplicationResponse:
     dest_path = await save_file(file)
@@ -49,6 +56,12 @@ async def create_application(
         status=check_application(),
         user_id=user.id,
         vacancy_id=vacancy_id,
+    )
+
+    await pre_interview_assessment(
+        application=application,
+        vacancy=await vacancy_repository.get_vacancy(vacancy_id),
+        repository=preinterview_repository,
     )
 
     return ApplicationResponse.model_validate(application)

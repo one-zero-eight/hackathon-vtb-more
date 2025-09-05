@@ -33,6 +33,19 @@ class OpenAITextSettings(BaseModel):
     "OpenAI text model"
 
 
+class OpenAIRealtimeSettings(BaseModel):
+    api_key: SecretStr = Field(...)
+    "OpenAI API key"
+    model: str = Field(...)
+    "OpenAI realtime model"
+    voice: str = Field("verse")
+    "OpenAI realtime voice"
+    transcription_model: str = Field(...)
+    "OpenAI transcription model"
+    base_sessions_url: str = Field("https://api.openai.com/v1/realtime/sessions")
+    "OpenAI realtime sessions endpoint"
+
+
 class Settings(BaseModel):
     model_config = ConfigDict(json_schema_extra={"title": "Settings"}, extra="ignore")
     api_settings: ApiSettings | None = None
