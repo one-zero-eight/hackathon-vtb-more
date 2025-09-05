@@ -49,7 +49,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+      <div className="container-w mx-auto space-y-8">
         {/* Header */}
         <div className="text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">
@@ -200,7 +200,7 @@ const Profile = () => {
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   {filteredApplications.map((application, index) => (
                     <ApplicationCard
                       key={application.id}

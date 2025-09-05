@@ -1,3 +1,4 @@
+import Archieve from '@/components/hr/Archieve';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/hr/vacancies/archieve')({
@@ -5,5 +6,5 @@ export const Route = createFileRoute('/hr/vacancies/archieve')({
 });
 
 function RouteComponent() {
-  return <div>Hello "/hr/vancacies/archieve"!</div>;
+  return <Archieve/>
 }

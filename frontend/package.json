@@ -9,7 +9,7 @@
     "serve": "vite preview",
     "test": "vitest run",
     "generate:routes": "tsr generate",
-    "gen:api": "openapi-typescript https://petstore3.swagger.io/api/v3/openapi.json -o ./src/api/types.ts",
+    "gen:api": "openapi-typescript http://localhost:8000/api/openapi.json -o ./src/api/types.ts",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
