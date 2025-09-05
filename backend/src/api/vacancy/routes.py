@@ -17,6 +17,11 @@ async def create_vacancy(
     user: User = Depends(require_admin),
     vacancy_repository: VacancyRepository = Depends(get_vacancy_repository)
 ) -> VacancyResponse:
+    if request.open_time is not None:
+        request.open_time = request.open_time.replace(tzinfo=None)
+    if request.close_time is not None:
+        request.close_time = request.close_time.replace(tzinfo=None)
+
     vacancy = await vacancy_repository.create_vacancy(
         request.name,
         request.description,

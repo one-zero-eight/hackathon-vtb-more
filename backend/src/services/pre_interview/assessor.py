@@ -20,7 +20,7 @@ class PreInterviewAssessor:
         self,
         *,
         application: Application,
-        vacancy: Vacancy,
+        vacancy: Vacancy | None,
         repository: PreInterviewResultRepository,
         timeout_seconds: float = 30.0,
     ) -> PreInterviewResult:
@@ -29,6 +29,7 @@ class PreInterviewAssessor:
             application.cv,
         )
 
+            
         vacancy_text = build_vacancy_prompt(vacancy)
 
         system_msg = EasyInputMessageParam(
