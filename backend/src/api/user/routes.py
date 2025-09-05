@@ -45,7 +45,9 @@ async def list_users(
 
 @router.post("", status_code=http_status.HTTP_201_CREATED)
 async def register(
-    payload: RegisterRequest, user_repository: UserRepository = Depends(get_user_repository)
+    payload: RegisterRequest,
+    _: User = Depends(require_admin),
+    user_repository: UserRepository = Depends(get_user_repository),
 ) -> UserResponse:
     existing = await user_repository.get_user_by_email(str(payload.email))
     if existing:
