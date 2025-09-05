@@ -31,8 +31,14 @@ class VacancyRepository:
         open_time: datetime.datetime,
         close_time: datetime.datetime | None,
         is_active: bool,
-        user_id: int
+        user_id: int,
     ) -> Vacancy:
+        if open_time.tzinfo is None:
+            open_time = open_time.replace(tzinfo=datetime.UTC)
+
+        if close_time and close_time.tzinfo is None:
+            close_time = close_time.replace(tzinfo=datetime.UTC)
+
         async with self._create_session() as session:
             vacancy = Vacancy(
                 name=name,

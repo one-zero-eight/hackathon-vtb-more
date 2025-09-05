@@ -29,7 +29,7 @@ async def create_vacancy(
         request.is_active,
         user.id,
     )
-   
+
     return VacancyResponse.model_validate(vacancy)
 
 
