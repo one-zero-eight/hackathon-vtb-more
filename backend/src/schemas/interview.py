@@ -17,6 +17,6 @@ class PreInterviewAIStructure(BaseSchema):
     score: float  # float between 0.0–1.0
 
     @model_validator(mode='after')
-    def validate_score(self, value):
-        if value < 0 or value > 1:
+    def validate_score(self):
+        if self.score < 0 or self.score > 1:
             raise ValueError("Score must be between 0 and 1")
