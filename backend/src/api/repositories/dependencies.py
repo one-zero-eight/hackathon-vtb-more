@@ -1,5 +1,6 @@
 from fastapi import Depends, Request
 
+from src.config import api_settings
 from src.db.repositories import (
     ApplicationRepository,
     PreInterviewResultRepository,
@@ -9,6 +10,7 @@ from src.db.repositories import (
     VacancyRepository,
 )
 from src.db.storage import AbstractSQLAlchemyStorage
+from src.services.converting import ConvertingRepository
 
 
 def get_storage(request: Request) -> AbstractSQLAlchemyStorage:
@@ -47,7 +49,12 @@ def get_vacancy_repository(
 ) -> VacancyRepository:
     return VacancyRepository(storage)
 
+
 def get_preinterview_repository(
     storage: AbstractSQLAlchemyStorage = Depends(get_storage),
 ) -> PreInterviewResultRepository:
     return PreInterviewResultRepository(storage)
+
+
+def get_converting_repository() -> ConvertingRepository:
+    return ConvertingRepository(api_settings.unoserver_server, api_settings.unoserver_port)

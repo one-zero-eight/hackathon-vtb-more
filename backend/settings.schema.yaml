@@ -36,9 +36,17 @@ $defs:
         default: 60
         title: Token Expiration In Minutes
         type: integer
+      unoserver_server:
+        title: Unoserver Server
+        type: string
+      unoserver_port:
+        title: Unoserver Port
+        type: integer
     required:
     - db_url
     - secret_key
+    - unoserver_server
+    - unoserver_port
     title: ApiSettings
     type: object
   OpenAITextSettings:

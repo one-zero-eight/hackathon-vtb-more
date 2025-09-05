@@ -10,6 +10,7 @@ from src.api.application.util import save_upload_to_path
 from src.api.auth.dependencies import get_current_user, require_admin
 from src.api.repositories.dependencies import (
     get_application_repository,
+    get_converting_repository,
     get_preinterview_repository,
     get_vacancy_repository,
 )
@@ -17,27 +18,44 @@ from src.config import api_settings
 from src.db.models import User
 from src.db.repositories import ApplicationRepository, PreInterviewResultRepository, VacancyRepository
 from src.schemas import ApplicationResponse, Status
+from src.services.converting import ConvertingRepository
 from src.services.pre_interview import pre_interview_assessment
 
 router = APIRouter(prefix="/applications", tags=["Applications"], route_class=AutoDeriveResponsesAPIRoute)
 
 
-async def save_file(file: UploadFile) -> Path:
+async def save_file_as_pdf(file: UploadFile, converting_repository: ConvertingRepository) -> Path:
     """Saves a file and returns its path."""
     ext = Path(file.filename).suffix.lower()
-    allowed_extensions = {".pdf", ".doc", ".docx"}
+    allowed_extensions = {".pdf", ".doc", ".docx", ".rtf"}
     if ext not in allowed_extensions:
         raise HTTPException(status_code=400, detail="Unsupported file type")
 
-    safe_name = f"{uuid4()}{ext}"
-    dest_path = (api_settings.files_dir / "cv" / safe_name).resolve()
+    file_id = str(uuid4())
+    original_safe_name = f"{file_id}{ext}"
+    pdf_safe_name = f"{file_id}.pdf"
+
+    original_path = (api_settings.files_dir / "cv" / original_safe_name).resolve()
+    pdf_path = (api_settings.files_dir / "cv" / pdf_safe_name).resolve()
 
     base_dir = api_settings.files_dir.resolve()
-    if not str(dest_path).startswith(str(base_dir)):
-        raise HTTPException(status_code=400, detail="Invalid file destination")
+    for path in [original_path, pdf_path]:
+        if not str(path).startswith(str(base_dir)):
+            raise HTTPException(status_code=400, detail="Invalid file destination")
 
-    await save_upload_to_path(file, dest_path)
-    return dest_path
+    await save_upload_to_path(file, original_path)
+
+    if ext == ".pdf":
+        return original_path
+
+    try:
+        converting_repository.any2pdf(str(original_path), str(pdf_path))
+        original_path.unlink(missing_ok=True)
+        return pdf_path
+    except Exception as e:
+        original_path.unlink(missing_ok=True)
+        pdf_path.unlink(missing_ok=True)
+        raise HTTPException(status_code=500, detail=f"Failed to convert file to PDF: {str(e)}")
 
 
 @router.post("", status_code=http_status.HTTP_201_CREATED)
@@ -46,10 +64,11 @@ async def create_application(
     vacancy_id: int = Form(...),
     application_repository: ApplicationRepository = Depends(get_application_repository),
     vacancy_repository: VacancyRepository = Depends(get_vacancy_repository),
-    preinterview_repository: PreInterviewResultRepository = Depends(get_preinterview_repository),
+    pre_interview_repository: PreInterviewResultRepository = Depends(get_preinterview_repository),
+    converting_repository: ConvertingRepository = Depends(get_converting_repository),
     user: User = Depends(get_current_user),
 ) -> ApplicationResponse:
-    dest_path = await save_file(file)
+    dest_path = await save_file_as_pdf(file, converting_repository)
 
     application = await application_repository.create_application(
         cv=str(dest_path),
@@ -61,7 +80,7 @@ async def create_application(
     await pre_interview_assessment(
         application=application,
         vacancy=await vacancy_repository.get_vacancy(vacancy_id),
-        repository=preinterview_repository,
+        repository=pre_interview_repository,
     )
 
     return ApplicationResponse.model_validate(application)
@@ -117,7 +136,7 @@ async def edit_application_endpoint(
 
     # Handle optional CV file upload
     if file is not None:
-        dest_path = await save_file(file)
+        dest_path = await save_file_as_pdf(file)
         update_kwargs["cv"] = str(dest_path)
 
     # Collect optional fields for partial update

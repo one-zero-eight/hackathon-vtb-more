@@ -2,8 +2,10 @@
 $schema: "./settings.schema.yaml"
 api_settings:
   db_url: "postgresql+asyncpg://postgres:postgres@localhost:5432/postgres"
-  secret_key: ""  # use `openssl rand -hex 32` to generate a random key
+  secret_key: ...  # use `openssl rand -hex 32` to generate a random key
   token_expiration_in_minutes: 60
+  unoserver_server: "127.0.0.1"
+  unoserver_port: 2003
 open_ai_text_settings:
   api_key: ""
   model: "gpt-5-mini"

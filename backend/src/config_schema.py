@@ -24,6 +24,10 @@ class ApiSettings(BaseModel):
     "The encryption algorithm for encryption/decryption in auth"
     token_expiration_in_minutes: int = 60
     "Token expiration time in minutes"
+    unoserver_server: str
+    "The unoserver URL"
+    unoserver_port: int
+    "The unoserver port"
 
 
 class OpenAITextSettings(BaseModel):
