@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 from passlib.context import CryptContext
@@ -14,8 +13,11 @@ router = APIRouter(prefix="/auth", tags=["Authentication"], route_class=AutoDeri
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 @router.post("/register", status_code=status.HTTP_201_CREATED)
-async def register(payload: RegisterRequest, user_repository: UserRepository = Depends(get_user_repository)) -> UserResponse:
+async def register(
+    payload: RegisterRequest, user_repository: UserRepository = Depends(get_user_repository)
+) -> TokenResponse:
     existing = await user_repository.get_user_by_email(str(payload.email))
     if existing:
         raise HTTPException(status_code=409, detail="Email already in use")
@@ -27,11 +29,14 @@ async def register(payload: RegisterRequest, user_repository: UserRepository = D
         hashed_password=hashed,
         is_admin=payload.is_admin,
     )
-    return UserResponse.model_validate(user)
+    token = create_access_token({"sub": str(user.id)})
+    return TokenResponse(access_token=token)
 
 
 @router.post("/token")
-async def login(credentials: LoginRequest, user_repository: UserRepository = Depends(get_user_repository)) -> TokenResponse:
+async def login(
+    credentials: LoginRequest, user_repository: UserRepository = Depends(get_user_repository)
+) -> TokenResponse:
     user = await user_repository.get_user_by_email(credentials.email)
     if not user or not pwd_context.verify(credentials.password, user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
