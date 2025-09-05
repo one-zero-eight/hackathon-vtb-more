@@ -1,6 +1,7 @@
 import datetime
 from typing import Self
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db import AbstractSQLAlchemyStorage
@@ -50,7 +51,7 @@ class VacancyRepository:
                 open_time=open_time,
                 close_time=close_time,
                 is_active=is_active,
-                user_id=user_id
+                user_id=user_id,
             )
             session.add(vacancy)
             await session.commit()
@@ -60,6 +61,11 @@ class VacancyRepository:
         async with self._create_session() as session:
             vacancy = await session.get(Vacancy, vacancy_id)
             return vacancy
+
+    async def get_all_vacancies(self) -> list[Vacancy]:
+        async with self._create_session() as session:
+            result = await session.execute(select(Vacancy))
+            return result.scalars().all()
 
     async def delete_vacancy(self, vacancy_id: int) -> Vacancy | None:
         async with self._create_session() as session:
@@ -72,16 +78,16 @@ class VacancyRepository:
 
     async def edit_vacancy(
         self,
-        vacancy_id: int, 
-        name: str | None = None, 
+        vacancy_id: int,
+        name: str | None = None,
         description: str | None = None,
         salary: float | None = None,
         city: str | None = None,
         weekly_hours_occupancy: int | None = None,
-        required_experience: int | None = None, 
-        open_time: datetime.datetime | None = None, 
-        close_time: datetime.datetime | None = None, 
-        is_active: bool | None = None, 
+        required_experience: int | None = None,
+        open_time: datetime.datetime | None = None,
+        close_time: datetime.datetime | None = None,
+        is_active: bool | None = None,
         user_id: int | None = None,
     ) -> Vacancy | None:
         async with self._create_session() as session:
