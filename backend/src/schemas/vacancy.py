@@ -13,7 +13,7 @@ class VacancyCreateRequest(BaseSchema):
     weekly_hours_occupancy: int
     required_experience: int
 
-    open_time: datetime.datetime = datetime.datetime.now()
+    open_time: datetime.datetime = datetime.datetime.now(tz=datetime.UTC)
     close_time: datetime.datetime | None = None
 
     is_active: bool = True

@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.db.models import Base
@@ -24,8 +24,13 @@ class Vacancy(Base):
     weekly_hours_occupancy: Mapped[int]
     required_experience: Mapped[int]  # required experience in years
 
-    open_time: Mapped[datetime.datetime] = mapped_column(default=datetime.datetime.now)
-    close_time: Mapped[datetime.datetime] = mapped_column(nullable=True)
+    open_time: Mapped[datetime.datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.datetime.now(tz=datetime.UTC),
+    )
+    close_time: Mapped[datetime.datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
 
     is_active: Mapped[bool] = mapped_column(default=True)
 
