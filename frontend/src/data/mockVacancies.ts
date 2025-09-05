@@ -304,3 +304,308 @@ export const mockVacancies: Vacancy[] = [
     type: 'Full-Time',
   },
 ];
+
+export interface Application {
+  id: number;
+  vacancyId: number;
+  vacancyTitle: string;
+  company: string;
+  city: string;
+  salary: number;
+  appliedDate: string;
+  status: 'pre_interview' | 'waiting_for_interview' | 'waiting_for_result';
+  statusText: string;
+}
+
+export interface UserProfile {
+  id: number;
+  fullName: string;
+  email: string;
+  applications: Application[];
+}
+
+export const mockUserProfile: UserProfile = {
+  id: 1,
+  fullName: 'Иван Петров',
+  email: 'ivan.petrov@example.com',
+  applications: [
+    {
+      id: 1,
+      vacancyId: 1,
+      vacancyTitle: 'Senior Frontend Developer',
+      company: 'TechCorp',
+      city: 'Moscow',
+      salary: 180,
+      appliedDate: '2024-01-20T00:00:00.000Z',
+      status: 'pre_interview',
+      statusText: 'Предварительная проверка',
+    },
+    {
+      id: 2,
+      vacancyId: 3,
+      vacancyTitle: 'DevOps Engineer',
+      company: 'CloudTech',
+      city: 'Novosibirsk',
+      salary: 200,
+      appliedDate: '2024-01-15T00:00:00.000Z',
+      status: 'waiting_for_interview',
+      statusText: 'Ожидаем интервью',
+    },
+    {
+      id: 3,
+      vacancyId: 5,
+      vacancyTitle: 'Mobile App Developer (React Native)',
+      company: 'MobileSoft',
+      city: 'Yekaterinburg',
+      salary: 140,
+      appliedDate: '2024-01-25T00:00:00.000Z',
+      status: 'waiting_for_result',
+      statusText: 'Ожидаем результат',
+    },
+    {
+      id: 4,
+      vacancyId: 7,
+      vacancyTitle: 'Full Stack Developer',
+      company: 'WebSolutions',
+      city: 'Rostov-on-Don',
+      salary: 190,
+      appliedDate: '2024-02-01T00:00:00.000Z',
+      status: 'pre_interview',
+      statusText: 'Предварительная проверка',
+    },
+  ],
+};
+
+export interface HRVacancy {
+  id: number;
+  title: string;
+  description: string;
+  experience: number; // years
+  city: string;
+  money: number; // salary in thousands
+  hardSkills: string[];
+  softSkills: string[];
+  openTime: string; // ISO date string
+  closingTime: string; // ISO date string
+  type: 'Full-Time' | 'Part-Time';
+  status: 'active' | 'draft' | 'closed' | 'archived';
+  statusText: string;
+  applicationsCount: number;
+  viewsCount: number;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  createdBy: string;
+}
+
+export const mockHRVacancies: HRVacancy[] = [
+  {
+    id: 101,
+    title: 'Senior Frontend Developer',
+    description:
+      'We are looking for an experienced Frontend Developer to join our team and help build modern, responsive web applications using React, TypeScript, and modern CSS frameworks.',
+    experience: 3,
+    city: 'Moscow',
+    money: 180,
+    hardSkills: [
+      'React',
+      'TypeScript',
+      'JavaScript',
+      'HTML5',
+      'CSS3',
+      'Redux',
+      'Webpack',
+      'Git',
+    ],
+    softSkills: [
+      'Team Collaboration',
+      'Problem Solving',
+      'Communication',
+      'Time Management',
+      'Attention to Detail',
+    ],
+    openTime: '2024-01-15T00:00:00.000Z',
+    closingTime: '2024-03-15T23:59:59.000Z',
+    type: 'Full-Time',
+    status: 'active',
+    statusText: 'Активна',
+    applicationsCount: 24,
+    viewsCount: 156,
+    createdAt: '2024-01-10T00:00:00.000Z',
+    updatedAt: '2024-01-20T00:00:00.000Z',
+    createdBy: 'Иван Петров',
+  },
+  {
+    id: 102,
+    title: 'Python Backend Engineer',
+    description:
+      'Join our backend team to develop scalable microservices and APIs using Python, FastAPI, and PostgreSQL.',
+    experience: 2,
+    city: 'Saint Petersburg',
+    money: 150,
+    hardSkills: [
+      'Python',
+      'FastAPI',
+      'PostgreSQL',
+      'Docker',
+      'Redis',
+      'SQLAlchemy',
+      'Alembic',
+      'Pytest',
+    ],
+    softSkills: [
+      'Analytical Thinking',
+      'Code Review',
+      'Documentation',
+      'Mentoring',
+      'Agile Methodologies',
+    ],
+    openTime: '2024-01-20T00:00:00.000Z',
+    closingTime: '2024-03-20T23:59:59.000Z',
+    type: 'Part-Time',
+    status: 'active',
+    statusText: 'Активна',
+    applicationsCount: 18,
+    viewsCount: 89,
+    createdAt: '2024-01-15T00:00:00.000Z',
+    updatedAt: '2024-01-18T00:00:00.000Z',
+    createdBy: 'Мария Сидорова',
+  },
+  {
+    id: 103,
+    title: 'DevOps Engineer',
+    description:
+      'We need a DevOps engineer to manage our cloud infrastructure, implement CI/CD pipelines, and ensure our applications run smoothly in production.',
+    experience: 4,
+    city: 'Novosibirsk',
+    money: 200,
+    hardSkills: [
+      'AWS',
+      'Kubernetes',
+      'Docker',
+      'Terraform',
+      'Jenkins',
+      'Prometheus',
+      'Grafana',
+      'Linux',
+    ],
+    softSkills: [
+      'System Architecture',
+      'Incident Response',
+      'Automation Mindset',
+      'Security Awareness',
+      'Cross-team Collaboration',
+    ],
+    openTime: '2024-01-10T00:00:00.000Z',
+    closingTime: '2024-02-28T23:59:59.000Z',
+    type: 'Full-Time',
+    status: 'draft',
+    statusText: 'Черновик',
+    applicationsCount: 0,
+    viewsCount: 0,
+    createdAt: '2024-01-05T00:00:00.000Z',
+    updatedAt: '2024-01-05T00:00:00.000Z',
+    createdBy: 'Алексей Козлов',
+  },
+  {
+    id: 104,
+    title: 'Data Scientist',
+    description:
+      'Join our data science team to develop machine learning models, perform statistical analysis, and create data-driven insights.',
+    experience: 3,
+    city: 'Kazan',
+    money: 170,
+    hardSkills: [
+      'Python',
+      'Pandas',
+      'NumPy',
+      'Scikit-learn',
+      'TensorFlow',
+      'SQL',
+      'Jupyter',
+      'Matplotlib',
+    ],
+    softSkills: [
+      'Statistical Analysis',
+      'Business Acumen',
+      'Data Storytelling',
+      'Research Skills',
+      'Critical Thinking',
+    ],
+    openTime: '2024-01-25T00:00:00.000Z',
+    closingTime: '2024-04-10T23:59:59.000Z',
+    type: 'Full-Time',
+    status: 'closed',
+    statusText: 'Закрыта',
+    applicationsCount: 31,
+    viewsCount: 203,
+    createdAt: '2024-01-20T00:00:00.000Z',
+    updatedAt: '2024-01-25T00:00:00.000Z',
+    createdBy: 'Елена Волкова',
+  },
+  {
+    id: 105,
+    title: 'Mobile App Developer (React Native)',
+    description:
+      "We're looking for a mobile developer to build cross-platform applications using React Native.",
+    experience: 2,
+    city: 'Yekaterinburg',
+    money: 140,
+    hardSkills: [
+      'React Native',
+      'JavaScript',
+      'TypeScript',
+      'Redux',
+      'Firebase',
+      'Git',
+      'Xcode',
+      'Android Studio',
+    ],
+    softSkills: [
+      'User Experience Design',
+      'Mobile-first Thinking',
+      'Performance Optimization',
+      'Testing',
+      'App Store Guidelines',
+    ],
+    openTime: '2024-02-01T00:00:00.000Z',
+    closingTime: '2024-03-30T23:59:59.000Z',
+    type: 'Part-Time',
+    status: 'archived',
+    statusText: 'Архив',
+    applicationsCount: 15,
+    viewsCount: 67,
+    createdAt: '2024-01-25T00:00:00.000Z',
+    updatedAt: '2024-01-30T00:00:00.000Z',
+    createdBy: 'Дмитрий Соколов',
+  },
+];
+
+export const availableSkills = [
+  { id: 'react', name: 'React', category: 'Frontend' },
+  { id: 'typescript', name: 'TypeScript', category: 'Frontend' },
+  { id: 'javascript', name: 'JavaScript', category: 'Frontend' },
+  { id: 'html', name: 'HTML5', category: 'Frontend' },
+  { id: 'css', name: 'CSS3', category: 'Frontend' },
+  { id: 'vue', name: 'Vue.js', category: 'Frontend' },
+  { id: 'angular', name: 'Angular', category: 'Frontend' },
+  { id: 'python', name: 'Python', category: 'Backend' },
+  { id: 'java', name: 'Java', category: 'Backend' },
+  { id: 'csharp', name: 'C#', category: 'Backend' },
+  { id: 'php', name: 'PHP', category: 'Backend' },
+  { id: 'nodejs', name: 'Node.js', category: 'Backend' },
+  { id: 'postgresql', name: 'PostgreSQL', category: 'Database' },
+  { id: 'mysql', name: 'MySQL', category: 'Database' },
+  { id: 'mongodb', name: 'MongoDB', category: 'Database' },
+  { id: 'redis', name: 'Redis', category: 'Database' },
+  { id: 'docker', name: 'Docker', category: 'DevOps' },
+  { id: 'kubernetes', name: 'Kubernetes', category: 'DevOps' },
+  { id: 'aws', name: 'AWS', category: 'Cloud' },
+  { id: 'azure', name: 'Azure', category: 'Cloud' },
+  { id: 'git', name: 'Git', category: 'Tools' },
+  { id: 'jenkins', name: 'Jenkins', category: 'DevOps' },
+  { id: 'leadership', name: 'Leadership', category: 'Soft Skills' },
+  { id: 'communication', name: 'Communication', category: 'Soft Skills' },
+  { id: 'teamwork', name: 'Teamwork', category: 'Soft Skills' },
+  { id: 'problemsolving', name: 'Problem Solving', category: 'Soft Skills' },
+  { id: 'timemanagement', name: 'Time Management', category: 'Soft Skills' },
+];

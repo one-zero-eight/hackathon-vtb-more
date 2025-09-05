@@ -1,16 +1,11 @@
 import { useState, useMemo } from 'react';
-import { mockVacancies, type Vacancy } from '@/data/mockVacancies';
+import { mockVacancies } from '@/data/mockVacancies';
 
 interface FilterState {
   employmentType: string[];
   categories: string[];
   jobLevel: string[];
   salaryRange: string[];
-}
-
-interface FilterOption {
-  value: string;
-  count: number;
 }
 
 export const useVacancyFilters = () => {

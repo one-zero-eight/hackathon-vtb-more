@@ -13,24 +13,29 @@ interface MyRouterContext {
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-  component: () => (
-    <>
-      <Header />
-      <main className="pt-16">
-        <Outlet />
-      </main>
-      <TanstackDevtools
-        config={{
-          position: 'bottom-left',
-        }}
-        plugins={[
-          {
-            name: 'Tanstack Router',
-            render: <TanStackRouterDevtoolsPanel />,
-          },
-          TanStackQueryDevtools,
-        ]}
-      />
-    </>
-  ),
+  component: () => {
+    const location = window.location.pathname;
+    const isAuthPage = location.startsWith('/auth');
+
+    return (
+      <>
+        <Header />
+        <main className={isAuthPage ? '' : 'pt-16'}>
+          <Outlet />
+        </main>
+        <TanstackDevtools
+          config={{
+            position: 'bottom-left',
+          }}
+          plugins={[
+            {
+              name: 'Tanstack Router',
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+            TanStackQueryDevtools,
+          ]}
+        />
+      </>
+    );
+  },
 });

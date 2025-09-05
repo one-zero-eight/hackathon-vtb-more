@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useTheme } from '@/components/theme-provider';
+import { useState } from 'react';
+import { useTheme } from './theme-provider';
 import {
   Sun,
   Moon,
@@ -10,12 +10,13 @@ import {
   Users,
   Home,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from './ui/button';
+import { useNavigate } from '@tanstack/react-router';
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const navigate = useNavigate();
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
@@ -33,7 +34,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container-w mx-auto">
         <div className="flex justify-between items-center h-16">
           {/* Логотип */}
           <div className="flex items-center space-x-2">
@@ -80,12 +81,18 @@ export default function Navbar() {
 
             {/* Кнопки авторизации */}
             <div className="hidden sm:flex items-center space-x-3">
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                className="cursor-pointer"
+                onClick={() => navigate({ to: '/auth' })}
+              >
                 Войти
               </Button>
               <Button
+                onClick={() => navigate({ to: '/auth' })}
                 size="sm"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
               >
                 Регистрация
               </Button>
@@ -134,10 +141,17 @@ export default function Navbar() {
 
             {/* Мобильные кнопки авторизации */}
             <div className="space-y-3 px-4 pt-4 border-t border-border">
-              <Button variant="outline" className="w-full">
+              <Button
+                variant="outline"
+                className="w-full "
+                onClick={() => navigate({ to: '/auth' })}
+              >
                 Войти
               </Button>
-              <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+              <Button
+                onClick={() => navigate({ to: '/auth' })}
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
                 Регистрация
               </Button>
             </div>
