@@ -119,6 +119,7 @@ async def edit_application_endpoint(
     user_id: int | None = Form(None),
     vacancy_id: int | None = Form(None),
     application_repository: ApplicationRepository = Depends(get_application_repository),
+    converting_repository: ConvertingRepository = Depends(get_converting_repository),
     user: User = Depends(get_current_user),
 ) -> ApplicationResponse:
     application = await application_repository.get_application(application_id)
@@ -136,7 +137,7 @@ async def edit_application_endpoint(
 
     # Handle optional CV file upload
     if file is not None:
-        dest_path = await save_file_as_pdf(file)
+        dest_path = await save_file_as_pdf(file, converting_repository)
         update_kwargs["cv"] = str(dest_path)
 
     # Collect optional fields for partial update
