@@ -30,7 +30,9 @@ async def pre_interview_assessment(
 
     base64_string = base64.b64encode(data).decode("utf-8")
     file_input = ResponseInputFileParam(
-        type="input_file", filename="CV.pdf", file_data=f"data:application/pdf;base64,{base64_string}"
+        type="input_file",
+        filename="CV.pdf",
+        file_data=f"data:application/pdf;base64,{base64_string}",
     )
     _text = (
         "Evaluate the candidate for the following role and only use the attached CV for evidence. "

@@ -59,6 +59,15 @@ class VacancyResponse(BaseSchema):
     model_config = ConfigDict(from_attributes=True)
 
 
+class VacancyFromFile(BaseSchema):
+    name : str | None = None
+    description: str | None = None
+    salary: float | None = None
+    city: str | None = None
+    weekly_hours_occupancy: int | None = None
+    required_experience: int | None = None
+
+
 class VacancyWithSkillsResponse(BaseSchema):
     vacancy: VacancyResponse
     skills: list[SkillResponse]

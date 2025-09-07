@@ -6,6 +6,7 @@ from src.schemas.user import UserCreate, UserResponse
 from src.schemas.vacancy import (
     VacancyCreateRequest,
     VacancyEditRequest,
+    VacancyFromFile,
     VacancyResponse,
     VacancyWithSkillsCreateRequest,
     VacancyWithSkillsResponse,
@@ -26,6 +27,7 @@ __all__ = [
     'SkillTypeUpdateRequest',
     'VacancyCreateRequest',
     'VacancyEditRequest',
+    'VacancyFromFile',
     'VacancyResponse',
     'VacancyWithSkillsCreateRequest',
     'VacancyWithSkillsResponse',
