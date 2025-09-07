@@ -1,4 +1,3 @@
-
 from openai import AsyncOpenAI
 
 from src.config import open_ai_text_settings
