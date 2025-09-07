@@ -31,5 +31,10 @@ services:
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
 
+  unoserver:
+    image: ghcr.io/unoconv/unoserver-docker:latest
+    ports:
+      - "2003:2003"
+
 volumes:
   postgres:

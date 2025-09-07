@@ -24,6 +24,10 @@ class ApiSettings(BaseModel):
     "The encryption algorithm for encryption/decryption in auth"
     token_expiration_in_minutes: int = 60
     "Token expiration time in minutes"
+    unoserver_server: str
+    "The unoserver URL"
+    unoserver_port: int
+    "The unoserver port"
 
 
 class OpenAITextSettings(BaseModel):
@@ -31,6 +35,19 @@ class OpenAITextSettings(BaseModel):
     "OpenAI API key"
     model: str = Field(...)
     "OpenAI text model"
+
+
+class OpenAIRealtimeSettings(BaseModel):
+    api_key: SecretStr = Field(...)
+    "OpenAI API key"
+    model: str = Field(...)
+    "OpenAI realtime model"
+    voice: str = Field("verse")
+    "OpenAI realtime voice"
+    transcription_model: str = Field(...)
+    "OpenAI transcription model"
+    base_sessions_url: str = Field("https://api.openai.com/v1/realtime/sessions")
+    "OpenAI realtime sessions endpoint"
 
 
 class Settings(BaseModel):

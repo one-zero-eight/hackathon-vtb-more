@@ -7,7 +7,7 @@ from src.api.auth.dependencies import get_current_user, require_admin
 from src.api.repositories.dependencies import get_user_repository
 from src.db.models import User
 from src.db.repositories import UserRepository
-from src.schemas import UserCreate, UserResponse
+from src.schemas import RegisterRequest, UserCreate, UserResponse
 
 router = APIRouter(prefix="/users", tags=["Users"], route_class=AutoDeriveResponsesAPIRoute)
 
@@ -41,6 +41,26 @@ async def list_users(
 ) -> list[UserResponse]:
     users = await user_repository.list_users()
     return [UserResponse.model_validate(user) for user in users]
+
+
+@router.post("", status_code=http_status.HTTP_201_CREATED)
+async def register(
+    payload: RegisterRequest,
+    _: User = Depends(require_admin),
+    user_repository: UserRepository = Depends(get_user_repository),
+) -> UserResponse:
+    existing = await user_repository.get_user_by_email(str(payload.email))
+    if existing:
+        raise HTTPException(status_code=409, detail="Email already in use")
+
+    hashed = pwd_context.hash(payload.password)
+    user = await user_repository.create_user(
+        name=payload.name,
+        email=str(payload.email),
+        hashed_password=hashed,
+        is_admin=payload.is_admin,
+    )
+    return UserResponse.model_validate(user)
 
 
 @router.get("/{user_id}")

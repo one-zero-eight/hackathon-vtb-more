@@ -9,7 +9,7 @@
     "serve": "vite preview",
     "test": "vitest run",
     "generate:routes": "tsr generate",
-    "gen:api": "openapi-typescript https://petstore3.swagger.io/api/v3/openapi.json -o ./src/api/types.ts",
+    "gen:api": "openapi-typescript http://localhost:8000/api/openapi.json -o ./src/api/types.ts",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
@@ -34,6 +34,8 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.476.0",
+    "next-themes": "^0.4.6",
+    "openapi-react-query": "^0.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.62.0",

@@ -1,18 +1,27 @@
 import React from 'react';
-import { useParams, useNavigate } from '@tanstack/react-router';
-import { Map, Building2, Calendar, Clock, Users, Star, ArrowLeft, CheckCircle } from 'lucide-react';
+import { useParams, useNavigate, Link } from '@tanstack/react-router';
+import {
+  Map,
+  Building2,
+  Calendar,
+  Users,
+  Star,
+  ArrowLeft,
+  CheckCircle,
+  FileText,
+} from 'lucide-react';
 import { mockVacancies } from '@/data/mockVacancies';
 import { Button } from '@/components/ui/button';
 
 const VacancyDetail: React.FC = () => {
-  const { id } = useParams({ from: '/user/vacancy/$id' });
+  const { id } = useParams({ from: '/user/vacancy/$id/' });
   const navigate = useNavigate();
-  
+
   const vacancy = mockVacancies.find(v => v.id === parseInt(id));
-  
+
   if (!vacancy) {
     return (
-      <div className="container-w mx-auto py-8 md:py-16 text-center px-4">
+      <div className="container-w   mx-auto py-8 md:py-16 text-center px-4">
         <div className="text-4xl md:text-6xl mb-4">😕</div>
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
           Вакансия не найдена
@@ -20,7 +29,7 @@ const VacancyDetail: React.FC = () => {
         <p className="text-gray-600 dark:text-gray-400 mb-8 text-sm md:text-base">
           Запрашиваемая вакансия не существует или была удалена
         </p>
-        <Button 
+        <Button
           onClick={() => navigate({ to: '/user/vacancies' })}
           className="bg-primary hover:bg-primary/90"
         >
@@ -34,7 +43,7 @@ const VacancyDetail: React.FC = () => {
     return new Date(dateString).toLocaleDateString('ru-RU', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -46,7 +55,7 @@ const VacancyDetail: React.FC = () => {
   };
 
   return (
-    <div className="container-w mx-auto py-4 md:py-8 px-4">
+    <div className="container-w  mx-auto py-4 md:py-8 px-4">
       {/* Header with back button */}
       <div className="mb-6 md:mb-8">
         <Button
@@ -67,7 +76,7 @@ const VacancyDetail: React.FC = () => {
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
               {vacancy.title}
             </h1>
-            
+
             {/* Salary - Prominent display */}
             <div className="mb-4 md:mb-6">
               <span className="text-3xl md:text-4xl lg:text-5xl font-bold text-green-600">
@@ -82,11 +91,15 @@ const VacancyDetail: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 md:gap-6 text-gray-600 dark:text-gray-400 mb-4 md:mb-6">
               <div className="flex items-center gap-2">
                 <Building2 className="w-4 h-4 md:w-5 md:h-5" />
-                <span className="text-sm md:text-base lg:text-lg">TechCorp</span>
+                <span className="text-sm md:text-base lg:text-lg">
+                  TechCorp
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <Map className="w-4 h-4 md:w-5 md:h-5" />
-                <span className="text-sm md:text-base lg:text-lg">{vacancy.city}</span>
+                <span className="text-sm md:text-base lg:text-lg">
+                  {vacancy.city}
+                </span>
               </div>
             </div>
 
@@ -95,27 +108,35 @@ const VacancyDetail: React.FC = () => {
               <div className="flex items-center gap-3 p-3 md:p-4 bg-gray-50 dark:bg-slate-800/50 rounded-xl">
                 <Users className="w-4 h-4 md:w-5 md:h-5 text-primary" />
                 <div>
-                  <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Тип занятости</div>
+                  <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400">
+                    Тип занятости
+                  </div>
                   <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm md:text-base">
-                    {vacancy.type === 'Full-Time' ? 'Полная занятость' : 'Частичная занятость'}
+                    {vacancy.type === 'Full-Time'
+                      ? 'Полная занятость'
+                      : 'Частичная занятость'}
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3 p-3 md:p-4 bg-gray-50 dark:bg-slate-800/50 rounded-xl">
                 <Star className="w-4 h-4 md:w-5 md:h-5 text-primary" />
                 <div>
-                  <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Опыт работы</div>
+                  <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400">
+                    Опыт работы
+                  </div>
                   <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm md:text-base">
                     {getExperienceText(vacancy.experience)}
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3 p-3 md:p-4 bg-gray-50 dark:bg-slate-800/50 rounded-xl sm:col-span-2 lg:col-span-1">
                 <Calendar className="w-4 h-4 md:w-5 md:h-5 text-primary" />
                 <div>
-                  <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Дата публикации</div>
+                  <div className="text-xs md:text-sm text-gray-500 dark:text-gray-400">
+                    Дата публикации
+                  </div>
                   <div className="font-semibold text-gray-900 dark:text-gray-100 text-sm md:text-base">
                     {formatDate(vacancy.openTime)}
                   </div>
@@ -125,14 +146,29 @@ const VacancyDetail: React.FC = () => {
           </div>
 
           {/* Apply button */}
-          <div className="lg:ml-8 self-stretch lg:self-auto">
-            <Button 
+          <div className="lg:ml-8 self-stretch lg:self-auto space-y-3">
+            <Button
               size="lg"
-              className="w-full lg:w-auto bg-primary hover:bg-primary/90 text-white px-6 md:px-8 lg:px-12 py-3 md:py-4 text-base md:text-lg font-semibold rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              className="w-full lg:w-auto bg-primary hover:bg-primary/90 px-6 md:px-8 lg:px-12 py-3 md:py-4 text-base md:text-lg font-semibold rounded-xl md:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
               <CheckCircle className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Откликнуться
             </Button>
+
+            <Link
+              to="/user/vacancy/$id/report"
+              params={{ id }}
+              className="block"
+            >
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full lg:w-auto px-6 md:px-8 lg:px-12 py-3 md:py-4 text-base md:text-lg font-semibold rounded-xl md:rounded-2xl border-2 hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-all duration-300"
+              >
+                <FileText className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                Посмотреть отчет
+              </Button>
+            </Link>
           </div>
         </div>
 
@@ -191,21 +227,37 @@ const VacancyDetail: React.FC = () => {
             </h3>
             <div className="space-y-2 md:space-y-3 text-sm md:text-base">
               <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                <span className="text-gray-600 dark:text-gray-400">Дата открытия:</span>
-                <span className="font-medium">{formatDate(vacancy.openTime)}</span>
-              </div>
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                <span className="text-gray-600 dark:text-gray-400">Дата закрытия:</span>
-                <span className="font-medium">{formatDate(vacancy.closingTime)}</span>
-              </div>
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                <span className="text-gray-600 dark:text-gray-400">Опыт работы:</span>
-                <span className="font-medium">{getExperienceText(vacancy.experience)}</span>
-              </div>
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                <span className="text-gray-600 dark:text-gray-400">Тип занятости:</span>
+                <span className="text-gray-600 dark:text-gray-400">
+                  Дата открытия:
+                </span>
                 <span className="font-medium">
-                  {vacancy.type === 'Full-Time' ? 'Полная занятость' : 'Частичная занятость'}
+                  {formatDate(vacancy.openTime)}
+                </span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                <span className="text-gray-600 dark:text-gray-400">
+                  Дата закрытия:
+                </span>
+                <span className="font-medium">
+                  {formatDate(vacancy.closingTime)}
+                </span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                <span className="text-gray-600 dark:text-gray-400">
+                  Опыт работы:
+                </span>
+                <span className="font-medium">
+                  {getExperienceText(vacancy.experience)}
+                </span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+                <span className="text-gray-600 dark:text-gray-400">
+                  Тип занятости:
+                </span>
+                <span className="font-medium">
+                  {vacancy.type === 'Full-Time'
+                    ? 'Полная занятость'
+                    : 'Частичная занятость'}
                 </span>
               </div>
             </div>
@@ -217,19 +269,27 @@ const VacancyDetail: React.FC = () => {
             </h3>
             <div className="space-y-2 md:space-y-3 text-sm md:text-base">
               <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                <span className="text-gray-600 dark:text-gray-400">Название:</span>
+                <span className="text-gray-600 dark:text-gray-400">
+                  Название:
+                </span>
                 <span className="font-medium">TechCorp</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                <span className="text-gray-600 dark:text-gray-400">Локация:</span>
+                <span className="text-gray-600 dark:text-gray-400">
+                  Локация:
+                </span>
                 <span className="font-medium">{vacancy.city}</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                <span className="text-gray-600 dark:text-gray-400">Размер команды:</span>
+                <span className="text-gray-600 dark:text-gray-400">
+                  Размер команды:
+                </span>
                 <span className="font-medium">50-100 человек</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
-                <span className="text-gray-600 dark:text-gray-400">Тип компании:</span>
+                <span className="text-gray-600 dark:text-gray-400">
+                  Тип компании:
+                </span>
                 <span className="font-medium">IT-компания</span>
               </div>
             </div>

@@ -15,7 +15,7 @@ router = APIRouter(prefix="/vacancy", tags=["Vacancy"], route_class=AutoDeriveRe
 async def create_vacancy(
     request: VacancyCreateRequest,
     user: User = Depends(require_admin),
-    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository)
+    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository),
 ) -> VacancyResponse:
     if request.open_time is not None:
         request.open_time = request.open_time.replace(tzinfo=None)
@@ -42,13 +42,22 @@ async def create_vacancy(
 async def get_vacancy(
     vacancy_id: int,
     _: User = Depends(get_current_user),
-    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository)
+    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository),
 ) -> VacancyResponse:
     vacancy = await vacancy_repository.get_vacancy(vacancy_id)
     if vacancy is None:
-      raise HTTPException(404, "Vacancy not found")
+        raise HTTPException(404, "Vacancy not found")
 
     return VacancyResponse.model_validate(vacancy)
+
+
+@router.get("")
+async def get_all_vacancies(
+    _: User = Depends(get_current_user),
+    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository),
+) -> list[VacancyResponse]:
+    vacancies = await vacancy_repository.get_all_vacancies()
+    return [VacancyResponse.model_validate(vac) for vac in vacancies]
 
 
 @router.patch("/{vacancy_id}")
@@ -56,7 +65,7 @@ async def edit_vacancy(
     vacancy_id: int,
     request: VacancyEditRequest,
     _: User = Depends(require_admin),
-    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository)
+    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository),
 ) -> VacancyResponse:
     vacancy = await vacancy_repository.edit_vacancy(
         vacancy_id=vacancy_id,
@@ -73,8 +82,8 @@ async def edit_vacancy(
     )
 
     if vacancy is None:
-       raise HTTPException(404, "Vacancy not found")
-    
+        raise HTTPException(404, "Vacancy not found")
+
     return VacancyResponse.model_validate(vacancy)
 
 
@@ -82,10 +91,10 @@ async def edit_vacancy(
 async def delete_vacancy(
     vacancy_id: int,
     _: User = Depends(require_admin),
-    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository)
+    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository),
 ):
     vacancy = await vacancy_repository.delete_vacancy(vacancy_id)
     if vacancy is None:
-       raise HTTPException(404, "Vacancy not found")
-    
+        raise HTTPException(404, "Vacancy not found")
+
     return Response(status_code=http_status.HTTP_204_NO_CONTENT)

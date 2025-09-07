@@ -13,7 +13,15 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-query'
 import { Route as UserVacanciesIndexRouteImport } from './routes/user/vacancies/index'
-import { Route as UserVacancyIdRouteImport } from './routes/user/vacancy/$id'
+import { Route as UserProfileIndexRouteImport } from './routes/user/profile/index'
+import { Route as HrVacanciesIndexRouteImport } from './routes/hr/vacancies/index'
+import { Route as HrVacanciesCreateRouteImport } from './routes/hr/vacancies/create'
+import { Route as HrVacanciesArchieveRouteImport } from './routes/hr/vacancies/archieve'
+import { Route as UserVacancyIdIndexRouteImport } from './routes/user/vacancy/$id/index'
+import { Route as HrVacanciesIdIndexRouteImport } from './routes/hr/vacancies/$id/index'
+import { Route as UserVacancyIdReportRouteImport } from './routes/user/vacancy/$id/report'
+import { Route as HrVacanciesIdUpdateRouteImport } from './routes/hr/vacancies/$id/update'
+import { Route as HrVacanciesIdApplicantsRouteImport } from './routes/hr/vacancies/$id/applicants'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -35,9 +43,49 @@ const UserVacanciesIndexRoute = UserVacanciesIndexRouteImport.update({
   path: '/user/vacancies/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const UserVacancyIdRoute = UserVacancyIdRouteImport.update({
-  id: '/user/vacancy/$id',
-  path: '/user/vacancy/$id',
+const UserProfileIndexRoute = UserProfileIndexRouteImport.update({
+  id: '/user/profile/',
+  path: '/user/profile/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HrVacanciesIndexRoute = HrVacanciesIndexRouteImport.update({
+  id: '/hr/vacancies/',
+  path: '/hr/vacancies/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HrVacanciesCreateRoute = HrVacanciesCreateRouteImport.update({
+  id: '/hr/vacancies/create',
+  path: '/hr/vacancies/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HrVacanciesArchieveRoute = HrVacanciesArchieveRouteImport.update({
+  id: '/hr/vacancies/archieve',
+  path: '/hr/vacancies/archieve',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UserVacancyIdIndexRoute = UserVacancyIdIndexRouteImport.update({
+  id: '/user/vacancy/$id/',
+  path: '/user/vacancy/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HrVacanciesIdIndexRoute = HrVacanciesIdIndexRouteImport.update({
+  id: '/hr/vacancies/$id/',
+  path: '/hr/vacancies/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UserVacancyIdReportRoute = UserVacancyIdReportRouteImport.update({
+  id: '/user/vacancy/$id/report',
+  path: '/user/vacancy/$id/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HrVacanciesIdUpdateRoute = HrVacanciesIdUpdateRouteImport.update({
+  id: '/hr/vacancies/$id/update',
+  path: '/hr/vacancies/$id/update',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HrVacanciesIdApplicantsRoute = HrVacanciesIdApplicantsRouteImport.update({
+  id: '/hr/vacancies/$id/applicants',
+  path: '/hr/vacancies/$id/applicants',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -45,23 +93,47 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/auth': typeof AuthIndexRoute
-  '/user/vacancy/$id': typeof UserVacancyIdRoute
+  '/hr/vacancies/archieve': typeof HrVacanciesArchieveRoute
+  '/hr/vacancies/create': typeof HrVacanciesCreateRoute
+  '/hr/vacancies': typeof HrVacanciesIndexRoute
+  '/user/profile': typeof UserProfileIndexRoute
   '/user/vacancies': typeof UserVacanciesIndexRoute
+  '/hr/vacancies/$id/applicants': typeof HrVacanciesIdApplicantsRoute
+  '/hr/vacancies/$id/update': typeof HrVacanciesIdUpdateRoute
+  '/user/vacancy/$id/report': typeof UserVacancyIdReportRoute
+  '/hr/vacancies/$id': typeof HrVacanciesIdIndexRoute
+  '/user/vacancy/$id': typeof UserVacancyIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/auth': typeof AuthIndexRoute
-  '/user/vacancy/$id': typeof UserVacancyIdRoute
+  '/hr/vacancies/archieve': typeof HrVacanciesArchieveRoute
+  '/hr/vacancies/create': typeof HrVacanciesCreateRoute
+  '/hr/vacancies': typeof HrVacanciesIndexRoute
+  '/user/profile': typeof UserProfileIndexRoute
   '/user/vacancies': typeof UserVacanciesIndexRoute
+  '/hr/vacancies/$id/applicants': typeof HrVacanciesIdApplicantsRoute
+  '/hr/vacancies/$id/update': typeof HrVacanciesIdUpdateRoute
+  '/user/vacancy/$id/report': typeof UserVacancyIdReportRoute
+  '/hr/vacancies/$id': typeof HrVacanciesIdIndexRoute
+  '/user/vacancy/$id': typeof UserVacancyIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/auth/': typeof AuthIndexRoute
-  '/user/vacancy/$id': typeof UserVacancyIdRoute
+  '/hr/vacancies/archieve': typeof HrVacanciesArchieveRoute
+  '/hr/vacancies/create': typeof HrVacanciesCreateRoute
+  '/hr/vacancies/': typeof HrVacanciesIndexRoute
+  '/user/profile/': typeof UserProfileIndexRoute
   '/user/vacancies/': typeof UserVacanciesIndexRoute
+  '/hr/vacancies/$id/applicants': typeof HrVacanciesIdApplicantsRoute
+  '/hr/vacancies/$id/update': typeof HrVacanciesIdUpdateRoute
+  '/user/vacancy/$id/report': typeof UserVacancyIdReportRoute
+  '/hr/vacancies/$id/': typeof HrVacanciesIdIndexRoute
+  '/user/vacancy/$id/': typeof UserVacancyIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -69,30 +141,62 @@ export interface FileRouteTypes {
     | '/'
     | '/demo/tanstack-query'
     | '/auth'
-    | '/user/vacancy/$id'
+    | '/hr/vacancies/archieve'
+    | '/hr/vacancies/create'
+    | '/hr/vacancies'
+    | '/user/profile'
     | '/user/vacancies'
+    | '/hr/vacancies/$id/applicants'
+    | '/hr/vacancies/$id/update'
+    | '/user/vacancy/$id/report'
+    | '/hr/vacancies/$id'
+    | '/user/vacancy/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/demo/tanstack-query'
     | '/auth'
-    | '/user/vacancy/$id'
+    | '/hr/vacancies/archieve'
+    | '/hr/vacancies/create'
+    | '/hr/vacancies'
+    | '/user/profile'
     | '/user/vacancies'
+    | '/hr/vacancies/$id/applicants'
+    | '/hr/vacancies/$id/update'
+    | '/user/vacancy/$id/report'
+    | '/hr/vacancies/$id'
+    | '/user/vacancy/$id'
   id:
     | '__root__'
     | '/'
     | '/demo/tanstack-query'
     | '/auth/'
-    | '/user/vacancy/$id'
+    | '/hr/vacancies/archieve'
+    | '/hr/vacancies/create'
+    | '/hr/vacancies/'
+    | '/user/profile/'
     | '/user/vacancies/'
+    | '/hr/vacancies/$id/applicants'
+    | '/hr/vacancies/$id/update'
+    | '/user/vacancy/$id/report'
+    | '/hr/vacancies/$id/'
+    | '/user/vacancy/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   AuthIndexRoute: typeof AuthIndexRoute
-  UserVacancyIdRoute: typeof UserVacancyIdRoute
+  HrVacanciesArchieveRoute: typeof HrVacanciesArchieveRoute
+  HrVacanciesCreateRoute: typeof HrVacanciesCreateRoute
+  HrVacanciesIndexRoute: typeof HrVacanciesIndexRoute
+  UserProfileIndexRoute: typeof UserProfileIndexRoute
   UserVacanciesIndexRoute: typeof UserVacanciesIndexRoute
+  HrVacanciesIdApplicantsRoute: typeof HrVacanciesIdApplicantsRoute
+  HrVacanciesIdUpdateRoute: typeof HrVacanciesIdUpdateRoute
+  UserVacancyIdReportRoute: typeof UserVacancyIdReportRoute
+  HrVacanciesIdIndexRoute: typeof HrVacanciesIdIndexRoute
+  UserVacancyIdIndexRoute: typeof UserVacancyIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -125,11 +229,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserVacanciesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/user/vacancy/$id': {
-      id: '/user/vacancy/$id'
+    '/user/profile/': {
+      id: '/user/profile/'
+      path: '/user/profile'
+      fullPath: '/user/profile'
+      preLoaderRoute: typeof UserProfileIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hr/vacancies/': {
+      id: '/hr/vacancies/'
+      path: '/hr/vacancies'
+      fullPath: '/hr/vacancies'
+      preLoaderRoute: typeof HrVacanciesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hr/vacancies/create': {
+      id: '/hr/vacancies/create'
+      path: '/hr/vacancies/create'
+      fullPath: '/hr/vacancies/create'
+      preLoaderRoute: typeof HrVacanciesCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hr/vacancies/archieve': {
+      id: '/hr/vacancies/archieve'
+      path: '/hr/vacancies/archieve'
+      fullPath: '/hr/vacancies/archieve'
+      preLoaderRoute: typeof HrVacanciesArchieveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/user/vacancy/$id/': {
+      id: '/user/vacancy/$id/'
       path: '/user/vacancy/$id'
       fullPath: '/user/vacancy/$id'
-      preLoaderRoute: typeof UserVacancyIdRouteImport
+      preLoaderRoute: typeof UserVacancyIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hr/vacancies/$id/': {
+      id: '/hr/vacancies/$id/'
+      path: '/hr/vacancies/$id'
+      fullPath: '/hr/vacancies/$id'
+      preLoaderRoute: typeof HrVacanciesIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/user/vacancy/$id/report': {
+      id: '/user/vacancy/$id/report'
+      path: '/user/vacancy/$id/report'
+      fullPath: '/user/vacancy/$id/report'
+      preLoaderRoute: typeof UserVacancyIdReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hr/vacancies/$id/update': {
+      id: '/hr/vacancies/$id/update'
+      path: '/hr/vacancies/$id/update'
+      fullPath: '/hr/vacancies/$id/update'
+      preLoaderRoute: typeof HrVacanciesIdUpdateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hr/vacancies/$id/applicants': {
+      id: '/hr/vacancies/$id/applicants'
+      path: '/hr/vacancies/$id/applicants'
+      fullPath: '/hr/vacancies/$id/applicants'
+      preLoaderRoute: typeof HrVacanciesIdApplicantsRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -139,8 +299,16 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   AuthIndexRoute: AuthIndexRoute,
-  UserVacancyIdRoute: UserVacancyIdRoute,
+  HrVacanciesArchieveRoute: HrVacanciesArchieveRoute,
+  HrVacanciesCreateRoute: HrVacanciesCreateRoute,
+  HrVacanciesIndexRoute: HrVacanciesIndexRoute,
+  UserProfileIndexRoute: UserProfileIndexRoute,
   UserVacanciesIndexRoute: UserVacanciesIndexRoute,
+  HrVacanciesIdApplicantsRoute: HrVacanciesIdApplicantsRoute,
+  HrVacanciesIdUpdateRoute: HrVacanciesIdUpdateRoute,
+  UserVacancyIdReportRoute: UserVacancyIdReportRoute,
+  HrVacanciesIdIndexRoute: HrVacanciesIdIndexRoute,
+  UserVacancyIdIndexRoute: UserVacancyIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

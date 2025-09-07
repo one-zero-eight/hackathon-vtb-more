@@ -4,7 +4,8 @@ import sys
 from src.prepare import BASE_DIR, prepare
 
 os.chdir(BASE_DIR)
-prepare()
+if not os.getenv("SKIP_PREPARE"):
+    prepare()
 
 import uvicorn  # noqa: E402
 

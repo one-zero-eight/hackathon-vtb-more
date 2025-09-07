@@ -4,99 +4,44 @@
  */
 
 export interface paths {
-  '/pet': {
+  '/applications': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    get?: never;
-    /**
-     * Update an existing pet.
-     * @description Update an existing pet by Id.
-     */
-    put: operations['updatePet'];
-    /**
-     * Add a new pet to the store.
-     * @description Add a new pet to the store.
-     */
-    post: operations['addPet'];
+    /** List Applications */
+    get: operations['list_applications_applications_get'];
+    put?: never;
+    /** Create Application */
+    post: operations['create_application_applications_post'];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  '/pet/findByStatus': {
+  '/applications/{application_id}': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    /**
-     * Finds Pets by status.
-     * @description Multiple status values can be provided with comma separated strings.
-     */
-    get: operations['findPetsByStatus'];
+    /** Get Application */
+    get: operations['get_application_applications__application_id__get'];
     put?: never;
     post?: never;
-    delete?: never;
+    /** Delete Application */
+    delete: operations['delete_application_applications__application_id__delete'];
     options?: never;
     head?: never;
-    patch?: never;
+    /** Edit Application Endpoint */
+    patch: operations['edit_application_endpoint_applications__application_id__patch'];
     trace?: never;
   };
-  '/pet/findByTags': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Finds Pets by tags.
-     * @description Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     */
-    get: operations['findPetsByTags'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/pet/{petId}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Find pet by ID.
-     * @description Returns a single pet.
-     */
-    get: operations['getPetById'];
-    put?: never;
-    /**
-     * Updates a pet in the store with form data.
-     * @description Updates a pet resource based on the form data.
-     */
-    post: operations['updatePetWithForm'];
-    /**
-     * Deletes a pet.
-     * @description Delete a pet.
-     */
-    delete: operations['deletePet'];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/pet/{petId}/uploadImage': {
+  '/auth/register': {
     parameters: {
       query?: never;
       header?: never;
@@ -105,38 +50,15 @@ export interface paths {
     };
     get?: never;
     put?: never;
-    /**
-     * Uploads an image.
-     * @description Upload image of the pet.
-     */
-    post: operations['uploadFile'];
+    /** Register */
+    post: operations['register_auth_register_post'];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  '/store/inventory': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Returns pet inventories by status.
-     * @description Returns a map of status codes to quantities.
-     */
-    get: operations['getInventory'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/store/order': {
+  '/auth/token': {
     parameters: {
       query?: never;
       header?: never;
@@ -145,42 +67,32 @@ export interface paths {
     };
     get?: never;
     put?: never;
-    /**
-     * Place an order for a pet.
-     * @description Place a new order in the store.
-     */
-    post: operations['placeOrder'];
+    /** Login */
+    post: operations['login_auth_token_post'];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  '/store/order/{orderId}': {
+  '/auth/me': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    /**
-     * Find purchase order by ID.
-     * @description For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
-     */
-    get: operations['getOrderById'];
+    /** Read Me */
+    get: operations['read_me_auth_me_get'];
     put?: never;
     post?: never;
-    /**
-     * Delete purchase order by identifier.
-     * @description For valid response try integer IDs with value < 1000. Anything above 1000 or non-integers will generate API errors.
-     */
-    delete: operations['deleteOrder'];
+    delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  '/user': {
+  '/skills': {
     parameters: {
       query?: never;
       header?: never;
@@ -189,18 +101,34 @@ export interface paths {
     };
     get?: never;
     put?: never;
-    /**
-     * Create user.
-     * @description This can only be done by the logged in user.
-     */
-    post: operations['createUser'];
+    /** Create Skill */
+    post: operations['create_skill_skills_post'];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  '/user/createWithList': {
+  '/skills/{skill_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Skill */
+    get: operations['get_skill_skills__skill_id__get'];
+    put?: never;
+    post?: never;
+    /** Delete Skill */
+    delete: operations['delete_skill_skills__skill_id__delete'];
+    options?: never;
+    head?: never;
+    /** Edit Skill */
+    patch: operations['edit_skill_skills__skill_id__patch'];
+    trace?: never;
+  };
+  '/skills_type': {
     parameters: {
       query?: never;
       header?: never;
@@ -209,29 +137,24 @@ export interface paths {
     };
     get?: never;
     put?: never;
-    /**
-     * Creates list of users with given input array.
-     * @description Creates list of users with given input array.
-     */
-    post: operations['createUsersWithListInput'];
+    /** Create Skill Type */
+    post: operations['create_skill_type_skills_type_post'];
     delete?: never;
     options?: never;
     head?: never;
-    patch?: never;
+    /** Edit Skill Type */
+    patch: operations['edit_skill_type_skills_type_patch'];
     trace?: never;
   };
-  '/user/login': {
+  '/skills_type/{skill_id}': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    /**
-     * Logs user into the system.
-     * @description Log into the system.
-     */
-    get: operations['loginUser'];
+    /** Get Skill Type */
+    get: operations['get_skill_type_skills_type__skill_id__get'];
     put?: never;
     post?: never;
     delete?: never;
@@ -240,717 +163,713 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/user/logout': {
+  '/skills_type/{skill_type_id}': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    /**
-     * Logs out current logged in user session.
-     * @description Log user out of the system.
-     */
-    get: operations['logoutUser'];
+    get?: never;
     put?: never;
     post?: never;
+    /** Delete Skill Type */
+    delete: operations['delete_skill_type_skills_type__skill_type_id__delete'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/vacancy': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create Vacancy */
+    post: operations['create_vacancy_vacancy_post'];
     delete?: never;
     options?: never;
     head?: never;
     patch?: never;
     trace?: never;
   };
-  '/user/{username}': {
+  '/vacancy/{vacancy_id}': {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    /**
-     * Get user by user name.
-     * @description Get user detail based on username.
-     */
-    get: operations['getUserByName'];
-    /**
-     * Update user resource.
-     * @description This can only be done by the logged in user.
-     */
-    put: operations['updateUser'];
+    /** Get Vacancy */
+    get: operations['get_vacancy_vacancy__vacancy_id__get'];
+    put?: never;
     post?: never;
-    /**
-     * Delete user resource.
-     * @description This can only be done by the logged in user.
-     */
-    delete: operations['deleteUser'];
+    /** Delete Vacancy */
+    delete: operations['delete_vacancy_vacancy__vacancy_id__delete'];
+    options?: never;
+    head?: never;
+    /** Edit Vacancy */
+    patch: operations['edit_vacancy_vacancy__vacancy_id__patch'];
+    trace?: never;
+  };
+  '/users': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** List Users */
+    get: operations['list_users_users_get'];
+    put?: never;
+    /** Register */
+    post: operations['register_users_post'];
+    delete?: never;
     options?: never;
     head?: never;
     patch?: never;
+    trace?: never;
+  };
+  '/users/{user_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get User Endpoint */
+    get: operations['get_user_endpoint_users__user_id__get'];
+    put?: never;
+    post?: never;
+    /** Delete User Endpoint */
+    delete: operations['delete_user_endpoint_users__user_id__delete'];
+    options?: never;
+    head?: never;
+    /** Edit User Endpoint */
+    patch: operations['edit_user_endpoint_users__user_id__patch'];
+    trace?: never;
+  };
+  '/preinterview/create': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Create Preinterview */
+    post: operations['create_preinterview_preinterview_create_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/preinterview/{result_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Preinterview */
+    get: operations['get_preinterview_preinterview__result_id__get'];
+    put?: never;
+    post?: never;
+    /** Delete Preinterview */
+    delete: operations['delete_preinterview_preinterview__result_id__delete'];
+    options?: never;
+    head?: never;
+    /** Edit Preinterview */
+    patch: operations['edit_preinterview_preinterview__result_id__patch'];
     trace?: never;
   };
 }
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    Order: {
-      /**
-       * Format: int64
-       * @example 10
-       */
-      id?: number;
-      /**
-       * Format: int64
-       * @example 198772
-       */
-      petId?: number;
-      /**
-       * Format: int32
-       * @example 7
-       */
-      quantity?: number;
-      /** Format: date-time */
-      shipDate?: string;
-      /**
-       * @description Order Status
-       * @example approved
-       * @enum {string}
-       */
-      status?: 'placed' | 'approved' | 'delivered';
-      complete?: boolean;
+    /** ApplicationResponse */
+    ApplicationResponse: {
+      /** Id */
+      id: number;
+      /** Cv */
+      cv: string;
+      /** Status */
+      status: string;
+      /** User Id */
+      user_id: number;
+      /** Vacancy Id */
+      vacancy_id: number;
     };
-    Category: {
+    /** Body_create_application_applications_post */
+    Body_create_application_applications_post: {
       /**
-       * Format: int64
-       * @example 1
+       * File
+       * Format: binary
        */
-      id?: number;
-      /** @example Dogs */
-      name?: string;
+      file: string;
+      /** Vacancy Id */
+      vacancy_id: number;
     };
-    User: {
-      /**
-       * Format: int64
-       * @example 10
-       */
-      id?: number;
-      /** @example theUser */
-      username?: string;
-      /** @example John */
-      firstName?: string;
-      /** @example James */
-      lastName?: string;
-      /** @example john@email.com */
-      email?: string;
-      /** @example 12345 */
-      password?: string;
-      /** @example 12345 */
-      phone?: string;
-      /**
-       * Format: int32
-       * @description User Status
-       * @example 1
-       */
-      userStatus?: number;
+    /** Body_edit_application_endpoint_applications__application_id__patch */
+    Body_edit_application_endpoint_applications__application_id__patch: {
+      /** File */
+      file?: string | null;
+      status?: components['schemas']['Status'] | null;
+      /** User Id */
+      user_id?: number | null;
+      /** Vacancy Id */
+      vacancy_id?: number | null;
     };
-    Tag: {
-      /** Format: int64 */
-      id?: number;
-      name?: string;
+    /** HTTPValidationError */
+    HTTPValidationError: {
+      /** Detail */
+      detail?: components['schemas']['ValidationError'][];
     };
-    Pet: {
+    /** LoginRequest */
+    LoginRequest: {
       /**
-       * Format: int64
-       * @example 10
+       * Email
+       * Format: email
        */
-      id?: number;
-      /** @example doggie */
+      email: string;
+      /** Password */
+      password: string;
+    };
+    /** PreInterviewResponse */
+    PreInterviewResponse: {
+      /** Id */
+      id: number;
+      /** Is Recommended */
+      is_recommended: boolean;
+      /** Score */
+      score: number;
+      /** Reason */
+      reason: string | null;
+      /** Application Id */
+      application_id: number;
+    };
+    /** RegisterRequest */
+    RegisterRequest: {
+      /** Name */
       name: string;
-      category?: components['schemas']['Category'];
-      photoUrls: string[];
-      tags?: components['schemas']['Tag'][];
       /**
-       * @description pet status in the store
-       * @enum {string}
+       * Email
+       * Format: email
        */
-      status?: 'available' | 'pending' | 'sold';
+      email: string;
+      /** Password */
+      password: string;
+      /**
+       * Is Admin
+       * @default false
+       */
+      is_admin: boolean;
     };
-    ApiResponse: {
-      /** Format: int32 */
-      code?: number;
-      type?: string;
-      message?: string;
+    /** SkillTypeCreateRequest */
+    SkillTypeCreateRequest: {
+      /** Name */
+      name: string;
+    };
+    /** SkillTypeResponse */
+    SkillTypeResponse: {
+      /** Id */
+      id: number;
+      /** Name */
+      name: string;
+    };
+    /** SkillTypeUpdateRequest */
+    SkillTypeUpdateRequest: {
+      /** Id */
+      id?: number | null;
+      /** Name */
+      name?: string | null;
+    };
+    /** SkillsResponse */
+    SkillsResponse: {
+      /** Id */
+      id: number;
+      /** Weight */
+      weight: number;
+      /** Details */
+      details: string;
+      /** Skill Type Id */
+      skill_type_id: number;
+      /** Vacancy Id */
+      vacancy_id: number;
+    };
+    /**
+     * Status
+     * @enum {string}
+     */
+    Status:
+      | 'approved'
+      | 'rejected'
+      | 'approved_for_interview'
+      | 'rejected_for_interview'
+      | 'in_interview';
+    /** TokenResponse */
+    TokenResponse: {
+      /** Access Token */
+      access_token: string;
+      /**
+       * Token Type
+       * @default bearer
+       */
+      token_type: string;
+    };
+    /** UserCreate */
+    UserCreate: {
+      /** Name */
+      name: string;
+      /** Email */
+      email: string;
+      /** Password */
+      password: string;
+      /**
+       * Is Admin
+       * @default false
+       */
+      is_admin: boolean;
+    };
+    /** UserResponse */
+    UserResponse: {
+      /** Id */
+      id: number;
+      /** Name */
+      name: string;
+      /** Email */
+      email: string;
+      /** Is Admin */
+      is_admin: boolean;
+    };
+    /** VacancyCreateRequest */
+    VacancyCreateRequest: {
+      /** Name */
+      name: string;
+      /** Description */
+      description: string;
+      /** Salary */
+      salary?: number | null;
+      /** City */
+      city: string;
+      /** Weekly Hours Occupancy */
+      weekly_hours_occupancy: number;
+      /** Required Experience */
+      required_experience: number;
+      /**
+       * Open Time
+       * Format: date-time
+       * @default 2025-09-05T20:42:22.298347Z
+       */
+      open_time: string;
+      /** Close Time */
+      close_time?: string | null;
+      /**
+       * Is Active
+       * @default true
+       */
+      is_active: boolean;
+    };
+    /** VacancyEditRequest */
+    VacancyEditRequest: {
+      /** Name */
+      name?: string | null;
+      /** Description */
+      description?: string | null;
+      /** Salary */
+      salary?: number | null;
+      /** City */
+      city?: string | null;
+      /** Weekly Hours Occupancy */
+      weekly_hours_occupancy?: number | null;
+      /** Required Experience */
+      required_experience?: number | null;
+      /** Open Time */
+      open_time?: string | null;
+      /** Close Time */
+      close_time?: string | null;
+      /** Is Active */
+      is_active?: boolean | null;
+      /** User Id */
+      user_id?: number | null;
+    };
+    /** VacancyResponse */
+    VacancyResponse: {
+      /** Id */
+      id: number;
+      /** Name */
+      name: string;
+      /** Description */
+      description: string;
+      /** Salary */
+      salary: number | null;
+      /** City */
+      city: string;
+      /** Weekly Hours Occupancy */
+      weekly_hours_occupancy: number;
+      /** Required Experience */
+      required_experience: number;
+      /**
+       * Open Time
+       * Format: date-time
+       */
+      open_time: string;
+      /** Close Time */
+      close_time: string | null;
+      /** Is Active */
+      is_active: boolean;
+      /** User Id */
+      user_id: number;
+    };
+    /** ValidationError */
+    ValidationError: {
+      /** Location */
+      loc: (string | number)[];
+      /** Message */
+      msg: string;
+      /** Error Type */
+      type: string;
     };
   };
   responses: never;
   parameters: never;
-  requestBodies: {
-    /** @description Pet object that needs to be added to the store */
-    Pet: {
-      content: {
-        'application/json': components['schemas']['Pet'];
-        'application/xml': components['schemas']['Pet'];
-      };
-    };
-    /** @description List of user object */
-    UserArray: {
-      content: {
-        'application/json': components['schemas']['User'][];
-      };
-    };
-  };
+  requestBodies: never;
   headers: never;
   pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  updatePet: {
+  list_applications_applications_get: {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    /** @description Update an existent pet in the store */
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApplicationResponse'][];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  create_application_applications_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
     requestBody: {
       content: {
-        'application/json': components['schemas']['Pet'];
-        'application/xml': components['schemas']['Pet'];
-        'application/x-www-form-urlencoded': components['schemas']['Pet'];
+        'multipart/form-data': components['schemas']['Body_create_application_applications_post'];
       };
     };
     responses: {
-      /** @description Successful operation */
-      200: {
+      /** @description Successful Response */
+      201: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['Pet'];
-          'application/xml': components['schemas']['Pet'];
+          'application/json': components['schemas']['ApplicationResponse'];
         };
       };
-      /** @description Invalid ID supplied */
-      400: {
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
       };
-      /** @description Pet not found */
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_application_applications__application_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        application_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApplicationResponse'];
+        };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description You are not authorized to view this application */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such application */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
       };
-      /** @description Validation exception */
+      /** @description Validation Error */
       422: {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
       };
-      /** @description Unexpected error */
-      default: {
+    };
+  };
+  delete_application_applications__application_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        application_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
       };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such application */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
   };
-  addPet: {
+  edit_application_endpoint_applications__application_id__patch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        application_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        'multipart/form-data': components['schemas']['Body_edit_application_endpoint_applications__application_id__patch'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['ApplicationResponse'];
+        };
+      };
+      /** @description No changes provided */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description You are not authorized to transfer this application OR You are not authorized to change this application OR You are not authorized to change status of application */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such application */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  register_auth_register_post: {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    /** @description Create a new pet in the store */
     requestBody: {
       content: {
-        'application/json': components['schemas']['Pet'];
-        'application/xml': components['schemas']['Pet'];
-        'application/x-www-form-urlencoded': components['schemas']['Pet'];
+        'application/json': components['schemas']['RegisterRequest'];
       };
     };
     responses: {
-      /** @description Successful operation */
-      200: {
+      /** @description Successful Response */
+      201: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['Pet'];
-          'application/xml': components['schemas']['Pet'];
+          'application/json': components['schemas']['TokenResponse'];
         };
       };
-      /** @description Invalid input */
-      400: {
+      /** @description Email already in use */
+      409: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
       };
-      /** @description Validation exception */
+      /** @description Validation Error */
       422: {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
         };
-        content?: never;
       };
     };
   };
-  findPetsByStatus: {
+  login_auth_token_post: {
     parameters: {
-      query: {
-        /** @description Status values that need to be considered for filter */
-        status: 'available' | 'pending' | 'sold';
-      };
+      query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    requestBody?: never;
-    responses: {
-      /** @description successful operation */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['Pet'][];
-          'application/xml': components['schemas']['Pet'][];
-        };
-      };
-      /** @description Invalid status value */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  findPetsByTags: {
-    parameters: {
-      query: {
-        /** @description Tags to filter by */
-        tags: string[];
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description successful operation */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['Pet'][];
-          'application/xml': components['schemas']['Pet'][];
-        };
-      };
-      /** @description Invalid tag value */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  getPetById: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description ID of pet to return */
-        petId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description successful operation */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['Pet'];
-          'application/xml': components['schemas']['Pet'];
-        };
-      };
-      /** @description Invalid ID supplied */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Pet not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  updatePetWithForm: {
-    parameters: {
-      query?: {
-        /** @description Name of pet that needs to be updated */
-        name?: string;
-        /** @description Status of pet that needs to be updated */
-        status?: string;
-      };
-      header?: never;
-      path: {
-        /** @description ID of pet that needs to be updated */
-        petId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description successful operation */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['Pet'];
-          'application/xml': components['schemas']['Pet'];
-        };
-      };
-      /** @description Invalid input */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  deletePet: {
-    parameters: {
-      query?: never;
-      header?: {
-        api_key?: string;
-      };
-      path: {
-        /** @description Pet id to delete */
-        petId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Pet deleted */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Invalid pet value */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  uploadFile: {
-    parameters: {
-      query?: {
-        /** @description Additional Metadata */
-        additionalMetadata?: string;
-      };
-      header?: never;
-      path: {
-        /** @description ID of pet to update */
-        petId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: {
+    requestBody: {
       content: {
-        'application/octet-stream': string;
+        'application/json': components['schemas']['LoginRequest'];
       };
     };
     responses: {
-      /** @description successful operation */
+      /** @description Successful Response */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['ApiResponse'];
+          'application/json': components['schemas']['TokenResponse'];
         };
       };
-      /** @description No file uploaded */
-      400: {
+      /** @description Invalid credentials */
+      401: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
       };
-      /** @description Pet not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  getInventory: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description successful operation */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': {
-            [key: string]: number;
-          };
-        };
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  placeOrder: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: {
-      content: {
-        'application/json': components['schemas']['Order'];
-        'application/xml': components['schemas']['Order'];
-        'application/x-www-form-urlencoded': components['schemas']['Order'];
-      };
-    };
-    responses: {
-      /** @description successful operation */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['Order'];
-        };
-      };
-      /** @description Invalid input */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Validation exception */
+      /** @description Validation Error */
       422: {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  getOrderById: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description ID of order that needs to be fetched */
-        orderId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description successful operation */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
         content: {
-          'application/json': components['schemas']['Order'];
-          'application/xml': components['schemas']['Order'];
+          'application/json': components['schemas']['HTTPValidationError'];
         };
-      };
-      /** @description Invalid ID supplied */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Order not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
       };
     };
   };
-  deleteOrder: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        /** @description ID of the order that needs to be deleted */
-        orderId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description order deleted */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Invalid ID supplied */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Order not found */
-      404: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  createUser: {
+  read_me_auth_me_get: {
     parameters: {
       query?: never;
       header?: never;
       path?: never;
       cookie?: never;
     };
-    /** @description Created user object */
-    requestBody?: {
-      content: {
-        'application/json': components['schemas']['User'];
-        'application/xml': components['schemas']['User'];
-        'application/x-www-form-urlencoded': components['schemas']['User'];
-      };
-    };
+    requestBody?: never;
     responses: {
-      /** @description successful operation */
+      /** @description Successful Response */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['User'];
-          'application/xml': components['schemas']['User'];
+          'application/json': components['schemas']['UserResponse'];
         };
       };
-      /** @description Unexpected error */
-      default: {
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
         headers: {
           [name: string]: unknown;
         };
@@ -958,194 +877,557 @@ export interface operations {
       };
     };
   };
-  createUsersWithListInput: {
+  create_skill_skills_post: {
     parameters: {
-      query?: never;
+      query: {
+        weight: number;
+        details: string;
+        skill_type_id: number;
+        vacancy_id: number;
+      };
       header?: never;
       path?: never;
       cookie?: never;
     };
-    requestBody?: {
-      content: {
-        'application/json': components['schemas']['User'][];
-      };
-    };
+    requestBody?: never;
     responses: {
-      /** @description Successful operation */
-      200: {
+      /** @description Successful Response */
+      201: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['User'];
-          'application/xml': components['schemas']['User'];
+          'application/json': components['schemas']['SkillsResponse'];
         };
       };
-      /** @description Unexpected error */
-      default: {
+      /** @description Admin only */
+      403: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
       };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
   };
-  loginUser: {
+  get_skill_skills__skill_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        skill_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SkillsResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such skill */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  delete_skill_skills__skill_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        skill_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid skill_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  edit_skill_skills__skill_id__patch: {
     parameters: {
       query?: {
-        /** @description The user name for login */
-        username?: string;
-        /** @description The password for login in clear text */
-        password?: string;
+        weight?: number | null;
+        details?: string | null;
+        skill_type_id?: number | null;
+        vacancy_id?: number | null;
       };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description successful operation */
-      200: {
-        headers: {
-          /** @description calls per hour allowed by the user */
-          'X-Rate-Limit'?: number;
-          /** @description date in UTC when token expires */
-          'X-Expires-After'?: string;
-          [name: string]: unknown;
-        };
-        content: {
-          'application/xml': string;
-          'application/json': string;
-        };
-      };
-      /** @description Invalid username/password supplied */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  logoutUser: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description successful operation */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unexpected error */
-      default: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  getUserByName: {
-    parameters: {
-      query?: never;
       header?: never;
       path: {
-        /** @description The name that needs to be fetched. Use user1 for testing */
-        username: string;
+        skill_id: number;
       };
       cookie?: never;
     };
     requestBody?: never;
     responses: {
-      /** @description successful operation */
+      /** @description Successful Response */
       200: {
         headers: {
           [name: string]: unknown;
         };
         content: {
-          'application/json': components['schemas']['User'];
-          'application/xml': components['schemas']['User'];
+          'application/json': components['schemas']['SkillsResponse'];
         };
       };
-      /** @description Invalid username supplied */
-      400: {
+      /** @description Admin only */
+      403: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
       };
-      /** @description User not found */
+      /** @description Invalid skill_id */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
       };
-      /** @description Unexpected error */
-      default: {
+      /** @description Validation Error */
+      422: {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
       };
     };
   };
-  updateUser: {
+  create_skill_type_skills_type_post: {
     parameters: {
       query?: never;
       header?: never;
-      path: {
-        /** @description name that need to be deleted */
-        username: string;
-      };
+      path?: never;
       cookie?: never;
     };
-    /** @description Update an existent user in the store */
-    requestBody?: {
+    requestBody: {
       content: {
-        'application/json': components['schemas']['User'];
-        'application/xml': components['schemas']['User'];
-        'application/x-www-form-urlencoded': components['schemas']['User'];
+        'application/json': components['schemas']['SkillTypeCreateRequest'];
       };
     };
     responses: {
-      /** @description successful operation */
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SkillTypeResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  edit_skill_type_skills_type_patch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SkillTypeUpdateRequest'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
       200: {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
+        content: {
+          'application/json': components['schemas']['SkillTypeResponse'];
+        };
       };
-      /** @description bad request */
-      400: {
+      /** @description Admin only */
+      403: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
       };
-      /** @description user not found */
+      /** @description Invalid skill_type_id */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
       };
-      /** @description Unexpected error */
-      default: {
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_skill_type_skills_type__skill_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        skill_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SkillsResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such skill type */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  delete_skill_type_skills_type__skill_type_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        skill_type_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid skill_type_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  create_vacancy_vacancy_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['VacancyCreateRequest'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['VacancyResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_vacancy_vacancy__vacancy_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        vacancy_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['VacancyResponse'];
+        };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Vacancy not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  delete_vacancy_vacancy__vacancy_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        vacancy_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Vacancy not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  edit_vacancy_vacancy__vacancy_id__patch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        vacancy_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['VacancyEditRequest'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['VacancyResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Vacancy not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  list_users_users_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserResponse'][];
+        };
+      };
+      /** @description Admin only */
+      403: {
         headers: {
           [name: string]: unknown;
         };
@@ -1153,45 +1435,379 @@ export interface operations {
       };
     };
   };
-  deleteUser: {
+  register_users_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RegisterRequest'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserResponse'];
+        };
+      };
+      /** @description Email already in use */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_user_endpoint_users__user_id__get: {
     parameters: {
       query?: never;
       header?: never;
       path: {
-        /** @description The name that needs to be deleted */
-        username: string;
+        user_id: number;
       };
       cookie?: never;
     };
     requestBody?: never;
     responses: {
-      /** @description User deleted */
+      /** @description Successful Response */
       200: {
         headers: {
           [name: string]: unknown;
         };
-        content?: never;
+        content: {
+          'application/json': components['schemas']['UserResponse'];
+        };
       };
-      /** @description Invalid username supplied */
-      400: {
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
       };
-      /** @description User not found */
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such user */
       404: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
       };
-      /** @description Unexpected error */
-      default: {
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  delete_user_endpoint_users__user_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        user_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
         headers: {
           [name: string]: unknown;
         };
         content?: never;
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such user */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  edit_user_endpoint_users__user_id__patch: {
+    parameters: {
+      query?: {
+        name?: string | null;
+        email?: string | null;
+        password?: string | null;
+        is_admin?: boolean | null;
+      };
+      header?: never;
+      path: {
+        user_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserResponse'];
+        };
+      };
+      /** @description No changes provided */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Only admins can change admin flag OR Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such user */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  create_preinterview_preinterview_create_post: {
+    parameters: {
+      query: {
+        is_recommended: boolean;
+        score: number;
+        application_id: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PreInterviewResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_preinterview_preinterview__result_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        result_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PreInterviewResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid result_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  delete_preinterview_preinterview__result_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        result_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid result_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  edit_preinterview_preinterview__result_id__patch: {
+    parameters: {
+      query?: {
+        is_recommended?: boolean | null;
+        score?: number | null;
+        application_id?: number | null;
+      };
+      header?: never;
+      path: {
+        result_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PreInterviewResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid result_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
       };
     };
   };
