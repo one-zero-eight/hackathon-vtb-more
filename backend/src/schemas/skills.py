@@ -20,6 +20,12 @@ class SkillCreateRequest(BaseSchema):
     vacancy_id: int
 
 
+class SkillCreateRequestNoId(BaseSchema):
+    weight: float
+    details: str
+    skill_type_id: int
+
+
 class SkillTypeCreateRequest(BaseSchema):
     name: str
 

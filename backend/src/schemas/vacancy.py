@@ -3,7 +3,7 @@ import datetime
 from pydantic import ConfigDict
 
 from src.schemas.pydantic_base import BaseSchema
-from src.schemas.skills import SkillCreateRequest, SkillResponse
+from src.schemas.skills import SkillCreateRequestNoId, SkillResponse
 
 
 class VacancyCreateRequest(BaseSchema):
@@ -22,7 +22,7 @@ class VacancyCreateRequest(BaseSchema):
 
 class VacancyWithSkillsCreateRequest(BaseSchema):
     vacancy: VacancyCreateRequest
-    skills: list[SkillCreateRequest]
+    skills: list[SkillCreateRequestNoId]
 
 
 class VacancyEditRequest(BaseSchema):
