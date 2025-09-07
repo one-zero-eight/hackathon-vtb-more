@@ -22,6 +22,7 @@ import { Route as HrVacanciesIdIndexRouteImport } from './routes/hr/vacancies/$i
 import { Route as UserVacancyIdReportRouteImport } from './routes/user/vacancy/$id/report'
 import { Route as HrVacanciesIdUpdateRouteImport } from './routes/hr/vacancies/$id/update'
 import { Route as HrVacanciesIdApplicantsRouteImport } from './routes/hr/vacancies/$id/applicants'
+import { Route as UserVacancyIdIdIndexRouteImport } from './routes/user/vacancy/$id/$id/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -88,6 +89,11 @@ const HrVacanciesIdApplicantsRoute = HrVacanciesIdApplicantsRouteImport.update({
   path: '/hr/vacancies/$id/applicants',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserVacancyIdIdIndexRoute = UserVacancyIdIdIndexRouteImport.update({
+  id: '/user/vacancy/$id/$id/',
+  path: '/user/vacancy/$id/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -103,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/user/vacancy/$id/report': typeof UserVacancyIdReportRoute
   '/hr/vacancies/$id': typeof HrVacanciesIdIndexRoute
   '/user/vacancy/$id': typeof UserVacancyIdIndexRoute
+  '/user/vacancy/$id/$id': typeof UserVacancyIdIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/user/vacancy/$id/report': typeof UserVacancyIdReportRoute
   '/hr/vacancies/$id': typeof HrVacanciesIdIndexRoute
   '/user/vacancy/$id': typeof UserVacancyIdIndexRoute
+  '/user/vacancy/$id/$id': typeof UserVacancyIdIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   '/user/vacancy/$id/report': typeof UserVacancyIdReportRoute
   '/hr/vacancies/$id/': typeof HrVacanciesIdIndexRoute
   '/user/vacancy/$id/': typeof UserVacancyIdIndexRoute
+  '/user/vacancy/$id/$id/': typeof UserVacancyIdIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/user/vacancy/$id/report'
     | '/hr/vacancies/$id'
     | '/user/vacancy/$id'
+    | '/user/vacancy/$id/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/user/vacancy/$id/report'
     | '/hr/vacancies/$id'
     | '/user/vacancy/$id'
+    | '/user/vacancy/$id/$id'
   id:
     | '__root__'
     | '/'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/user/vacancy/$id/report'
     | '/hr/vacancies/$id/'
     | '/user/vacancy/$id/'
+    | '/user/vacancy/$id/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -197,6 +209,7 @@ export interface RootRouteChildren {
   UserVacancyIdReportRoute: typeof UserVacancyIdReportRoute
   HrVacanciesIdIndexRoute: typeof HrVacanciesIdIndexRoute
   UserVacancyIdIndexRoute: typeof UserVacancyIdIndexRoute
+  UserVacancyIdIdIndexRoute: typeof UserVacancyIdIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -292,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HrVacanciesIdApplicantsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user/vacancy/$id/$id/': {
+      id: '/user/vacancy/$id/$id/'
+      path: '/user/vacancy/$id/$id'
+      fullPath: '/user/vacancy/$id/$id'
+      preLoaderRoute: typeof UserVacancyIdIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -309,6 +329,7 @@ const rootRouteChildren: RootRouteChildren = {
   UserVacancyIdReportRoute: UserVacancyIdReportRoute,
   HrVacanciesIdIndexRoute: HrVacanciesIdIndexRoute,
   UserVacancyIdIndexRoute: UserVacancyIdIndexRoute,
+  UserVacancyIdIdIndexRoute: UserVacancyIdIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
