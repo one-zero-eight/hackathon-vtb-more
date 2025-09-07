@@ -1,19 +1,25 @@
-from fastapi import APIRouter, Depends, HTTPException, Response
+from pathlib import Path
+
+from fastapi import APIRouter, Depends, File, HTTPException, Response, UploadFile
 from fastapi import status as http_status
 from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 
 from src.api.auth.dependencies import get_current_user, require_admin
-from src.api.repositories.dependencies import get_skill_repository, get_vacancy_repository
+from src.api.repositories.dependencies import get_converting_repository, get_skill_repository, get_vacancy_repository
+from src.api.utils import save_file_as_pdf
 from src.db.models import User
 from src.db.repositories import SkillRepository, VacancyRepository
 from src.schemas import (
     SkillResponse,
     VacancyCreateRequest,
     VacancyEditRequest,
+    VacancyFromFile,
     VacancyResponse,
     VacancyWithSkillsCreateRequest,
     VacancyWithSkillsResponse,
 )
+from src.services.ai.vacancy_filler import fill_vacancy_from_file
+from src.services.converting import ConvertingRepository
 
 router = APIRouter(prefix="/vacancy", tags=["Vacancy"], route_class=AutoDeriveResponsesAPIRoute)
 
@@ -136,6 +142,27 @@ async def get_all_vacancies(
 ) -> list[VacancyResponse]:
     vacancies = await vacancy_repository.get_all_vacancies()
     return [VacancyResponse.model_validate(vac) for vac in vacancies]
+
+
+@router.post("/from_file")
+async def get_vacancy_from_file(
+    file: UploadFile = File(...),
+    _: User = Depends(require_admin),
+    converting_repository: ConvertingRepository = Depends(get_converting_repository),
+) -> VacancyFromFile:
+    dest_path: Path = await save_file_as_pdf(file, converting_repository)
+
+    try:
+        result = await fill_vacancy_from_file(filepath=dest_path)
+        return result
+    except Exception as e:
+        # Bubble up as a 502 to signify upstream model/service failure
+        raise HTTPException(status_code=502, detail=f"Vacancy extraction failed: {e}")
+    finally:
+        try:
+            dest_path.unlink(missing_ok=True)
+        except Exception:
+            pass
 
 
 @router.patch("/{vacancy_id}")

@@ -1,12 +1,8 @@
-from pathlib import Path
-from uuid import uuid4
-
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, UploadFile
 from fastapi import status as http_status
 from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 
 from src.api.application.pre_interview_check import check_application
-from src.api.application.util import save_upload_to_path
 from src.api.auth.dependencies import get_current_user, require_admin
 from src.api.repositories.dependencies import (
     get_application_repository,
@@ -14,48 +10,14 @@ from src.api.repositories.dependencies import (
     get_preinterview_repository,
     get_vacancy_repository,
 )
-from src.config import api_settings
+from src.api.utils import save_file_as_pdf
 from src.db.models import User
 from src.db.repositories import ApplicationRepository, PreInterviewResultRepository, VacancyRepository
 from src.schemas import ApplicationResponse, Status
+from src.services.ai.assessor import pre_interview_assessment
 from src.services.converting import ConvertingRepository
-from src.services.pre_interview import pre_interview_assessment
 
 router = APIRouter(prefix="/applications", tags=["Applications"], route_class=AutoDeriveResponsesAPIRoute)
-
-
-async def save_file_as_pdf(file: UploadFile, converting_repository: ConvertingRepository) -> Path:
-    """Saves a file and returns its path."""
-    ext = Path(file.filename).suffix.lower()
-    allowed_extensions = {".pdf", ".doc", ".docx", ".rtf"}
-    if ext not in allowed_extensions:
-        raise HTTPException(status_code=400, detail="Unsupported file type")
-
-    file_id = str(uuid4())
-    original_safe_name = f"{file_id}{ext}"
-    pdf_safe_name = f"{file_id}.pdf"
-
-    original_path = (api_settings.files_dir / "cv" / original_safe_name).resolve()
-    pdf_path = (api_settings.files_dir / "cv" / pdf_safe_name).resolve()
-
-    base_dir = api_settings.files_dir.resolve()
-    for path in [original_path, pdf_path]:
-        if not str(path).startswith(str(base_dir)):
-            raise HTTPException(status_code=400, detail="Invalid file destination")
-
-    await save_upload_to_path(file, original_path)
-
-    if ext == ".pdf":
-        return original_path
-
-    try:
-        converting_repository.any2pdf(str(original_path), str(pdf_path))
-        original_path.unlink(missing_ok=True)
-        return pdf_path
-    except Exception as e:
-        original_path.unlink(missing_ok=True)
-        pdf_path.unlink(missing_ok=True)
-        raise HTTPException(status_code=500, detail=f"Failed to convert file to PDF: {str(e)}")
 
 
 @router.post("", status_code=http_status.HTTP_201_CREATED)
