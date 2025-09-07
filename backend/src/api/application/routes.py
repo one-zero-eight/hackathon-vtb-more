@@ -18,8 +18,8 @@ from src.config import api_settings
 from src.db.models import User
 from src.db.repositories import ApplicationRepository, PreInterviewResultRepository, VacancyRepository
 from src.schemas import ApplicationResponse, Status
+from src.services.ai.assessor import pre_interview_assessment
 from src.services.converting import ConvertingRepository
-from src.services.pre_interview import pre_interview_assessment
 
 router = APIRouter(prefix="/applications", tags=["Applications"], route_class=AutoDeriveResponsesAPIRoute)
 
