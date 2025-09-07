@@ -7,7 +7,7 @@ from src.db.models import Application, PreInterviewResult, Vacancy
 from src.db.repositories import PreInterviewResultRepository
 from src.schemas import PreInterviewAIStructure
 from src.services.ai.openai_client import async_client
-from src.services.pre_interview.prompt_builder import build_vacancy_prompt
+from src.services.ai.prompt_builder import build_vacancy_prompt
 
 
 async def pre_interview_assessment(

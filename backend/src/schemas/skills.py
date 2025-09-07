@@ -3,7 +3,7 @@ from pydantic import ConfigDict
 from src.schemas.pydantic_base import BaseSchema
 
 
-class SkillsResponse(BaseSchema):
+class SkillResponse(BaseSchema):
     id: int
     weight: float
     details: str
@@ -11,6 +11,19 @@ class SkillsResponse(BaseSchema):
     vacancy_id: int
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class SkillCreateRequest(BaseSchema):
+    weight: float
+    details: str
+    skill_type_id: int
+    vacancy_id: int
+
+
+class SkillCreateRequestNoId(BaseSchema):
+    weight: float
+    details: str
+    skill_type_id: int
 
 
 class SkillTypeCreateRequest(BaseSchema):
