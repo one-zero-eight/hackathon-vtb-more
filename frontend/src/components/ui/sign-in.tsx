@@ -25,19 +25,16 @@ export const SignInPage: React.FC = () => {
     confirm_password: '',
   });
 
-
-
-
   // First, create a mutation hook
   const registerMutation = $api.useMutation('post', '/auth/register');
   const loginMutation = $api.useMutation('post', '/auth/token');
   const signUp = async () => {
     if (userData.password !== userData.confirm_password) {
-      showToast('Пароли не совпадают', 'error', "top-right");
+      showToast('Пароли не совпадают', 'error', 'top-right');
       return;
     }
     if (!userData.email || !userData.password || !userData.full_name) {
-      showToast('Заполните все поля', 'error', "top-right");
+      showToast('Заполните все поля', 'error', 'top-right');
       return;
     }
     try {
@@ -46,22 +43,21 @@ export const SignInPage: React.FC = () => {
           email: userData.email,
           password: userData.password,
           name: userData.full_name,
-          is_admin: false,
+          is_admin: true,
         },
       });
       localStorage.setItem('token', response.access_token);
-      showToast('Аккаунт успешно создан', 'success', "top-right");
+      showToast('Аккаунт успешно создан', 'success', 'top-right');
       navigate({ to: '/user/profile' });
     } catch (error) {
-      showToast('Ошибка при создании аккаунта', 'error', "top-right");
+      showToast('Ошибка при создании аккаунта', 'error', 'top-right');
     }
   };
-
 
   const signIn = async () => {
     try {
       if (!userData.email || !userData.password) {
-        showToast('Заполните все поля', 'error', "top-right");
+        showToast('Заполните все поля', 'error', 'top-right');
         return;
       }
       const response = await loginMutation.mutateAsync({
@@ -71,20 +67,17 @@ export const SignInPage: React.FC = () => {
         },
       });
       localStorage.setItem('token', response.access_token);
-      showToast('Вход в систему', 'success', "top-right");
+      showToast('Вход в систему', 'success', 'top-right');
       navigate({ to: '/user/profile' });
     } catch (error) {
-      showToast('Ошибка при входе в систему', 'error', "top-right");
+      showToast('Ошибка при входе в систему', 'error', 'top-right');
     }
   };
 
   const onSwitch = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    if(authState == "login")
-      setAuthState("signup")
-    
-    else 
-      setAuthState('login');
+    if (authState == 'login') setAuthState('signup');
+    else setAuthState('login');
   };
 
   const handleUserData = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +101,7 @@ export const SignInPage: React.FC = () => {
                 Создайте аккаунт для начала работы
               </p>
 
-              <form className="space-y-5" onSubmit={(e)=>e.preventDefault()}>
+              <form className="space-y-5" onSubmit={e => e.preventDefault()}>
                 <div className="animate-fade-in animation-delay-300">
                   <label className="text-sm font-medium text-muted-foreground mb-2 block">
                     Полное имя
@@ -236,7 +229,7 @@ export const SignInPage: React.FC = () => {
                 Войдите в свой аккаунт
               </p>
 
-              <form className="space-y-5" onSubmit={(e)=>e.preventDefault()}>
+              <form className="space-y-5" onSubmit={e => e.preventDefault()}>
                 <div className="animate-fade-in animation-delay-300">
                   <label className="text-sm font-medium text-muted-foreground mb-2 block">
                     Email адрес
@@ -280,14 +273,17 @@ export const SignInPage: React.FC = () => {
                   </GlassInputWrapper>
                 </div>
 
-
                 <button
                   onClick={signIn}
                   type="submit"
                   className="animate-fade-in animation-delay-700 w-full rounded-2xl bg-primary py-4 font-medium  flex items-center justify-center text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer"
                   disabled={loginMutation.isPending}
                 >
-                  {loginMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Войти"}
+                  {loginMutation.isPending ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    'Войти'
+                  )}
                 </button>
               </form>
 

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { User, Mail, Briefcase, Edit3, Save, X } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import ApplicationCard from './ApplicationCard';
 import ApplicationFilters from './ApplicationFilters';
 import { mockUserProfile, type UserProfile } from '@/data/mockVacancies';
+import { $api } from '@/api';
 
 const Profile = () => {
   const [profile, setProfile] = useState<UserProfile>(mockUserProfile);
@@ -16,11 +17,22 @@ const Profile = () => {
     email: profile.email,
   });
 
+  const { data: user, isLoading, error } = $api.useQuery('get', '/auth/me');
+
+  useEffect(() => {
+    if (user && !isLoading) {
+      setEditForm({
+        fullName: user.name,
+        email: user.email,
+      });
+    }
+  }, [user, isLoading]);
+
   const handleEdit = () => {
     setIsEditing(true);
     setEditForm({
-      fullName: profile.fullName,
-      email: profile.email,
+      fullName: user?.name || profile.fullName,
+      email: user?.email || profile.email,
     });
   };
 
@@ -35,8 +47,8 @@ const Profile = () => {
   const handleCancel = () => {
     setIsEditing(false);
     setEditForm({
-      fullName: profile.fullName,
-      email: profile.email,
+      fullName: user?.name || profile.fullName,
+      email: user?.email || profile.email,
     });
   };
 
@@ -47,6 +59,27 @@ const Profile = () => {
     );
   }, [profile.applications, selectedStatus]);
 
+  // Обработка ошибки загрузки пользователя
+  if (error) {
+    return (
+      <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+        <div className="container-w mx-auto">
+          <Card className="bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800">
+            <CardContent className="p-6 text-center">
+              <h2 className="text-xl font-semibold text-red-800 dark:text-red-200 mb-2">
+                Ошибка загрузки данных пользователя
+              </h2>
+              <p className="text-red-600 dark:text-red-300">
+                Не удалось загрузить информацию о пользователе. Проверьте
+                подключение к интернету и попробуйте обновить страницу.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen  py-8 px-4 sm:px-6 lg:px-8">
       <div className="container-w mx-auto space-y-8">
@@ -54,6 +87,11 @@ const Profile = () => {
         <div className="text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">
             Профиль пользователя
+            {isLoading && (
+              <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
+                (Загрузка...)
+              </span>
+            )}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-lg">
             Управляйте своими данными и отслеживайте заявки на вакансии
@@ -122,7 +160,7 @@ const Profile = () => {
                   <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg">
                     <User className="w-4 h-4 text-gray-500" />
                     <span className="text-gray-900 dark:text-gray-100">
-                      {profile.fullName}
+                      {user?.name || profile.fullName}
                     </span>
                   </div>
                 )}
@@ -151,7 +189,7 @@ const Profile = () => {
                   <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg">
                     <Mail className="w-4 h-4 text-gray-500" />
                     <span className="text-gray-900 dark:text-gray-100">
-                      {profile.email}
+                      {user?.email || profile.email}
                     </span>
                   </div>
                 )}

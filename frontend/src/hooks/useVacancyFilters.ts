@@ -1,146 +1,136 @@
 import { useState, useMemo } from 'react';
-import { mockVacancies } from '@/data/mockVacancies';
+import type { Vacancy } from '@/data/mockVacancies';
 
 interface FilterState {
-  employmentType: string[];
-  categories: string[];
-  jobLevel: string[];
   salaryRange: string[];
+  city: string[];
+  experienceRange: string[];
 }
 
-export const useVacancyFilters = () => {
+export const useVacancyFilters = (vacancies: Vacancy[] = []) => {
   const [filters, setFilters] = useState<FilterState>({
-    employmentType: [],
-    categories: [],
-    jobLevel: [],
     salaryRange: [],
+    city: [],
+    experienceRange: [],
   });
 
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
   const [expandedSections, setExpandedSections] = useState({
-    employmentType: true,
-    categories: true,
-    jobLevel: true,
     salaryRange: true,
+    city: true,
+    experienceRange: true,
   });
 
   // Calculate filter options and counts
   const filterOptions = useMemo(() => {
-    const employmentTypes = [...new Set(mockVacancies.map(v => v.type))];
-    const employmentTypeCounts = employmentTypes.map(type => ({
-      value: type === 'Full-Time' ? 'Полная занятость' : 'Частичная занятость',
-      count: mockVacancies.filter(v => v.type === type).length,
+    // Cities from vacancy data
+    const cities = [...new Set(vacancies.map(v => v.city))];
+    const cityCounts = cities.map(city => ({
+      value: city,
+      count: vacancies.filter(v => v.city === city).length,
     }));
 
-    // Extract categories from hardSkills and job titles - limit to most common
-    const allSkills = mockVacancies.flatMap(v => v.hardSkills);
-    const skillCounts = allSkills.reduce(
-      (acc, skill) => {
-        acc[skill] = (acc[skill] || 0) + 1;
-        return acc;
-      },
-      {} as Record<string, number>
-    );
-
-    // Get top 8 most common skills as categories
-    const topSkills = Object.entries(skillCounts)
-      .sort(([, a], [, b]) => b - a)
-      .slice(0, 8)
-      .map(([skill]) => skill);
-
-    const categoryCounts = topSkills.map(category => ({
-      value: category,
-      count: mockVacancies.filter(v => v.hardSkills.includes(category)).length,
-    }));
-
-    // Job levels based on experience
-    const jobLevels = [
-      { value: 'Начинающий', minExp: 0, maxExp: 1 },
-      { value: 'Средний уровень', minExp: 2, maxExp: 3 },
-      { value: 'Старший уровень', minExp: 4, maxExp: 5 },
-      { value: 'Директор', minExp: 6, maxExp: 8 },
-      { value: 'Вице-президент и выше', minExp: 9, maxExp: 999 },
+    // Experience ranges
+    const experienceRanges = [
+      { value: '1-3 года', minExp: 1, maxExp: 3 },
+      { value: '3-5 лет', minExp: 3, maxExp: 5 },
+      { value: '5-7 лет', minExp: 5, maxExp: 7 },
     ];
-    const jobLevelCounts = jobLevels.map(level => ({
-      value: level.value,
-      count: mockVacancies.filter(
-        v => v.experience >= level.minExp && v.experience <= level.maxExp
+    const experienceRangeCounts = experienceRanges.map(range => ({
+      value: range.value,
+      count: vacancies.filter(
+        v =>
+          v.required_experience != null &&
+          v.required_experience >= range.minExp &&
+          v.required_experience <= range.maxExp
       ).length,
     }));
 
-    // Salary ranges in RUB
+    // Salary ranges in RUB (adjusted for real data)
     const salaryRanges = [
-      { value: '70 000 - 100 000 ₽', min: 0, max: 100 },
-      { value: '100 000 - 150 000 ₽', min: 100, max: 150 },
-      { value: '150 000 - 200 000 ₽', min: 150, max: 200 },
-      { value: '300 000 ₽ и выше', min: 300, max: 999999 },
+      { value: '400 000 - 600 000 ₽', min: 400000, max: 600000 },
+      { value: '600 000 - 800 000 ₽', min: 600000, max: 800000 },
+      { value: '800 000 ₽ и выше', min: 800000, max: 999999999 },
     ];
     const salaryRangeCounts = salaryRanges.map(range => ({
       value: range.value,
-      count: mockVacancies.filter(
-        v => v.money >= range.min && v.money <= range.max
+      count: vacancies.filter(
+        v => v.salary && v.salary >= range.min && v.salary <= range.max
       ).length,
     }));
 
     return {
-      employmentTypes: employmentTypeCounts,
-      categories: categoryCounts,
-      jobLevels: jobLevelCounts,
+      cities: cityCounts,
+      experienceRanges: experienceRangeCounts,
       salaryRanges: salaryRangeCounts,
     };
-  }, []);
+  }, [vacancies]);
 
-  // Filter vacancies based on selected filters
+  // Filter vacancies based on selected filters and search query
   const filteredVacancies = useMemo(() => {
-    return mockVacancies.filter(vacancy => {
-      // Employment type filter
-      if (
-        filters.employmentType.length > 0 &&
-        !filters.employmentType.includes(vacancy.type)
-      ) {
-        return false;
+    return vacancies.filter(vacancy => {
+      // Search by name
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim();
+        if (!vacancy.name.toLowerCase().includes(query)) {
+          return false;
+        }
+      }
+      // City filter
+      if (filters.city.length > 0) {
+        if (!filters.city.includes(vacancy.city)) {
+          return false;
+        }
       }
 
-      // Categories filter
-      if (
-        filters.categories.length > 0 &&
-        !filters.categories.some(cat => vacancy.hardSkills.includes(cat))
-      ) {
-        return false;
-      }
-
-      // Job level filter
-      if (filters.jobLevel.length > 0) {
-        const matchesJobLevel = filters.jobLevel.some(level => {
-          switch (level) {
-            case 'Entry Level':
-              return vacancy.experience >= 0 && vacancy.experience <= 1;
-            case 'Mid Level':
-              return vacancy.experience >= 2 && vacancy.experience <= 3;
-            case 'Senior Level':
-              return vacancy.experience >= 4 && vacancy.experience <= 5;
-            case 'Director':
-              return vacancy.experience >= 6 && vacancy.experience <= 8;
-            case 'VP or Above':
-              return vacancy.experience >= 9;
+      // Experience range filter
+      if (filters.experienceRange.length > 0) {
+        const matchesExperience = filters.experienceRange.some(range => {
+          switch (range) {
+            case '1-3 года':
+              return (
+                vacancy.required_experience != null &&
+                vacancy.required_experience >= 1 &&
+                vacancy.required_experience <= 3
+              );
+            case '3-5 лет':
+              return (
+                vacancy.required_experience != null &&
+                vacancy.required_experience >= 3 &&
+                vacancy.required_experience <= 5
+              );
+            case '5-7 лет':
+              return (
+                vacancy.required_experience != null &&
+                vacancy.required_experience >= 5 &&
+                vacancy.required_experience <= 7
+              );
             default:
               return false;
           }
         });
-        if (!matchesJobLevel) return false;
+        if (!matchesExperience) return false;
       }
 
       // Salary range filter
       if (filters.salaryRange.length > 0) {
         const matchesSalary = filters.salaryRange.some(range => {
           switch (range) {
-            case '70 000 - 100 000 ₽':
-              return vacancy.money >= 0 && vacancy.money <= 100;
-            case '100 000 - 150 000 ₽':
-              return vacancy.money >= 100 && vacancy.money <= 150;
-            case '150 000 - 200 000 ₽':
-              return vacancy.money >= 150 && vacancy.money <= 200;
-            case '300 000 ₽ и выше':
-              return vacancy.money >= 300;
+            case '400 000 - 600 000 ₽':
+              return (
+                vacancy.salary &&
+                vacancy.salary >= 400000 &&
+                vacancy.salary <= 600000
+              );
+            case '600 000 - 800 000 ₽':
+              return (
+                vacancy.salary &&
+                vacancy.salary >= 600000 &&
+                vacancy.salary <= 800000
+              );
+            case '800 000 ₽ и выше':
+              return vacancy.salary && vacancy.salary >= 800000;
             default:
               return false;
           }
@@ -150,7 +140,7 @@ export const useVacancyFilters = () => {
 
       return true;
     });
-  }, [filters]);
+  }, [vacancies, filters, searchQuery]);
 
   return {
     filters,
@@ -159,5 +149,7 @@ export const useVacancyFilters = () => {
     setExpandedSections,
     filterOptions,
     filteredVacancies,
+    searchQuery,
+    setSearchQuery,
   };
 };

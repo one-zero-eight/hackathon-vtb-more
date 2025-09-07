@@ -1,18 +1,17 @@
 export interface Vacancy {
   id: number;
-  title: string;
+  name: string;
   description: string;
-  experience: number; // years
+  required_experience: number | undefined; // years
   city: string;
-  money: number; // salary in thousands
-  hardSkills: string[];
-  softSkills: string[];
-  openTime: string; // ISO date string
-  closingTime: string; // ISO date string
-  type: 'Full-Time' | 'Part-Time';
+  salary?: number | null;
+  weekly_hours_occupancy: number;
+  open_time: string;
+  close_time?: string | null;
+  is_active: boolean;
 }
 
-export const mockVacancies: Vacancy[] = [
+export const mockVacancies = [
   {
     id: 1,
     title: 'Senior Frontend Developer',

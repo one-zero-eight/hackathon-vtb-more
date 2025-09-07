@@ -83,27 +83,30 @@ export default function Navbar() {
 
             {/* Кнопки авторизации */}
             {token ? (
-              <div className="hidden sm:flex cursor-pointer items-center space-x-3" onClick={() => navigate({ to: '/user/profile' })}>
+              <div
+                className="hidden sm:flex cursor-pointer items-center space-x-3"
+                onClick={() => navigate({ to: '/user/profile' })}
+              >
                 <User className="w-6 h-6" />
               </div>
             ) : (
-            <div className="hidden sm:flex items-center space-x-3">
-              <Button
-                variant="outline"
-                size="sm"
-                className="cursor-pointer"
-                onClick={() => navigate({ to: '/auth' })}
-              >
-                Войти
-              </Button>
-              <Button
-                onClick={() => navigate({ to: '/auth' })}
-                size="sm"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
-              >
-                Регистрация
-              </Button>
-            </div>
+              <div className="hidden sm:flex items-center space-x-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer"
+                  onClick={() => navigate({ to: '/auth' })}
+                >
+                  Войти
+                </Button>
+                <Button
+                  onClick={() => navigate({ to: '/auth' })}
+                  size="sm"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer"
+                >
+                  Регистрация
+                </Button>
+              </div>
             )}
             {/* Мобильное меню кнопка */}
             <Button

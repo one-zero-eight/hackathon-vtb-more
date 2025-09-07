@@ -23,13 +23,13 @@ const VacancyCard: React.FC<VacancyCardProps> = ({ vacancy, index }) => {
         <div className="flex-1">
           {/* Job Title */}
           <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-            {vacancy.title}
+            {vacancy.name}
           </h3>
 
           {/* Salary - Most Prominent */}
           <div className="mb-3 md:mb-4">
             <span className="text-2xl md:text-3xl font-bold text-green-600">
-              {vacancy.money.toLocaleString()} ₽
+              {vacancy.salary} ₽
             </span>
             <span className="text-base md:text-lg text-gray-600 dark:text-gray-400 ml-2">
               за месяц
@@ -51,14 +51,14 @@ const VacancyCard: React.FC<VacancyCardProps> = ({ vacancy, index }) => {
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-4">
             <span className="px-2 md:px-3 py-1 bg-green-100 text-green-700 text-xs md:text-sm font-medium rounded-full">
-              {vacancy.type}
+              {vacancy.weekly_hours_occupancy} часов в неделю
             </span>
             <span className="px-2 md:px-3 py-1 bg-orange-100 text-orange-700 text-xs md:text-sm font-medium rounded-full">
-              {vacancy.hardSkills[0]}
+              Опыт работы : {vacancy.required_experience} года
             </span>
-            <span className="px-2 md:px-3 py-1 bg-blue-100 text-blue-700 text-xs md:text-sm font-medium rounded-full">
-              {vacancy.softSkills[1]}
-            </span>
+            {/* <span className="px-2 md:px-3 py-1 bg-blue-100 text-blue-700 text-xs md:text-sm font-medium rounded-full">
+              {new Date(vacancy.open_time).toLocaleDateString("ru-Ru")}
+            </span> */}
           </div>
         </div>
 

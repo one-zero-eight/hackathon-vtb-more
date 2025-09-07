@@ -1,13 +1,26 @@
 import React, { useState } from 'react';
-import { mockVacancies } from '@/data/mockVacancies';
 import { useVacancyFilters } from '@/hooks/useVacancyFilters';
 import SearchBar from '../SearchBar';
 import VacancyFilters from './VacancyFilters';
 import VacancyList from './VacancyList';
 import { Button } from '@/components/ui/button';
 import { Filter, X } from 'lucide-react';
+import { $api } from '@/api';
 
 const Vacancies: React.FC = () => {
+  const { data: vacanciesList, isLoading } = $api.useQuery(
+    'get',
+    '/vacancy/with_skills'
+  );
+
+  // Адаптируем данные из API в формат Vacancy
+  const adaptedVacancies =
+    vacanciesList?.map(item => ({
+      ...item.vacancy,
+      experience: item.vacancy.required_experience,
+      skills: item.skills, // добавляем навыки для возможного использования
+    })) || [];
+
   const {
     filters,
     setFilters,
@@ -15,27 +28,28 @@ const Vacancies: React.FC = () => {
     setExpandedSections,
     filterOptions,
     filteredVacancies,
-  } = useVacancyFilters();
+    searchQuery,
+    setSearchQuery,
+  } = useVacancyFilters(adaptedVacancies); // передаем реальные данные
 
   const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
 
   const handleSearch = (query: string) => {
-    // TODO: Implement search functionality
-    console.log('Search query:', query);
+    setSearchQuery(query);
   };
 
   const handleResetFilters = () => {
     setFilters({
-      employmentType: [],
-      categories: [],
-      jobLevel: [],
       salaryRange: [],
+      city: [],
+      experienceRange: [],
     });
+    setSearchQuery(''); // также сбрасываем поиск
   };
 
-  const hasActiveFilters = Object.values(filters).some(
-    filter => filter.length > 0
-  );
+  const hasActiveFilters =
+    Object.values(filters).some(filter => filter.length > 0) ||
+    searchQuery.trim().length > 0;
 
   return (
     <div className="w-full flex flex-col items-center gap-6 md:gap-8">
@@ -77,11 +91,40 @@ const Vacancies: React.FC = () => {
 
         {/* Vacancy List */}
         <div className="flex-1">
-          <VacancyList
-            vacancies={filteredVacancies}
-            totalCount={mockVacancies.length}
-            onResetFilters={handleResetFilters}
-          />
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-16 space-y-6">
+              {/* Современный спиннер */}
+              <div className="relative">
+                {/* Пульсирующие точки */}
+                <div className="flex space-x-2">
+                  <div className="w-3 h-3 bg-indigo-600 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                  <div className="w-3 h-3 bg-indigo-600 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                  <div className="w-3 h-3 bg-indigo-600 rounded-full animate-bounce"></div>
+                </div>
+              </div>
+
+              {/* Текст */}
+              <div className="text-center space-y-2">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 animate-pulse">
+                  Загружаем вакансии
+                </h3>
+                <p className="text-gray-500 dark:text-gray-400">
+                  Подождите немного, мы получаем актуальные данные
+                </p>
+              </div>
+
+              {/* Дополнительная анимация */}
+              <div className="w-32 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div className="w-full h-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full animate-pulse"></div>
+              </div>
+            </div>
+          ) : (
+            <VacancyList
+              vacancies={filteredVacancies}
+              totalCount={adaptedVacancies.length}
+              onResetFilters={handleResetFilters}
+            />
+          )}
         </div>
       </div>
 

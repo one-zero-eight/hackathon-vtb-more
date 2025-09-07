@@ -3,10 +3,9 @@ import { ChevronUp, ChevronDown, X } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 
 interface FilterState {
-  employmentType: string[];
-  categories: string[];
-  jobLevel: string[];
   salaryRange: string[];
+  city: string[];
+  experienceRange: string[];
 }
 
 interface FilterOption {
@@ -18,22 +17,19 @@ interface VacancyFiltersProps {
   filters: FilterState;
   setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
   filterOptions: {
-    employmentTypes: FilterOption[];
-    categories: FilterOption[];
-    jobLevels: FilterOption[];
+    cities: FilterOption[];
+    experienceRanges: FilterOption[];
     salaryRanges: FilterOption[];
   };
   expandedSections: {
-    employmentType: boolean;
-    categories: boolean;
-    jobLevel: boolean;
+    city: boolean;
+    experienceRange: boolean;
     salaryRange: boolean;
   };
   setExpandedSections: React.Dispatch<
     React.SetStateAction<{
-      employmentType: boolean;
-      categories: boolean;
-      jobLevel: boolean;
+      city: boolean;
+      experienceRange: boolean;
       salaryRange: boolean;
     }>
   >;
@@ -64,10 +60,9 @@ const VacancyFilters: React.FC<VacancyFiltersProps> = ({
 
   const clearAllFilters = () => {
     setFilters({
-      employmentType: [],
-      categories: [],
-      jobLevel: [],
       salaryRange: [],
+      city: [],
+      experienceRange: [],
     });
   };
 
@@ -172,27 +167,19 @@ const VacancyFilters: React.FC<VacancyFiltersProps> = ({
       </div>
 
       <FilterSection
-        title="Тип занятости"
-        options={filterOptions.employmentTypes}
-        category="employmentType"
-        isExpanded={expandedSections.employmentType}
-        onToggle={() => toggleSection('employmentType')}
+        title="Город"
+        options={filterOptions.cities}
+        category="city"
+        isExpanded={expandedSections.city}
+        onToggle={() => toggleSection('city')}
       />
 
       <FilterSection
-        title="Категории"
-        options={filterOptions.categories}
-        category="categories"
-        isExpanded={expandedSections.categories}
-        onToggle={() => toggleSection('categories')}
-      />
-
-      <FilterSection
-        title="Уровень должности"
-        options={filterOptions.jobLevels}
-        category="jobLevel"
-        isExpanded={expandedSections.jobLevel}
-        onToggle={() => toggleSection('jobLevel')}
+        title="Опыт работы"
+        options={filterOptions.experienceRanges}
+        category="experienceRange"
+        isExpanded={expandedSections.experienceRange}
+        onToggle={() => toggleSection('experienceRange')}
       />
 
       <FilterSection

@@ -259,13 +259,13 @@ function RouteComponent() {
       <div className="container-w h-auto flex flex-col lg:flex-row gap-6 md:gap-8">
         {/* Desktop Filters Sidebar */}
         <div className="hidden lg:block">
-          <VacancyFilters
+          {/* <VacancyFilters
             filters={filters}
             setFilters={setFilters}
             filterOptions={filterOptions}
             expandedSections={expandedSections}
             setExpandedSections={setExpandedSections}
-          />
+          /> */}
         </div>
 
         {/* Vacancy List */}
@@ -308,13 +308,13 @@ function RouteComponent() {
             </div>
 
             {/* Filters Content */}
-            <VacancyFilters
+            {/* <VacancyFilters
               filters={filters}
               setFilters={setFilters}
               filterOptions={filterOptions}
               expandedSections={expandedSections}
               setExpandedSections={setExpandedSections}
-            />
+            /> */}
 
             {/* Apply Button */}
             <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">

@@ -69,7 +69,6 @@ const CandidateProfile = () => {
               <FileText className="w-5 h-5" />
               Резюме
             </CardTitle>
-  
           </CardHeader>
 
           <CardContent>
@@ -100,11 +99,8 @@ const CandidateProfile = () => {
               </div>
 
               <Card className="w-full bg-white dark:bg-slate-900/40 border border-gray-100 dark:border-slate-600/30">
-
-          <CardContent className="pt-0">
-            some text
-          </CardContent>
-        </Card>
+                <CardContent className="pt-0">some text</CardContent>
+              </Card>
             </div>
           </CardContent>
         </Card>

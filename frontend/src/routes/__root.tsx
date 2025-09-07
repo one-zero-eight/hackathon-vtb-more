@@ -22,9 +22,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       <>
         <Header />
         <ToastProvider>
-        <main className={isAuthPage ? '' : 'pt-16'}>
-          <Outlet />
-        </main>
+          <main className={isAuthPage ? '' : 'pt-16'}>
+            <Outlet />
+          </main>
         </ToastProvider>
         <TanstackDevtools
           config={{

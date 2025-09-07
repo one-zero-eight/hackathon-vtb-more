@@ -1,4 +1,4 @@
-import { Application } from "./mockVacancies";
+import { Application } from './mockVacancies';
 
 export interface Candidate {
   id: number;
@@ -14,6 +14,7 @@ export const mockCandidate: Candidate = {
   fullName: 'Иван Иванов',
   email: 'ivan.ivanov@email.com',
   cvFile: 'filepath/to/cv.pdf',
-  summary: 'Опытный frontend-разработчик с 3-летним стажем. Специализируюсь на React, TypeScript и современных UI-фреймворках.',
+  summary:
+    'Опытный frontend-разработчик с 3-летним стажем. Специализируюсь на React, TypeScript и современных UI-фреймворках.',
   vacancyId: 1,
 };

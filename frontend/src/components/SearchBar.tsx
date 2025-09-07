@@ -6,7 +6,7 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
-  placeholder = '🔍 Поиск вакансий, навыков, компаний...',
+  placeholder = 'Поиск вакансий, навыков, компаний...',
   onSearch,
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
