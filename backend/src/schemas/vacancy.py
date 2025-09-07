@@ -3,6 +3,7 @@ import datetime
 from pydantic import ConfigDict
 
 from src.schemas.pydantic_base import BaseSchema
+from src.schemas.skills import SkillCreateRequest, SkillResponse
 
 
 class VacancyCreateRequest(BaseSchema):
@@ -17,6 +18,11 @@ class VacancyCreateRequest(BaseSchema):
     close_time: datetime.datetime | None = None
 
     is_active: bool = True
+
+
+class VacancyWithSkillsCreateRequest(BaseSchema):
+    vacancy: VacancyCreateRequest
+    skills: list[SkillCreateRequest]
 
 
 class VacancyEditRequest(BaseSchema):
@@ -49,5 +55,10 @@ class VacancyResponse(BaseSchema):
 
     is_active: bool
     user_id: int
-    
+
     model_config = ConfigDict(from_attributes=True)
+
+
+class VacancyWithSkillsResponse(BaseSchema):
+    vacancy: VacancyResponse
+    skills: list[SkillResponse]

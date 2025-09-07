@@ -6,7 +6,7 @@ from src.api.auth.dependencies import require_admin
 from src.api.repositories.dependencies import get_skill_repository, get_skill_type_repository
 from src.db.models import User
 from src.db.repositories import SkillRepository, SkillTypeRepository
-from src.schemas import SkillsResponse, SkillTypeCreateRequest, SkillTypeResponse, SkillTypeUpdateRequest
+from src.schemas import SkillResponse, SkillTypeCreateRequest, SkillTypeResponse, SkillTypeUpdateRequest
 
 skills_router = APIRouter(prefix="/skills", tags=["Skills"], route_class=AutoDeriveResponsesAPIRoute)
 
@@ -19,7 +19,7 @@ async def create_skill(
     vacancy_id: int,
     skills_repository: SkillRepository = Depends(get_skill_repository),
     _: User = Depends(require_admin),
-) -> SkillsResponse:
+) -> SkillResponse:
     skill = await skills_repository.create_skill(
         weight=weight,
         details=details,
@@ -27,7 +27,7 @@ async def create_skill(
         vacancy_id=vacancy_id,
     )
 
-    return SkillsResponse.model_validate(skill)
+    return SkillResponse.model_validate(skill)
 
 
 @skills_router.get("/{skill_id}")
@@ -35,12 +35,12 @@ async def get_skill(
     skill_id: int,
     skills_repository: SkillRepository = Depends(get_skill_repository),
     _: User = Depends(require_admin),
-) -> SkillsResponse:
+) -> SkillResponse:
     skill = await skills_repository.get_skill(skill_id)
     if not skill:
         raise HTTPException(404, "No such skill")
         
-    return SkillsResponse.model_validate(skill)
+    return SkillResponse.model_validate(skill)
 
 
 @skills_router.patch("/{skill_id}")
@@ -52,7 +52,7 @@ async def edit_skill(
     vacancy_id: int | None = None,
     skills_repository: SkillRepository = Depends(get_skill_repository),
     _: User = Depends(require_admin),
-) -> SkillsResponse:
+) -> SkillResponse:
     skill = await skills_repository.edit_skill(
         skill_id=skill_id,
         weight=weight,
@@ -63,7 +63,7 @@ async def edit_skill(
     if skill is None:
         raise HTTPException(404, "Invalid skill_id")
 
-    return SkillsResponse.model_validate(skill)
+    return SkillResponse.model_validate(skill)
 
 
 @skills_router.delete("/{skill_id}", status_code=http_status.HTTP_204_NO_CONTENT)
@@ -98,12 +98,12 @@ async def get_skill_type(
     skill_id: int,
     skills_repository: SkillTypeRepository = Depends(get_skill_type_repository),
     _: User = Depends(require_admin),
-) -> SkillsResponse:
+) -> SkillResponse:
     skill_type = await skills_repository.get_skill_type(skill_id)
     if not skill_type:
         raise HTTPException(404, "No such skill type")
         
-    return SkillsResponse.model_validate(skill_type)
+    return SkillResponse.model_validate(skill_type)
 
 
 @skills_type_router.patch("")
