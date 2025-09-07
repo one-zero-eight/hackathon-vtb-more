@@ -11,7 +11,7 @@ from src.schemas import PreInterviewResponse
 router = APIRouter(prefix="/preinterview", tags=["Pre-interview results"], route_class=AutoDeriveResponsesAPIRoute)
 
 
-@router.post("/create", status_code=http_status.HTTP_201_CREATED)
+@router.post("", status_code=http_status.HTTP_201_CREATED)
 async def create_preinterview(
     is_recommended: bool,
     score: float,
