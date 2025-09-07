@@ -44,16 +44,17 @@ class OpenAIRealtimeSettings(BaseModel):
     "OpenAI realtime model"
     voice: str = Field("verse")
     "OpenAI realtime voice"
-    transcription_model: str = Field(...)
-    "OpenAI transcription model"
-    base_sessions_url: str = Field("https://api.openai.com/v1/realtime/sessions")
+    base_sessions_url: str = Field("https://api.openai.com/v1/realtime/client_secrets")
     "OpenAI realtime sessions endpoint"
+    token_expiration_in_seconds: int = 600
+    "Realtime of OpenAI ephemeral token for WebRTC connection"
 
 
 class Settings(BaseModel):
     model_config = ConfigDict(json_schema_extra={"title": "Settings"}, extra="ignore")
     api_settings: ApiSettings | None = None
     open_ai_text_settings: OpenAITextSettings | None = None
+    open_ai_realtime_settings: OpenAIRealtimeSettings | None = None
 
     @classmethod
     def from_yaml(cls, path: Path) -> "Settings":

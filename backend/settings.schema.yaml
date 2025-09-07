@@ -49,6 +49,33 @@ $defs:
     - unoserver_port
     title: ApiSettings
     type: object
+  OpenAIRealtimeSettings:
+    properties:
+      api_key:
+        format: password
+        title: Api Key
+        type: string
+        writeOnly: true
+      model:
+        title: Model
+        type: string
+      voice:
+        default: verse
+        title: Voice
+        type: string
+      base_sessions_url:
+        default: https://api.openai.com/v1/realtime/client_secrets
+        title: Base Sessions Url
+        type: string
+      token_expiration_in_seconds:
+        default: 600
+        title: Token Expiration In Seconds
+        type: integer
+    required:
+    - api_key
+    - model
+    title: OpenAIRealtimeSettings
+    type: object
   OpenAITextSettings:
     properties:
       api_key:
@@ -73,6 +100,11 @@ properties:
   open_ai_text_settings:
     anyOf:
     - $ref: '#/$defs/OpenAITextSettings'
+    - type: 'null'
+    default: null
+  open_ai_realtime_settings:
+    anyOf:
+    - $ref: '#/$defs/OpenAIRealtimeSettings'
     - type: 'null'
     default: null
 title: Settings

@@ -7,5 +7,8 @@ api_settings:
   unoserver_server: "127.0.0.1"
   unoserver_port: 2003
 open_ai_text_settings:
-  api_key: ""
+  api_key: ...
   model: "gpt-5-mini"
+open_ai_realtime_settings:
+  api_key: ...
+  model: "gpt-realtime"
