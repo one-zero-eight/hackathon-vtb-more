@@ -13,7 +13,7 @@ from src.api.repositories.dependencies import (
     get_converting_repository,
     get_preinterview_repository,
     get_vacancy_repository,
-), get_vacancy_repository, get_preinterview_repository
+)
 from src.config import api_settings
 from src.db.models import User
 from src.db.repositories import ApplicationRepository, PreInterviewResultRepository, VacancyRepository
