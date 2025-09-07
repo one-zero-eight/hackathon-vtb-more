@@ -1,5 +1,6 @@
 from typing import Self
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db import AbstractSQLAlchemyStorage
@@ -107,6 +108,11 @@ class SkillTypeRepository:
         async with self._create_session() as session:
             skill_type = await session.get(SkillType, skill_type_id)
             return skill_type
+
+    async def get_all_skill_types(self) -> list[SkillType]:
+        async with self._create_session() as session:
+            skill_types = await session.execute(select(SkillType))
+            return skill_types.scalars().all()
 
     async def delete_skill_type(self, skill_type_id: int) -> SkillType | None:
         async with self._create_session() as session:

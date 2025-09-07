@@ -105,6 +105,14 @@ async def get_skill_type(
         
     return SkillResponse.model_validate(skill_type)
 
+@skills_type_router.get("")
+async def get_all_skill_types(
+    skills_repository: SkillTypeRepository = Depends(get_skill_type_repository),
+    _: User = Depends(require_admin),
+) -> list[SkillTypeResponse]:
+    skill_types = await skills_repository.get_all_skill_types()
+    return [SkillTypeResponse.model_validate(type) for type in skill_types]
+
 
 @skills_type_router.patch("")
 async def edit_skill_type(
