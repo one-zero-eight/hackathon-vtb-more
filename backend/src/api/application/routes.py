@@ -34,7 +34,7 @@ async def create_application(
 
     application = await application_repository.create_application(
         cv=str(dest_path),
-        status=check_application(),
+        status=Status.REJECTED,
         user_id=user.id,
         vacancy_id=vacancy_id,
     )
