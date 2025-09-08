@@ -1,5 +1,7 @@
 from enum import StrEnum
 
+from typing import Optional
+
 from src.schemas.pydantic_base import BaseSchema
 
 
@@ -15,6 +17,7 @@ class Status(StrEnum):
 class ApplicationResponse(BaseSchema):
     id: int
     cv: str
+    profile_url: Optional[str]
     status: str
     user_id: int
     vacancy_id: int

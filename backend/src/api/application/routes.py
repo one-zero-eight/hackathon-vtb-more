@@ -15,6 +15,7 @@ from src.db.repositories import ApplicationRepository, PreInterviewResultReposit
 from src.schemas import ApplicationResponse, Status
 from src.services.ai.assessor import pre_interview_assessment
 from src.services.converting import ConvertingRepository
+from src.services.github_eval import GithubStats, Stat, parse_github_stats
 
 router = APIRouter(prefix="/applications", tags=["Applications"], route_class=AutoDeriveResponsesAPIRoute)
 
@@ -23,6 +24,7 @@ router = APIRouter(prefix="/applications", tags=["Applications"], route_class=Au
 async def create_application(
     file: UploadFile = File(...),
     vacancy_id: int = Form(...),
+    github: str | None = Form(None),
     application_repository: ApplicationRepository = Depends(get_application_repository),
     vacancy_repository: VacancyRepository = Depends(get_vacancy_repository),
     pre_interview_repository: PreInterviewResultRepository = Depends(get_preinterview_repository),
@@ -34,20 +36,32 @@ async def create_application(
     application = await application_repository.create_application(
         cv=str(dest_path),
         status=Status.PENDING,
+        git=github,
         user_id=user.id,
         vacancy_id=vacancy_id,
     )
 
+    github_info = None
+    if type(github) == str and 'github' in github:
+        username = github.rstrip('/').split('/')[-1]
+        github_info = await parse_github_stats(username)
+
+    
+    # Asking AI to evaluate our candidate's CV
     pre_interview_res = await pre_interview_assessment(
         application=application,
         vacancy=await vacancy_repository.get_vacancy(vacancy_id),
         repository=pre_interview_repository,
+        github=github_info,
     )
 
     if pre_interview_res.is_recommended:
         application = await application_repository.edit_application(application.id, status=Status.APPROVED_FOR_INTERVIEW)
     else:
         application = await application_repository.edit_application(application.id, status=Status.REJECTED_FOR_INTERVIEW)
+
+    
+    print(pre_interview_res.reason)
 
     return ApplicationResponse.model_validate(application)
 
@@ -82,6 +96,7 @@ async def edit_application_endpoint(
     application_id: int,
     file: UploadFile | None = File(None),
     status: Status | None = Form(None),
+    github: str | None = Form(None),
     user_id: int | None = Form(None),
     vacancy_id: int | None = Form(None),
     application_repository: ApplicationRepository = Depends(get_application_repository),
@@ -109,6 +124,8 @@ async def edit_application_endpoint(
     # Collect optional fields for partial update
     if status is not None:
         update_kwargs["status"] = status
+    if github is not None:
+        update_kwargs["git"] = github
     if user_id is not None:
         update_kwargs["user_id"] = user_id
     if vacancy_id is not None:

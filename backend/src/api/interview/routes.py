@@ -9,10 +9,12 @@ from openai.types.realtime.client_secret_create_params import (
 from openai.types.realtime.realtime_audio_config_param import Input, InputTranscription
 
 from src.api.auth.dependencies import get_current_user
-from src.api.repositories.dependencies import get_application_repository
+from src.api.repositories.dependencies import get_application_repository, get_interview_message_repository
 from src.config import open_ai_realtime_settings
 from src.db.models import User
-from src.db.repositories import ApplicationRepository
+from src.db.repositories import ApplicationRepository, InterviewMessageRepository
+from src.schemas import InterviewHistoryRequest
+from src.schemas.interview import InterviewMessage
 from src.services.ai.openai_client import async_client
 from src.services.ai.prompt_builder import build_realtime_prompt
 
@@ -49,3 +51,24 @@ async def get_ephemeral_session(
     )
 
     return session
+
+
+@router.post("/message_history")
+async def upload_message_history(
+    data: InterviewHistoryRequest,
+    _: User = Depends(get_current_user),
+    message_repository: InterviewMessageRepository = Depends(get_interview_message_repository),
+) -> list[InterviewMessage]:
+    result = []
+    messages = data.messages
+    application_id = data.application_id
+
+    for msg in messages:
+        created_message = await message_repository.create_message(
+            role=msg.role,
+            message=msg.message,
+            application_id=application_id,
+        )
+        result.append(created_message)
+
+    return result

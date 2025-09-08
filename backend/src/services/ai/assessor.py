@@ -7,7 +7,10 @@ from src.db.models import Application, PreInterviewResult, Vacancy
 from src.db.repositories import PreInterviewResultRepository
 from src.schemas import PreInterviewAIStructure
 from src.services.ai.openai_client import async_client
-from src.services.ai.prompt_builder import build_vacancy_prompt
+from src.services.ai.prompt_builder import build_vacancy_prompt, build_github_prompt
+from src.services.github_eval import Stat
+
+#TODO: test the work with github
 
 
 async def pre_interview_assessment(
@@ -15,13 +18,14 @@ async def pre_interview_assessment(
     application: Application,
     vacancy: Vacancy,
     repository: PreInterviewResultRepository,
+    github: list[Stat] | None,
 ) -> PreInterviewResult:
     vacancy_text = build_vacancy_prompt(vacancy)
 
     system_msg = EasyInputMessageParam(
         role="system",
         content=(
-            "Act as a technical recruiter that evaluates a candidate strictly from the attached CV. "
+            "Act as a technical recruiter that evaluates a candidate strictly from the attached CV and github stats. "
             "Return a structured decision only."
         ),
     )
@@ -35,10 +39,15 @@ async def pre_interview_assessment(
         file_data=f"data:application/pdf;base64,{base64_string}",
     )
     _text = (
-        "Evaluate the candidate for the following role and only use the attached CV for evidence. "
+        "Evaluate the candidate for the following role and only use the attached CV and github stats for evidence. "
         "Output the exact schema with is_recommended: bool, score: float between 0 and 1, "
         "reason: justification of is_recommended and score values\n\n" + vacancy_text
     )
+
+    _text += f"Candidate github stats:\n{build_github_prompt(github)}"
+
+    print(_text)
+
     text_input = ResponseInputTextParam(type="input_text", text=_text)
 
     user_msg = EasyInputMessageParam(role="user", content=[text_input, file_input])
@@ -48,6 +57,8 @@ async def pre_interview_assessment(
         input=[system_msg, user_msg],
         model=open_ai_text_settings.model,
     )
+
+    print(response.output_parsed.reason)
 
     pre_interview_result = await repository.create_result(
         is_recommended=bool(response.output_parsed.is_recommended),

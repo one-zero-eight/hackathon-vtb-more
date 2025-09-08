@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -8,7 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.db.models import Base
 
 if TYPE_CHECKING:
-    from src.db.models.interview import PreInterviewResult
+    from src.db.models.interview import InterviewMessage, PreInterviewResult
     from src.db.models.user import User
     from src.db.models.vacancy import Vacancy
 
@@ -22,6 +22,7 @@ class Application(Base):
     'Path to the CV'
     status: Mapped[str]
 
+    profile_url: Mapped[Optional[str]]
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id', ondelete='CASCADE'))
     vacancy_id: Mapped[int] = mapped_column(ForeignKey('vacancy.id', ondelete='CASCADE'))
 
@@ -37,6 +38,11 @@ class Application(Base):
     )
     pre_interview_result: Mapped[PreInterviewResult] = relationship(
         "PreInterviewResult",
+        back_populates="application",
+        lazy="selectin",
+    )
+    interview_messages: Mapped[list[InterviewMessage]] = relationship(
+        "InterviewMessage",
         back_populates="application",
         lazy="selectin",
     )

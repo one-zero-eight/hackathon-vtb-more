@@ -21,13 +21,14 @@ class ApplicationRepository:
     def _create_session(self) -> AsyncSession:
         return self.storage.create_session()
 
-    async def create_application(self, cv: str, status: Status, user_id: int, vacancy_id: int) -> Application:
+    async def create_application(self, cv: str, status: Status, user_id: int, vacancy_id: int, git: str | None) -> Application:
         async with self._create_session() as session:
             application = Application(
                 cv=cv,
                 status=status.value,
                 user_id=user_id,
                 vacancy_id=vacancy_id,
+                profile_url=git
             )
             session.add(application)
             await session.commit()
@@ -49,6 +50,7 @@ class ApplicationRepository:
         *,
         cv: str | None = None,
         status: Status | None = None,
+        git: str | None = None,
         user_id: int | None = None,
         vacancy_id: int | None = None,
     ) -> Application | None:
@@ -61,6 +63,8 @@ class ApplicationRepository:
                 application.cv = cv
             if status is not None:
                 application.status = status.value
+            if git is not None:
+                application.profile_url = git
             if user_id is not None:
                 application.user_id = user_id
             if vacancy_id is not None:
