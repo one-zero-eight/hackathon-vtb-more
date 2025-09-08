@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, Upl
 from fastapi import status as http_status
 from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 
-from src.api.application.pre_interview_check import check_application
 from src.api.auth.dependencies import get_current_user, require_admin
 from src.api.repositories.dependencies import (
     get_application_repository,
@@ -34,7 +33,7 @@ async def create_application(
 
     application = await application_repository.create_application(
         cv=str(dest_path),
-        status=Status.REJECTED,
+        status=Status.PENDING,
         user_id=user.id,
         vacancy_id=vacancy_id,
     )
@@ -47,6 +46,8 @@ async def create_application(
 
     if pre_interview_res.is_recommended:
         application = await application_repository.edit_application(application.id, status=Status.APPROVED_FOR_INTERVIEW)
+    else:
+        application = await application_repository.edit_application(application.id, status=Status.REJECTED_FOR_INTERVIEW)
 
     return ApplicationResponse.model_validate(application)
 
