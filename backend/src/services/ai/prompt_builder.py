@@ -2,6 +2,7 @@ import PyPDF2
 
 from src.db.models import Application, Vacancy
 
+from src.services.github_eval import Stat
 
 def build_vacancy_prompt(vacancy: Vacancy) -> str:
     skills = getattr(vacancy, "skills", []) or []
@@ -17,6 +18,17 @@ def build_vacancy_prompt(vacancy: Vacancy) -> str:
         f"- Salary: {vacancy.salary}\n"
         f"- Required skills: {', '.join(skill_names) if skill_names else 'N/A'}\n"
     )
+
+def build_github_prompt(stats: list[Stat] | None) -> str:
+    if stats is None:
+        return f"No info found\n"
+    
+    prompt = ""
+
+    for stat in stats:
+        prompt += f"{stat.name}: {stat.value}\n"
+
+    return prompt
 
 
 def _extract_text_from_pdf(pdf_path: str) -> str:
