@@ -104,5 +104,6 @@ jobs:
             git pull
             pnpm install
             pnpm build
+            rm -rf /var/www/dist
             mv ${{ secrets.FRONTEND_PATH }}/dist /var/www/
             sudo systemctl restart nginx
