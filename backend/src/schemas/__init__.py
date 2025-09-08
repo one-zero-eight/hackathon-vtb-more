@@ -1,6 +1,6 @@
 from src.schemas.application import ApplicationResponse, Status
 from src.schemas.auth import LoginRequest, RegisterRequest, TokenPayload, TokenResponse
-from src.schemas.interview import PreInterviewAIStructure, PreInterviewResponse
+from src.schemas.interview import InterviewHistoryRequest, PreInterviewAIStructure, PreInterviewResponse
 from src.schemas.skills import SkillResponse, SkillTypeCreateRequest, SkillTypeResponse, SkillTypeUpdateRequest
 from src.schemas.user import UserCreate, UserResponse
 from src.schemas.vacancy import (
@@ -31,6 +31,7 @@ __all__ = [
     'VacancyResponse',
     'VacancyWithSkillsCreateRequest',
     'VacancyWithSkillsResponse',
+    'InterviewHistoryRequest',
     'PreInterviewAIStructure',
     'PreInterviewResponse',
 ]

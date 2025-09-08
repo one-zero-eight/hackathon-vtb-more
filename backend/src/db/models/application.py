@@ -8,7 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.db.models import Base
 
 if TYPE_CHECKING:
-    from src.db.models.interview import PreInterviewResult
+    from src.db.models.interview import InterviewMessage, PreInterviewResult
     from src.db.models.user import User
     from src.db.models.vacancy import Vacancy
 
@@ -37,6 +37,11 @@ class Application(Base):
     )
     pre_interview_result: Mapped[PreInterviewResult] = relationship(
         "PreInterviewResult",
+        back_populates="application",
+        lazy="selectin",
+    )
+    interview_messages: Mapped[list[InterviewMessage]] = relationship(
+        "InterviewMessage",
         back_populates="application",
         lazy="selectin",
     )

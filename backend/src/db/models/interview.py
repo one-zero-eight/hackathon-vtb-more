@@ -27,3 +27,19 @@ class PreInterviewResult(Base):
         back_populates="pre_interview_result",
         lazy="selectin",
     )
+
+
+class InterviewMessage(Base):
+    __tablename__ = "interview_message"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    role: Mapped[str]
+    message: Mapped[str]
+
+    application_id: Mapped[int] = mapped_column(ForeignKey("application.id", ondelete="CASCADE"))
+    application: Mapped[Application] = relationship(
+        "Application",
+        back_populates="interview_messages",
+        lazy="selectin",
+    )
