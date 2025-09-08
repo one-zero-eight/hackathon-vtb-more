@@ -3,6 +3,7 @@ from fastapi import Depends, Request
 from src.config import api_settings
 from src.db.repositories import (
     ApplicationRepository,
+    InterviewMessageRepository,
     PreInterviewResultRepository,
     SkillRepository,
     SkillTypeRepository,
@@ -54,6 +55,12 @@ def get_preinterview_repository(
     storage: AbstractSQLAlchemyStorage = Depends(get_storage),
 ) -> PreInterviewResultRepository:
     return PreInterviewResultRepository(storage)
+
+
+def get_interview_message_repository(
+    storage: AbstractSQLAlchemyStorage = Depends(get_storage),
+) -> InterviewMessageRepository:
+    return InterviewMessageRepository(storage)
 
 
 def get_converting_repository() -> ConvertingRepository:

@@ -1,9 +1,10 @@
-from typing import Self
+from typing import Self, Iterable
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db import AbstractSQLAlchemyStorage
-from src.db.models import PreInterviewResult
+from src.db.models import InterviewMessage, PreInterviewResult
 
 
 class PreInterviewResultRepository:
@@ -66,3 +67,39 @@ class PreInterviewResultRepository:
             await session.delete(result)
             await session.commit()
             return result
+
+
+class InterviewMessageRepository:
+    storage: AbstractSQLAlchemyStorage
+
+    def __init__(self, storage: AbstractSQLAlchemyStorage):
+        self.storage = storage
+
+    def update_storage(self, storage: AbstractSQLAlchemyStorage) -> Self:
+        self.storage = storage
+        return self
+
+    def _create_session(self) -> AsyncSession:
+        return self.storage.create_session()
+
+    async def create_message(self, role: str, message: str, application_id: int) -> InterviewMessage:
+        async with self._create_session() as session:
+            message = InterviewMessage(
+                role=role,
+                message=message,
+                application_id=application_id,
+            )
+            session.add(message)
+            await session.commit()
+            return message
+
+    async def get_message(self, message_id: int) -> InterviewMessage | None:
+        async with self._create_session() as session:
+            return await session.get(InterviewMessage, message_id)
+
+    async def get_interview_messages(self, application_id: int) -> list[InterviewMessage]:
+        async with self._create_session() as session:
+            result = await session.execute(
+                select(InterviewMessage).filter(InterviewMessage.application_id == application_id)
+            )
+            return result.scalars().all()

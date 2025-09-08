@@ -1,3 +1,4 @@
+import Applicants from '@/components/applicants/Applicants';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/hr/vacancies/$id/applicants')({
@@ -5,5 +6,5 @@ export const Route = createFileRoute('/hr/vacancies/$id/applicants')({
 });
 
 function RouteComponent() {
-  return <div>Hello "/hr/vancacies/$id/applicants"!</div>;
+  return <Applicants />;
 }

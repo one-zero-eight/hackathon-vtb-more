@@ -54,6 +54,12 @@ $defs:
       model:
         title: Model
         type: string
+      transcription_model:
+        title: Transcription Model
+        type: string
+      language:
+        title: Language
+        type: string
       voice:
         default: verse
         title: Voice
@@ -68,6 +74,8 @@ $defs:
         type: integer
     required:
     - model
+    - transcription_model
+    - language
     title: OpenAIRealtimeSettings
     type: object
   OpenAITextSettings:

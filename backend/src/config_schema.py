@@ -40,6 +40,10 @@ class OpenAITextSettings(BaseModel):
 class OpenAIRealtimeSettings(BaseModel):
     model: str = Field(...)
     "OpenAI realtime model"
+    transcription_model: str = Field(...)
+    "OpenAI transcription model"
+    language: str = Field(...)
+    "Interview language"
     voice: str = Field("verse")
     "OpenAI realtime voice"
     base_sessions_url: str = Field("https://api.openai.com/v1/realtime/client_secrets")
