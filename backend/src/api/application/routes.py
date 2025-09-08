@@ -47,6 +47,8 @@ async def create_application(
 
     if pre_interview_res.is_recommended:
         application = await application_repository.edit_application(application.id, status=Status.APPROVED_FOR_INTERVIEW)
+    else:
+        application = await application_repository.edit_application(application.id, status=Status.REJECTED_FOR_INTERVIEW)
 
     return ApplicationResponse.model_validate(application)
 
