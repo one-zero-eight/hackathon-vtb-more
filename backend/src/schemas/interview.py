@@ -1,4 +1,4 @@
-from typing import Self
+from typing import Literal, Self
 
 from pydantic import ConfigDict, Field, model_validator
 
@@ -25,3 +25,13 @@ class PreInterviewAIStructure(BaseSchema):
         if self.score < 0 or self.score > 1:
             raise ValueError("Score must be between 0 and 1")
         return self
+
+
+class InterviewMessage(BaseSchema):
+    role: Literal['user', 'assistant']
+    message: str
+
+
+class InterviewHistoryRequest(BaseSchema):
+    application_id: int
+    messages: list[InterviewMessage]

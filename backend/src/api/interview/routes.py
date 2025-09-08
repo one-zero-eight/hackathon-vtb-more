@@ -1,11 +1,12 @@
 from fastapi import APIRouter
 from fastapi.params import Depends
 from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
-from openai.types.realtime import ClientSecretCreateResponse
+from openai.types.realtime import ClientSecretCreateResponse, RealtimeAudioConfigParam
 from openai.types.realtime.client_secret_create_params import (
     ExpiresAfter,
     RealtimeSessionCreateRequestParam,
 )
+from openai.types.realtime.realtime_audio_config_param import Input, InputTranscription
 
 from src.api.auth.dependencies import get_current_user
 from src.api.repositories.dependencies import get_application_repository
@@ -36,6 +37,14 @@ async def get_ephemeral_session(
             type="realtime",
             model=open_ai_realtime_settings.model,
             instructions=system_prompt,
+            audio=RealtimeAudioConfigParam(
+                input=Input(
+                    transcription=InputTranscription(
+                        language=open_ai_realtime_settings.language,
+                        model=open_ai_realtime_settings.transcription_model,
+                    )
+                )
+            ),
         ),
     )
 
