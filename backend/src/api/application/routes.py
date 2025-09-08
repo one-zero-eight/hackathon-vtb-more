@@ -39,11 +39,14 @@ async def create_application(
         vacancy_id=vacancy_id,
     )
 
-    await pre_interview_assessment(
+    pre_interview_res = await pre_interview_assessment(
         application=application,
         vacancy=await vacancy_repository.get_vacancy(vacancy_id),
         repository=pre_interview_repository,
     )
+
+    if pre_interview_res.is_recommended:
+        application = await application_repository.edit_application(application.id, status=Status.APPROVED_FOR_INTERVIEW)
 
     return ApplicationResponse.model_validate(application)
 
