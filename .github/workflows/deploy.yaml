@@ -90,8 +90,9 @@ jobs:
             cd ${{ secrets.BACKEND_PATH }}
             docker compose down
             git pull
-            docker compose build --pull
-            docker compose up -d
+            docker compose build --pull --no-cache
+            docker compose config
+            docker compose up -d --force-recreate
 
       - name: Deploy frontend via Appleboy SSH
         uses: appleboy/ssh-action@v0.1.10
