@@ -51,8 +51,8 @@ interface VacancyForm {
   description: string;
   salary: number | null;
   city: string;
-  weekly_hours_occupancy: number;
-  required_experience: number;
+  weekly_hours_occupancy: number | null;
+  required_experience: number | null;
   open_time: string;
   close_time: string | null;
   is_active: boolean;
@@ -67,8 +67,8 @@ const Create = () => {
     description: '',
     salary: null,
     city: '',
-    weekly_hours_occupancy: 40,
-    required_experience: 0,
+    weekly_hours_occupancy: null,
+    required_experience: null,
     open_time: new Date().toISOString(),
     close_time: null,
     is_active: true,
@@ -155,8 +155,12 @@ const Create = () => {
     if (!vacancyForm.name.trim()) return 'Название вакансии обязательно';
     if (!vacancyForm.description.trim()) return 'Описание вакансии обязательно';
     if (!vacancyForm.city.trim()) return 'Город обязателен';
+    if (vacancyForm.weekly_hours_occupancy == null)
+      return 'Часы в неделю обязательны';
     if (vacancyForm.weekly_hours_occupancy <= 0)
       return 'Часы в неделю должны быть больше 0';
+    if (vacancyForm.required_experience == null)
+      return 'Требуемый опыт обязателен';
     if (vacancyForm.required_experience < 0)
       return 'Опыт работы не может быть отрицательным';
 
@@ -193,6 +197,8 @@ const Create = () => {
       const requestData = {
         vacancy: {
           ...vacancyForm,
+          weekly_hours_occupancy: vacancyForm.weekly_hours_occupancy as number,
+          required_experience: vacancyForm.required_experience as number,
           open_time: vacancyForm.open_time,
           close_time: vacancyForm.close_time || null,
         },
@@ -370,15 +376,16 @@ const Create = () => {
                 <Input
                   id="weekly_hours"
                   type="number"
-                  value={vacancyForm.weekly_hours_occupancy}
+                  value={vacancyForm.weekly_hours_occupancy ?? ''}
                   onChange={e =>
                     setVacancyForm({
                       ...vacancyForm,
-                      weekly_hours_occupancy: Number(e.target.value),
+                      weekly_hours_occupancy: e.target.value ? Number(e.target.value) : null,
                     })
                   }
                   min="1"
                   max="168"
+                  placeholder="Например: 40"
                   className="h-12 bg-gray-50 dark:bg-slate-800/50 border-2 border-gray-200 dark:border-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 rounded-xl text-base transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   required
                 />
@@ -394,14 +401,15 @@ const Create = () => {
                 <Input
                   id="experience"
                   type="number"
-                  value={vacancyForm.required_experience}
+                  value={vacancyForm.required_experience ?? ''}
                   onChange={e =>
                     setVacancyForm({
                       ...vacancyForm,
-                      required_experience: Number(e.target.value),
+                      required_experience: e.target.value ? Number(e.target.value) : null,
                     })
                   }
                   min="0"
+                  placeholder="Например: 3"
                   className="h-12 bg-gray-50 dark:bg-slate-800/50 border-2 border-gray-200 dark:border-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 rounded-xl text-base transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   required
                 />
@@ -494,7 +502,7 @@ const Create = () => {
           {/* Навыки */}
           <div className="bg-white dark:bg-slate-900/40 rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-lg border border-gray-100 dark:border-slate-600/30 backdrop-blur-sm">
             <div className="mb-6">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-start sm:justify-between gap-4 mb-4">
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-3">
                     <Target className="w-6 h-6 md:w-7 md:h-7 text-indigo-600" />
@@ -504,10 +512,10 @@ const Create = () => {
                     Добавьте необходимые навыки и установите их важность
                   </p>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-center gap-4 w-full">
                   {/* Простой линейный прогресс */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-98 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div className="flex items-center gap-3 flex-1 min-w-[240px]">
+                    <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all duration-300 ${
                           totalWeight === 100
@@ -536,7 +544,7 @@ const Create = () => {
                     type="button"
                     onClick={addSkill}
                     disabled={getAvailableSkillTypes().length === 0}
-                    className="bg-indigo-600 text-white px-8 py-5 rounded-lg font-semibold shadow-lg hover:bg-indigo-500 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto sm:ml-auto flex-shrink-0 bg-indigo-600 text-white px-8 py-5 rounded-lg font-semibold shadow-lg hover:bg-indigo-500 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Plus className="w-5 h-5 mr-2" />
                     Добавить навык
@@ -557,11 +565,11 @@ const Create = () => {
                 <p className="text-sm">Нажмите "Добавить навык" чтобы начать</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6 md:gap-8">
                 {skills.map((skill, index) => (
                   <div
                     key={skill.id}
-                    className="p-8 border-2 border-gray-200 dark:border-slate-600 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-800/50 dark:to-slate-900/50"
+                    className="p-4 sm:p-6 lg:p-8 border-2 border-gray-200 dark:border-slate-600 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-800/50 dark:to-slate-900/50"
                   >
                     <div className="flex items-center justify-between mb-8">
                       <div className="flex items-center gap-3">
@@ -596,7 +604,7 @@ const Create = () => {
                             updateSkill(skill.id, 'skillTypeId', Number(value))
                           }
                         >
-                          <SelectTrigger className=" !h-12 bg-gray-50 dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 rounded-lg text-base transition-all duration-200 hover:border-indigo-300 dark:hover:border-indigo-500 min-w-md cursor-pointer">
+                          <SelectTrigger className=" !h-12 w-full bg-gray-50 dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 rounded-lg text-base transition-all duration-200 hover:border-indigo-300 dark:hover:border-indigo-500 cursor-pointer">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-lg shadow-lg">
@@ -648,8 +656,8 @@ const Create = () => {
                         <Label className="text-base font-semibold text-gray-900 dark:text-gray-100">
                           Вес (баллы)
                         </Label>
-                        <div className="flex items-center gap-3">
-                          <div className="flex-1 flex gap-2">
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                          <div className="flex-1 flex flex-col sm:flex-row gap-2">
                             <Input
                               type="number"
                               value={skill.weight}
@@ -666,7 +674,7 @@ const Create = () => {
                               className="h-12 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 rounded-xl text-base transition-all duration-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                               required
                             />
-                            <div className="w-16 h-12 flex items-center  border-gray-200 dark:border-slate-600  justify-center border-2 rounded-xl bg-white dark:bg-slate-800 ">
+                            <div className="w-full sm:w-16 h-12 flex items-center  border-gray-200 dark:border-slate-600  justify-center border-2 rounded-xl bg-white dark:bg-slate-800 ">
                               %
                             </div>
                           </div>
