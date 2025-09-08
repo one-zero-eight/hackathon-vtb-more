@@ -1,3 +1,4 @@
+import VoiceChat from '@/components/interview/VoiceChat';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/interview/$applicationId')({
@@ -5,5 +6,5 @@ export const Route = createFileRoute('/interview/$applicationId')({
 });
 
 function RouteComponent() {
-  return <div>Hello "/interview/$applicationId"!</div>;
+  return <VoiceChat />;
 }

@@ -20,7 +20,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   return (
-    <div className={cn("container-w mx-auto h-16 md:h-20 lg:h-24 flex items-center px-3 md:px-4 gap-2", className)}>
+    <div
+      className={cn(
+        'container-w mx-auto h-16 md:h-20 lg:h-24 flex items-center px-3 md:px-4 gap-2',
+        className
+      )}
+    >
       <form onSubmit={handleSubmit} className="flex w-full gap-2">
         <input
           name="search"

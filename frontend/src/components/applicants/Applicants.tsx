@@ -12,22 +12,64 @@ type Applicant = {
 };
 
 const mockApplicantsInterview: Applicant[] = [
-  { id: 1, fullName: 'Иван Иванов', score: 87, profileUrl: '/profile/1', reportUrl: '/report/1' },
-  { id: 3, fullName: 'Алексей Смирнов', score: 73, profileUrl: '/profile/3', reportUrl: '/report/3' },
+  {
+    id: 1,
+    fullName: 'Иван Иванов',
+    score: 87,
+    profileUrl: '/profile/1',
+    reportUrl: '/report/1',
+  },
+  {
+    id: 3,
+    fullName: 'Алексей Смирнов',
+    score: 73,
+    profileUrl: '/profile/3',
+    reportUrl: '/report/3',
+  },
   { id: 4, fullName: 'Дмитрий Кузнецов', score: 65, profileUrl: '/profile/4' },
-  { id: 5, fullName: 'Екатерина Соколова', score: 91, profileUrl: '/profile/5', reportUrl: '/report/5' },
+  {
+    id: 5,
+    fullName: 'Екатерина Соколова',
+    score: 91,
+    profileUrl: '/profile/5',
+    reportUrl: '/report/5',
+  },
   { id: 6, fullName: 'Сергей Васильев', score: 78, profileUrl: '/profile/6' },
-  { id: 7, fullName: 'Ольга Морозова', score: 84, profileUrl: '/profile/7', reportUrl: '/report/7' },
+  {
+    id: 7,
+    fullName: 'Ольга Морозова',
+    score: 84,
+    profileUrl: '/profile/7',
+    reportUrl: '/report/7',
+  },
   { id: 8, fullName: 'Павел Новиков', score: 69, profileUrl: '/profile/8' },
-  { id: 9, fullName: 'Наталья Козлова', score: 88, profileUrl: '/profile/9', reportUrl: '/report/9' },
+  {
+    id: 9,
+    fullName: 'Наталья Козлова',
+    score: 88,
+    profileUrl: '/profile/9',
+    reportUrl: '/report/9',
+  },
 ];
 
 const mockApplicantsDecision: Applicant[] = [
   { id: 2, fullName: 'Мария Петрова', score: 92, profileUrl: '/profile/2' },
   { id: 10, fullName: 'Илья Медведев', score: 81, profileUrl: '/profile/10' },
-  { id: 11, fullName: 'Анна Орлова', score: 76, profileUrl: '/profile/11', reportUrl: '/report/11' },
+  {
+    id: 11,
+    fullName: 'Анна Орлова',
+    score: 76,
+    profileUrl: '/profile/11',
+    reportUrl: '/report/11',
+  },
   { id: 12, fullName: 'Виктор Павлов', score: 64, profileUrl: '/profile/12' },
-  { id: 13, fullName: 'Юлия Семёнова', score: 89, profileUrl: '/profile/13', reportUrl: '/report/13' },
+  {
+    id: 13,
+    fullName: 'Юлия Семёнова',
+    score: 89,
+    profileUrl: '/profile/13',
+    reportUrl: '/report/13',
+  },
   { id: 14, fullName: 'Роман Фёдоров', score: 71, profileUrl: '/profile/14' },
 ];
 
@@ -37,16 +79,21 @@ const TABS = [
 ] as const;
 
 const Applicants = () => {
-  const [activeTab, setActiveTab] = useState<'interview' | 'decision'>('interview');
+  const [activeTab, setActiveTab] = useState<'interview' | 'decision'>(
+    'interview'
+  );
   const [query, setQuery] = useState('');
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [sortKey, setSortKey] = useState<'name' | 'score'>('name');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
-  const allApplicants = activeTab === 'interview' ? mockApplicantsInterview : mockApplicantsDecision;
+  const allApplicants =
+    activeTab === 'interview'
+      ? mockApplicantsInterview
+      : mockApplicantsDecision;
 
   const applicants = useMemo(() => {
-    const filtered = allApplicants.filter((a) =>
+    const filtered = allApplicants.filter(a =>
       a.fullName.toLowerCase().includes(query.trim().toLowerCase())
     );
     const sorted = [...filtered].sort((a, b) => {
@@ -56,14 +103,16 @@ const Applicants = () => {
           : b.fullName.localeCompare(a.fullName);
       }
       // score
-      return sortDir === 'asc' ? a.score - (b.score as number) : (b.score as number) - a.score;
+      return sortDir === 'asc'
+        ? a.score - (b.score as number)
+        : (b.score as number) - a.score;
     });
     return sorted;
   }, [allApplicants, query, sortDir, sortKey]);
 
   const toggleSort = (key: 'name' | 'score') => {
     if (sortKey === key) {
-      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
+      setSortDir(d => (d === 'asc' ? 'desc' : 'asc'));
     } else {
       setSortKey(key);
       setSortDir('asc');
@@ -71,12 +120,12 @@ const Applicants = () => {
   };
 
   const toggleSelect = (id: number, checked?: boolean) => {
-    setSelectedIds((prev) => {
+    setSelectedIds(prev => {
       const isChecked = checked ?? !prev.includes(id);
       if (isChecked) {
         return [...prev, id];
       }
-      return prev.filter((x) => x !== id);
+      return prev.filter(x => x !== id);
     });
   };
 
@@ -93,7 +142,9 @@ const Applicants = () => {
       <div className="container-w mx-auto space-y-6 px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex items-center justify-between gap-4">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-100">Senior Frontend Developer</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-100">
+            Senior Frontend Developer
+          </h1>
         </div>
 
         {/* Search */}
@@ -105,13 +156,13 @@ const Applicants = () => {
           />
         </div>
 
-
         {/* Tabs row with Approve on right */}
         <div className="flex items-end justify-between mb-2 border-b border-slate-700/60">
           <nav className="flex gap-6">
-            {TABS.map((tab) => {
+            {TABS.map(tab => {
               const isActive = activeTab === tab.key;
-              const count = tab.key === 'interview' ? countInterview : countDecision;
+              const count =
+                tab.key === 'interview' ? countInterview : countDecision;
               return (
                 <button
                   key={tab.key}
@@ -125,8 +176,12 @@ const Applicants = () => {
                   `}
                 >
                   <span>{tab.label}</span>
-                  <span className={`inline-flex items-center justify-center min-w-6 h-6 px-1 rounded-full text-xs font-semibold
-                      ${isActive ? 'bg-indigo-700 text-white' : 'bg-slate-700 text-gray-100'}`}>{count}</span>
+                  <span
+                    className={`inline-flex items-center justify-center min-w-6 h-6 px-1 rounded-full text-xs font-semibold
+                      ${isActive ? 'bg-indigo-700 text-white' : 'bg-slate-700 text-gray-100'}`}
+                  >
+                    {count}
+                  </span>
                 </button>
               );
             })}
@@ -143,10 +198,17 @@ const Applicants = () => {
 
         {/* Columns header */}
         <div className="flex items-center text-gray-300 select-none mt-4">
-          <button onClick={() => toggleSort('name')} className="flex-1 text-left hover:text-white">
-            Полное имя {sortKey === 'name' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
+          <button
+            onClick={() => toggleSort('name')}
+            className="flex-1 text-left hover:text-white"
+          >
+            Полное имя{' '}
+            {sortKey === 'name' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
           </button>
-          <button onClick={() => toggleSort('score')} className="w-28 text-right hover:text-white">
+          <button
+            onClick={() => toggleSort('score')}
+            className="w-28 text-right hover:text-white"
+          >
             Рейтинг {sortKey === 'score' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
           </button>
         </div>
@@ -158,11 +220,11 @@ const Applicants = () => {
               Нет заявок в этом разделе
             </div>
           ) : (
-            applicants.map((applicant) => (
+            applicants.map(applicant => (
               <ApplicantCard
                 key={applicant.id}
                 checked={selectedIds.includes(applicant.id)}
-                onCheck={(val) => toggleSelect(applicant.id, Boolean(val))}
+                onCheck={val => toggleSelect(applicant.id, Boolean(val))}
                 fullName={applicant.fullName}
                 score={`${applicant.score}%`}
                 profileUrl={applicant.profileUrl}

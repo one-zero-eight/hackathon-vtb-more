@@ -380,7 +380,9 @@ const Create = () => {
                   onChange={e =>
                     setVacancyForm({
                       ...vacancyForm,
-                      weekly_hours_occupancy: e.target.value ? Number(e.target.value) : null,
+                      weekly_hours_occupancy: e.target.value
+                        ? Number(e.target.value)
+                        : null,
                     })
                   }
                   min="1"
@@ -405,7 +407,9 @@ const Create = () => {
                   onChange={e =>
                     setVacancyForm({
                       ...vacancyForm,
-                      required_experience: e.target.value ? Number(e.target.value) : null,
+                      required_experience: e.target.value
+                        ? Number(e.target.value)
+                        : null,
                     })
                   }
                   min="0"
