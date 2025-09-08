@@ -9,6 +9,7 @@ from openai.types.realtime.client_secret_create_params import (
 
 from src.api.auth.dependencies import get_current_user
 from src.api.repositories.dependencies import get_application_repository
+from src.config import open_ai_realtime_settings
 from src.db.models import User
 from src.db.repositories import ApplicationRepository
 from src.services.ai.openai_client import async_client
@@ -33,7 +34,7 @@ async def get_ephemeral_session(
         ),
         session=RealtimeSessionCreateRequestParam(
             type="realtime",
-            model="gpt-realtime",
+            model=open_ai_realtime_settings.model,
             instructions=system_prompt,
         ),
     )
