@@ -51,11 +51,6 @@ $defs:
     type: object
   OpenAIRealtimeSettings:
     properties:
-      api_key:
-        format: password
-        title: Api Key
-        type: string
-        writeOnly: true
       model:
         title: Model
         type: string
@@ -72,7 +67,6 @@ $defs:
         title: Token Expiration In Seconds
         type: integer
     required:
-    - api_key
     - model
     title: OpenAIRealtimeSettings
     type: object

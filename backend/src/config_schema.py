@@ -38,8 +38,6 @@ class OpenAITextSettings(BaseModel):
 
 
 class OpenAIRealtimeSettings(BaseModel):
-    api_key: SecretStr = Field(...)
-    "OpenAI API key"
     model: str = Field(...)
     "OpenAI realtime model"
     voice: str = Field("verse")
