@@ -1,22 +1,23 @@
-import asyncio
 import re
-from pprint import pprint
 from typing import Literal
 
 from bs4 import BeautifulSoup
 from httpx import AsyncClient
-from pydantic import BaseModel, Field
+from pydantic import Field
+
+from src.schemas.pydantic_base import BaseSchema
 
 async_client = AsyncClient()
 
 
-class Stat(BaseModel):
+class Stat(BaseSchema):
     name: str
     value: str | int
     icon: str | None = None
+    "svg tag to display on frontend"
 
 
-class GithubStats(BaseModel):
+class GithubStats(BaseSchema):
     github_stats_url: str
     fullname: str
     rank: Literal["A+", "A", "B+", "B", "C+", "C", "D+", "D", "E+", "E", "F"]
@@ -24,7 +25,7 @@ class GithubStats(BaseModel):
     stats: list[Stat]
 
 
-async def parse_github_stats(github_username: str) -> list[Stat]:
+async def parse_github_stats(github_username: str) -> GithubStats:
     url = f"https://github-readme-stats.vercel.app/api?username={github_username}&include_all_commits=false&count_private=true&show_icons=true"
 
     response = await async_client.get(url)
@@ -87,4 +88,10 @@ async def parse_github_stats(github_username: str) -> list[Stat]:
         for icon, stat in zip(icons, stats):
             stat.icon = icon
 
-    return stats
+    return GithubStats(
+        github_stats_url=url,
+        fullname=fullname,
+        rank=rank,
+        rank_progress=rank_progress,
+        stats=stats,
+    )

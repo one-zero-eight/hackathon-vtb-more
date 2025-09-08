@@ -7,8 +7,8 @@ from src.db.models import Application, PreInterviewResult, Vacancy
 from src.db.repositories import PreInterviewResultRepository
 from src.schemas import PreInterviewAIStructure
 from src.services.ai.openai_client import async_client
-from src.services.ai.prompt_builder import build_vacancy_prompt, build_github_prompt
-from src.services.github_eval import Stat
+from src.services.ai.prompt_builder import build_github_prompt, build_vacancy_prompt
+from src.services.pre_interview.github_eval import GithubStats
 
 #TODO: test the work with github
 
@@ -18,7 +18,7 @@ async def pre_interview_assessment(
     application: Application,
     vacancy: Vacancy,
     repository: PreInterviewResultRepository,
-    github: list[Stat] | None,
+    github: GithubStats | None,
 ) -> PreInterviewResult:
     vacancy_text = build_vacancy_prompt(vacancy)
 

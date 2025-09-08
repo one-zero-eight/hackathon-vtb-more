@@ -1,8 +1,8 @@
 import PyPDF2
 
 from src.db.models import Application, Vacancy
+from src.services.pre_interview.github_eval import GithubStats
 
-from src.services.github_eval import Stat
 
 def build_vacancy_prompt(vacancy: Vacancy) -> str:
     skills = getattr(vacancy, "skills", []) or []
@@ -19,15 +19,11 @@ def build_vacancy_prompt(vacancy: Vacancy) -> str:
         f"- Required skills: {', '.join(skill_names) if skill_names else 'N/A'}\n"
     )
 
-def build_github_prompt(stats: list[Stat] | None) -> str:
+def build_github_prompt(stats: GithubStats | None) -> str:
     if stats is None:
-        return f"No info found\n"
+        return "No github info found\n"
     
-    prompt = ""
-
-    for stat in stats:
-        prompt += f"{stat.name}: {stat.value}\n"
-
+    prompt = f"```json\n{stats.model_dump_json(indent=2)}\n```"
     return prompt
 
 

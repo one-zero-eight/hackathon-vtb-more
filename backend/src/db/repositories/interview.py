@@ -1,4 +1,4 @@
-from typing import Self, Iterable
+from typing import Self
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession

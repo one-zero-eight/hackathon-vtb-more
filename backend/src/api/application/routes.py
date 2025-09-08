@@ -15,7 +15,7 @@ from src.db.repositories import ApplicationRepository, PreInterviewResultReposit
 from src.schemas import ApplicationResponse, Status
 from src.services.ai.assessor import pre_interview_assessment
 from src.services.converting import ConvertingRepository
-from src.services.github_eval import GithubStats, Stat, parse_github_stats
+from src.services.pre_interview.github_eval import parse_github_stats
 
 router = APIRouter(prefix="/applications", tags=["Applications"], route_class=AutoDeriveResponsesAPIRoute)
 
@@ -42,7 +42,7 @@ async def create_application(
     )
 
     github_info = None
-    if type(github) == str and 'github' in github:
+    if type(github) is str and 'github' in github:
         username = github.rstrip('/').split('/')[-1]
         github_info = await parse_github_stats(username)
 
@@ -62,6 +62,7 @@ async def create_application(
 
     
     print(pre_interview_res.reason)
+    application.github_stats = github_info
 
     return ApplicationResponse.model_validate(application)
 

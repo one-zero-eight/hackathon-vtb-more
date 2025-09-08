@@ -1,8 +1,7 @@
 from enum import StrEnum
 
-from typing import Optional
-
 from src.schemas.pydantic_base import BaseSchema
+from src.services.pre_interview.github_eval import GithubStats
 
 
 class Status(StrEnum):
@@ -21,5 +20,6 @@ class ApplicationResponse(BaseSchema):
     status: str
     user_id: int
     vacancy_id: int
+    github_stats: GithubStats | None = None
 
     model_config = dict(from_attributes=True)
