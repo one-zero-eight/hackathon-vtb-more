@@ -13,8 +13,7 @@ from src.api.repositories.dependencies import get_application_repository, get_in
 from src.config import open_ai_realtime_settings
 from src.db.models import User
 from src.db.repositories import ApplicationRepository, InterviewMessageRepository
-from src.schemas import InterviewHistoryRequest
-from src.schemas.interview import InterviewMessage
+from src.schemas import InterviewHistoryRequest, InterviewMessageResponse
 from src.services.ai.openai_client import async_client
 from src.services.ai.prompt_builder import build_realtime_prompt
 
@@ -58,7 +57,7 @@ async def upload_message_history(
     data: InterviewHistoryRequest,
     _: User = Depends(get_current_user),
     message_repository: InterviewMessageRepository = Depends(get_interview_message_repository),
-) -> list[InterviewMessage]:
+) -> list[InterviewMessageResponse]:
     result = []
     messages = data.messages
     application_id = data.application_id

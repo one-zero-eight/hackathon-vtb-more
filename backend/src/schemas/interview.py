@@ -32,6 +32,12 @@ class InterviewMessage(BaseSchema):
     message: str
 
 
+class InterviewMessageResponse(BaseSchema):
+    id: int
+    role: Literal['user', 'assistant']
+    message: str
+
+
 class InterviewHistoryRequest(BaseSchema):
     application_id: int
     messages: list[InterviewMessage]

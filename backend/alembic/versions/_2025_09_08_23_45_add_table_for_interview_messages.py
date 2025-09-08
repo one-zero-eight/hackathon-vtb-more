@@ -1,7 +1,7 @@
 """add table for interview messages
 
 Revision ID: 45525e464b71
-Revises: 116494dd7b2f
+Revises: 111111111111
 Create Date: 2025-09-08 23:45:24.421082
 
 """
@@ -14,7 +14,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision: str = "45525e464b71"
-down_revision: Union[str, None] = "116494dd7b2f"
+down_revision: Union[str, None] = "111111111111"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

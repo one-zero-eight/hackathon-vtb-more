@@ -17,7 +17,7 @@ class Status(StrEnum):
 class ApplicationResponse(BaseSchema):
     id: int
     cv: str
-    profile_url: Optional[str]
+    profile_url: str | None
     status: str
     user_id: int
     vacancy_id: int

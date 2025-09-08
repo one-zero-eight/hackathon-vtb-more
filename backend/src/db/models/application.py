@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -22,7 +22,7 @@ class Application(Base):
     'Path to the CV'
     status: Mapped[str]
 
-    profile_url: Mapped[Optional[str]]
+    profile_url: Mapped[str | None]
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id', ondelete='CASCADE'))
     vacancy_id: Mapped[int] = mapped_column(ForeignKey('vacancy.id', ondelete='CASCADE'))
 

@@ -1,8 +1,8 @@
 """add reason profile_url to application
 
 Revision ID: 111111111111
-Revises: 0b23e5ea8874
-Create Date: 2025-09-05 22:18:23.271913
+Revises: 116494dd7b2f
+Create Date: 2025-09-09 22:18:23.271913
 
 """
 
