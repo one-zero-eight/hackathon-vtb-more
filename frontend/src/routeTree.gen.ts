@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as InterviewApplicationIdRouteImport } from './routes/interview/$applicationId'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-query'
 import { Route as UserVacanciesIndexRouteImport } from './routes/user/vacancies/index'
 import { Route as UserProfileIndexRouteImport } from './routes/user/profile/index'
 import { Route as HrVacanciesIndexRouteImport } from './routes/hr/vacancies/index'
@@ -38,11 +37,6 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
 const InterviewApplicationIdRoute = InterviewApplicationIdRouteImport.update({
   id: '/interview/$applicationId',
   path: '/interview/$applicationId',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UserVacanciesIndexRoute = UserVacanciesIndexRouteImport.update({
@@ -103,7 +97,6 @@ const UserVacancyIdIdIndexRoute = UserVacancyIdIdIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/interview/$applicationId': typeof InterviewApplicationIdRoute
   '/auth': typeof AuthIndexRoute
   '/hr/vacancies/archieve': typeof HrVacanciesArchieveRoute
@@ -120,7 +113,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/interview/$applicationId': typeof InterviewApplicationIdRoute
   '/auth': typeof AuthIndexRoute
   '/hr/vacancies/archieve': typeof HrVacanciesArchieveRoute
@@ -138,7 +130,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/interview/$applicationId': typeof InterviewApplicationIdRoute
   '/auth/': typeof AuthIndexRoute
   '/hr/vacancies/archieve': typeof HrVacanciesArchieveRoute
@@ -157,7 +148,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/demo/tanstack-query'
     | '/interview/$applicationId'
     | '/auth'
     | '/hr/vacancies/archieve'
@@ -174,7 +164,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/demo/tanstack-query'
     | '/interview/$applicationId'
     | '/auth'
     | '/hr/vacancies/archieve'
@@ -191,7 +180,6 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/demo/tanstack-query'
     | '/interview/$applicationId'
     | '/auth/'
     | '/hr/vacancies/archieve'
@@ -209,7 +197,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   InterviewApplicationIdRoute: typeof InterviewApplicationIdRoute
   AuthIndexRoute: typeof AuthIndexRoute
   HrVacanciesArchieveRoute: typeof HrVacanciesArchieveRoute
@@ -246,13 +233,6 @@ declare module '@tanstack/react-router' {
       path: '/interview/$applicationId'
       fullPath: '/interview/$applicationId'
       preLoaderRoute: typeof InterviewApplicationIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/user/vacancies/': {
@@ -337,7 +317,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   InterviewApplicationIdRoute: InterviewApplicationIdRoute,
   AuthIndexRoute: AuthIndexRoute,
   HrVacanciesArchieveRoute: HrVacanciesArchieveRoute,
