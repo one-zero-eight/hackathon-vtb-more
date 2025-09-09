@@ -1,4 +1,4 @@
-from fastapi import APIRouter, BackgroundTasks
+from fastapi import APIRouter, BackgroundTasks, HTTPException
 from fastapi.params import Depends
 from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 from openai.types.realtime import ClientSecretCreateResponse, RealtimeAudioConfigParam
@@ -59,6 +59,13 @@ async def get_ephemeral_session(
     application_repository: ApplicationRepository = Depends(get_application_repository),
 ) -> ClientSecretCreateResponse:
     application = await application_repository.get_application(application_id)
+    if not application:
+        raise HTTPException(status_code=404, detail="Application not found")
+
+    if application.status != Status.APPROVED_FOR_INTERVIEW:
+        raise HTTPException(status_code=403, detail=f"Application {application_id} has not been approved for interview. "
+                                                    f"Current status: {application.status}")
+
     system_prompt = build_realtime_prompt(application)
 
     session = await async_client.realtime.client_secrets.create(
@@ -95,8 +102,14 @@ async def upload_message_history(
 ) -> list[InterviewMessageResponse]:
     created_messages = []
     application = await application_repository.get_application(data.application_id)
+    if not application:
+        raise HTTPException(status_code=404, detail="Application not found")
     vacancy = await application_repository.get_applications_vacancy(application.vacancy_id)
+    if not vacancy:
+        raise HTTPException(status_code=404, detail="Vacancy not found")
     pre_interview = await application_repository.get_applications_pre_interview(application.id)
+    if not pre_interview:
+        raise HTTPException(status_code=404, detail="Pre-interview not found")
 
     for msg in data.messages:
         created_message = await message_repository.create_message(

@@ -112,6 +112,11 @@ export const Vacancies = () => {
     return baseVacancies.filter(vacancy => vacancy.isActive === false).length;
   }, [baseVacancies]);
 
+  const deleteVacancyMutation = $api.useMutation(
+    'patch',
+    '/vacancy/{vacancy_id}'
+  );
+
   // Показываем состояние загрузки
   if (isLoading) {
     return (
@@ -415,6 +420,49 @@ function HRVacancyCard({
   index: number;
 }) {
   const navigate = useNavigate();
+  const deleteVacancyMutation = $api.useMutation(
+    'patch',
+    '/vacancy/{vacancy_id}'
+  );
+
+  const handleDeleteVacancy = async () => {
+    try {
+      await deleteVacancyMutation.mutateAsync({
+        params: {
+          path: {
+            vacancy_id: vacancy.id,
+          },
+        },
+        body: {
+          is_active: false,
+        },
+      });
+      // Обновляем данные после успешного удаления
+      window.location.reload();
+    } catch (error) {
+      console.error('Ошибка при удалении вакансии:', error);
+    }
+  };
+
+  const handleActivateVacancy = async () => {
+    try {
+      await deleteVacancyMutation.mutateAsync({
+        params: {
+          path: {
+            vacancy_id: vacancy.id,
+          },
+        },
+        body: {
+          is_active: true,
+        },
+      });
+      // Обновляем данные после успешной активации
+      window.location.reload();
+    } catch (error) {
+      console.error('Ошибка при активации вакансии:', error);
+    }
+  };
+
   return (
     <div
       className="w-full  bg-white dark:bg-slate-900/40 rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-gray-100 dark:border-slate-600/30 hover:shadow-md dark:hover:shadow-lg hover:border-gray-200 dark:hover:border-slate-500/50 transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm"
@@ -487,14 +535,40 @@ function HRVacancyCard({
             >
               <Pencil className="w-4 h-4" /> Редактировать
             </Button>
-            <Button className="text-lg text-white w-full bg-red-900 hover:bg-red-950 gap-2 cursor-pointer">
-              <Trash className="w-4 h-4" /> Удалить
+            <Button
+              className="text-lg text-white w-full bg-red-600 hover:bg-red-700 gap-2 cursor-pointer"
+              onClick={handleDeleteVacancy}
+              disabled={deleteVacancyMutation.isPending}
+            >
+              {deleteVacancyMutation.isPending ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Архивирование...
+                </>
+              ) : (
+                <>
+                  <Trash className="w-4 h-4" /> Архивировать
+                </>
+              )}
             </Button>
           </div>
         ) : (
           <div className="flex flex-col w-[250px] gap-3 items-center justify-center">
-            <Button className="bg-green-600 text-lg w-full hover:bg-green-700 text-white cursor-pointer">
-              <Group className="w-4 h-4" /> Активировать
+            <Button
+              className="bg-green-600 text-lg w-full hover:bg-green-700 text-white cursor-pointer"
+              onClick={handleActivateVacancy}
+              disabled={deleteVacancyMutation.isPending}
+            >
+              {deleteVacancyMutation.isPending ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Активация...
+                </>
+              ) : (
+                <>
+                  <Group className="w-4 h-4" /> Активировать
+                </>
+              )}
             </Button>
             <Button
               onClick={() =>
@@ -506,9 +580,6 @@ function HRVacancyCard({
               className="gap-2 cursor-pointer text-lg w-full"
             >
               <Pencil className="w-4 h-4" /> Редактировать
-            </Button>
-            <Button className="text-lg text-white w-full bg-red-900 hover:bg-red-950 gap-2 cursor-pointer">
-              <Trash className="w-4 h-4" /> Удалить
             </Button>
           </div>
         )}

@@ -16,38 +16,39 @@ import {
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useNavigate } from '@tanstack/react-router';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { isAdmin, isAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
+
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
-  const token = localStorage.getItem('token');
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const baseMenuItems = [
+  const handleLogout = () => {
+    logout();
+    navigate({ to: '/' });
+  };
+
+  const menuItems = [
     { label: 'Главная', href: '/', icon: Home },
     { label: 'Вакансии', href: '/user/vacancies', icon: Briefcase },
+    { label: 'О проекте', href: '/about', icon: Users },
   ];
 
-  const adminMenuItems = [
-    { label: 'HR Вакансии', href: '/hr/vacancies', icon: Briefcase },
-    { label: 'Создать вакансию', href: '/hr/vacancies/create', icon: FileText },
-  ];
 
-  const menuItems = isAdmin
-    ? [...baseMenuItems, ...adminMenuItems]
-    : baseMenuItems;
+
+
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container-w mx-auto">
         <div className="flex justify-between items-center h-16">
           {/* Логотип */}
@@ -56,7 +57,7 @@ export default function Navbar() {
               <Building2 className="w-6 h-6 text-primary-foreground" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              VTB More
+              AInna
             </span>
           </div>
 
@@ -94,14 +95,23 @@ export default function Navbar() {
             </Button>
 
             {/* Кнопки авторизации */}
-            {token && isAuthenticated ? (
+            {isAuthenticated ? (
               <div className="hidden sm:flex items-center space-x-3">
                 <div
-                  className="cursor-pointer items-center space-x-2 flex"
+                  className="cursor-pointer flex items-center space-x-2"
                   onClick={() => navigate({ to: '/user/profile' })}
                 >
                   <User className="w-6 h-6" />
+                  <span className="text-sm">Профиль</span>
                 </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="cursor-pointer"
+                >
+                  Выйти
+                </Button>
               </div>
             ) : (
               <div className="hidden sm:flex items-center space-x-3">
@@ -140,9 +150,8 @@ export default function Navbar() {
 
         {/* Мобильное меню */}
         <div
-          className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
-            isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-          }`}
+          className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            }`}
         >
           <div className="py-4 space-y-4 border-t border-border">
             {/* Мобильные пункты меню */}
@@ -165,20 +174,8 @@ export default function Navbar() {
 
             {/* Мобильные кнопки авторизации */}
             <div className="space-y-3 px-4 pt-4 border-t border-border">
-              {token && isAuthenticated ? (
+              {isAuthenticated ? (
                 <>
-                  {isAdmin && (
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      onClick={() => {
-                        navigate({ to: '/hr/vacancies' });
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      HR Панель
-                    </Button>
-                  )}
                   <Button
                     variant="outline"
                     className="w-full"
@@ -187,7 +184,16 @@ export default function Navbar() {
                       setIsMobileMenuOpen(false);
                     }}
                   >
-                    Профиль {isAdmin && '(Admin)'}
+                    Профиль
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  >
+                    Выйти
                   </Button>
                 </>
               ) : (
@@ -195,18 +201,12 @@ export default function Navbar() {
                   <Button
                     variant="outline"
                     className="w-full"
-                    onClick={() => {
-                      navigate({ to: '/auth' });
-                      setIsMobileMenuOpen(false);
-                    }}
+                    onClick={() => navigate({ to: '/auth' })}
                   >
                     Войти
                   </Button>
                   <Button
-                    onClick={() => {
-                      navigate({ to: '/auth' });
-                      setIsMobileMenuOpen(false);
-                    }}
+                    onClick={() => navigate({ to: '/auth' })}
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                   >
                     Регистрация

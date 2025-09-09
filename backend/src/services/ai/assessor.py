@@ -28,7 +28,7 @@ async def pre_interview_assessment(
         role="system",
         content=(
             "Act as a technical recruiter that evaluates a candidate strictly from the attached CV and github stats. "
-            "Return a structured decision only."
+            "Return a structured decision only. All text outputs should be in Russian language."
         ),
     )
     with open(application.cv, "rb") as f:
@@ -78,7 +78,7 @@ async def post_interview_assessment(
         role="system",
         content=(
             "Act as a technical recruiter that evaluates a candidate strictly from the attached information. "
-            "Return a structured decision only."
+            "Return a structured decision only. All text outputs should be in Russian language."
         ),
     )
 
@@ -109,18 +109,9 @@ async def post_interview_assessment(
 
     parsed = response.output_parsed
 
-    # Falls back to 0.0 if anything unexpected occurs.
-    overall_score: float
-    try:
-        overall_score = float(
-            sum(float(s.score) * float(s.weight) for s in (parsed.skill_scores or []))
-        )
-    except Exception:
-        overall_score = 0.0
-
     post_interview_result = await repository.create_result(
         is_recommended=bool(parsed.is_recommended),
-        score=overall_score,
+        score=float(parsed.score),
         interview_summary=str(parsed.interview_summary),
         candidate_response=str(parsed.candidate_response),
         summary=str(parsed.summary),

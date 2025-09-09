@@ -24,8 +24,13 @@ async def create_post_interview(
     summary: str,
     application_id: int,
     post_interview_repository: PostInterviewResultRepository = Depends(get_post_interview_repository),
+    application_repository: ApplicationRepository = Depends(get_application_repository),
     _: User = Depends(require_admin),
 ) -> PostInterviewResultResponse:
+    application = await application_repository.get_application(application_id)
+    if not application:
+        raise HTTPException(status_code=404, detail="Application not found")
+
     post_interview = await post_interview_repository.create_result(
         is_recommended=is_recommended,
         score=score,
@@ -65,8 +70,13 @@ async def edit_post_interview(
     summary: str | None = None,
     application_id: int | None = None,
     pre_interview_repository: PostInterviewResultRepository = Depends(get_post_interview_repository),
+    application_repository: ApplicationRepository = Depends(get_application_repository),
     _: User = Depends(require_admin),
 ) -> PreInterviewResponse:
+    application = await application_repository.get_application(application_id)
+    if not application:
+        raise HTTPException(status_code=404, detail="Application not found")
+
     post_interview = await pre_interview_repository.edit_result(
         result_id=result_id,
         is_recommended=is_recommended,

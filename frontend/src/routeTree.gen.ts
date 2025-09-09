@@ -15,7 +15,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as InterviewApplicationIdRouteImport } from './routes/interview/$applicationId'
 import { Route as Hr_layoutRouteImport } from './routes/hr/__layout'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-query'
 import { Route as UserVacanciesIndexRouteImport } from './routes/user/vacancies/index'
 import { Route as UserProfileIndexRouteImport } from './routes/user/profile/index'
 import { Route as HrVacanciesIndexRouteImport } from './routes/hr/vacancies/index'
@@ -54,11 +53,6 @@ const InterviewApplicationIdRoute = InterviewApplicationIdRouteImport.update({
 const Hr_layoutRoute = Hr_layoutRouteImport.update({
   id: '/__layout',
   getParentRoute: () => HrRoute,
-} as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const UserVacanciesIndexRoute = UserVacanciesIndexRouteImport.update({
   id: '/user/vacancies/',
@@ -125,7 +119,6 @@ const UserVacancyApp_idIdReportRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/hr': typeof Hr_layoutRoute
   '/interview/$applicationId': typeof InterviewApplicationIdRoute
   '/auth': typeof AuthIndexRoute
@@ -144,7 +137,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/hr': typeof Hr_layoutRoute
   '/interview/$applicationId': typeof InterviewApplicationIdRoute
   '/auth': typeof AuthIndexRoute
@@ -164,7 +156,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/hr': typeof HrRouteWithChildren
   '/hr/__layout': typeof Hr_layoutRoute
   '/interview/$applicationId': typeof InterviewApplicationIdRoute
@@ -186,7 +177,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/demo/tanstack-query'
     | '/hr'
     | '/interview/$applicationId'
     | '/auth'
@@ -205,7 +195,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/demo/tanstack-query'
     | '/hr'
     | '/interview/$applicationId'
     | '/auth'
@@ -224,7 +213,6 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/demo/tanstack-query'
     | '/hr'
     | '/hr/__layout'
     | '/interview/$applicationId'
@@ -245,7 +233,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   HrRoute: typeof HrRouteWithChildren
   InterviewApplicationIdRoute: typeof InterviewApplicationIdRoute
   AuthIndexRoute: typeof AuthIndexRoute
@@ -293,13 +280,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/hr'
       preLoaderRoute: typeof Hr_layoutRouteImport
       parentRoute: typeof HrRoute
-    }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/user/vacancies/': {
       id: '/user/vacancies/'
@@ -412,7 +392,6 @@ const HrRouteWithChildren = HrRoute._addFileChildren(HrRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   HrRoute: HrRouteWithChildren,
   InterviewApplicationIdRoute: InterviewApplicationIdRoute,
   AuthIndexRoute: AuthIndexRoute,
