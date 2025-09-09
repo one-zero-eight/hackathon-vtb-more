@@ -14,6 +14,7 @@ from src.api.repositories.dependencies import (
     get_application_repository,
     get_interview_message_repository,
     get_post_interview_repository,
+    get_skill_result_repository,
 )
 from src.config import open_ai_realtime_settings
 from src.db.models import InterviewMessage, User
@@ -21,6 +22,7 @@ from src.db.repositories import (
     ApplicationRepository,
     InterviewMessageRepository,
     PostInterviewResultRepository,
+    SkillResultRepository,
 )
 from src.schemas import InterviewHistoryRequest, InterviewMessageResponse, Status
 from src.services.ai.assessor import post_interview_assessment
@@ -37,6 +39,7 @@ async def _run_post_interview_and_update(
     pre_interview,
     post_interview_repository: PostInterviewResultRepository,
     application_repository: ApplicationRepository,
+    skill_result_repository: SkillResultRepository,
 ):
     application = await application_repository.get_application(application_id)
     vacancy = await application_repository.get_applications_vacancy(vacancy_id)
@@ -45,7 +48,8 @@ async def _run_post_interview_and_update(
         vacancy=vacancy,
         transcript=transcript,
         pre_interview_result=pre_interview,
-        repository=post_interview_repository,
+        post_interview_repository=post_interview_repository,
+        skill_results_repository=skill_result_repository,
     )
     new_status = Status.APPROVED if res.is_recommended else Status.REJECTED
     await application_repository.edit_application(application_id, status=new_status)
@@ -99,6 +103,7 @@ async def upload_message_history(
     message_repository: InterviewMessageRepository = Depends(get_interview_message_repository),
     post_interview_repository: PostInterviewResultRepository = Depends(get_post_interview_repository),
     application_repository: ApplicationRepository = Depends(get_application_repository),
+    skill_result_repository: SkillResultRepository = Depends(get_skill_result_repository),
 ) -> list[InterviewMessageResponse]:
     created_messages = []
     application = await application_repository.get_application(data.application_id)
@@ -127,6 +132,7 @@ async def upload_message_history(
         pre_interview=pre_interview,
         post_interview_repository=post_interview_repository,
         application_repository=application_repository,
+        skill_result_repository=skill_result_repository,
     )
 
     return created_messages
