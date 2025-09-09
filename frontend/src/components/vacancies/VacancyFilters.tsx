@@ -149,7 +149,7 @@ const VacancyFilters: React.FC<VacancyFiltersProps> = ({
   );
 
   return (
-    <div className="w-full lg:w-auto lg:flex-2 bg-white dark:bg-slate-800/30 rounded-2xl lg:rounded-3xl p-4 md:p-6 shadow-sm border border-gray-100 dark:border-slate-700/30 lg:sticky lg:top-[100px] h-fit backdrop-blur-sm">
+    <div className="w-full lg:w-auto lg:flex-2 bg-white dark:bg-slate-800/30 rounded-2xl lg:rounded-3xl p-4 md:p-6 shadow-sm border border-gray-100 dark:border-slate-700/30 lg:sticky lg:top-[120px] h-fit backdrop-blur-sm">
       <div className="mb-4 md:mb-6">
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100">

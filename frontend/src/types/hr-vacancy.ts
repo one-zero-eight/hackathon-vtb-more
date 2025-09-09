@@ -19,14 +19,8 @@ export interface HRVacancy {
   isActive: boolean;
   userId: number;
   // Дополнительные поля для UI
-  status: 'active' | 'draft' | 'closed' | 'archived';
+  status: 'active' | 'archived';
   statusText: string;
-  applicationsCount: number;
-  viewsCount: number;
-  hardSkills: string[];
-  softSkills: string[];
-  type: 'Full-Time' | 'Part-Time';
-  createdBy: string;
 }
 
 // Функция для преобразования API данных в UI формат
@@ -49,12 +43,6 @@ export const transformHRVacancyData = (
     status: getVacancyStatus(vacancy),
     statusText: getVacancyStatusText(vacancy),
     // Пока что статические значения, позже можно добавить в API
-    applicationsCount: Math.floor(Math.random() * 50) + 1,
-    viewsCount: Math.floor(Math.random() * 200) + 10,
-    hardSkills: [], // Пока что пустой массив, позже можно добавить из API
-    softSkills: [], // Пока что пустой массив, позже можно добавить из API
-    type: vacancy.weekly_hours_occupancy >= 40 ? 'Full-Time' : 'Part-Time',
-    createdBy: 'HR Manager', // Пока что статическое значение
   }));
 };
 
@@ -63,11 +51,6 @@ const getVacancyStatus = (vacancy: VacancyResponse): HRVacancy['status'] => {
   if (!vacancy.is_active) {
     return 'archived';
   }
-
-  if (vacancy.close_time && new Date(vacancy.close_time) < new Date()) {
-    return 'closed';
-  }
-
   return 'active';
 };
 
@@ -78,10 +61,6 @@ const getVacancyStatusText = (vacancy: VacancyResponse): string => {
   switch (status) {
     case 'active':
       return 'Активна';
-    case 'draft':
-      return 'Черновик';
-    case 'closed':
-      return 'Закрыта';
     case 'archived':
       return 'Архив';
     default:

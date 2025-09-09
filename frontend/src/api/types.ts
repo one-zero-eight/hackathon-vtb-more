@@ -384,8 +384,25 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Create Preinterview */
-        post: operations["create_preinterview_preinterview_post"];
+        /** Create Pre Interview */
+        post: operations["create_pre_interview_preinterview_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/preinterview/for_application/{application_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Pre Interview For Application */
+        get: operations["get_pre_interview_for_application_preinterview_for_application__application_id__get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -399,16 +416,16 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get Preinterview */
-        get: operations["get_preinterview_preinterview__result_id__get"];
+        /** Get Pre Interview */
+        get: operations["get_pre_interview_preinterview__result_id__get"];
         put?: never;
         post?: never;
-        /** Delete Preinterview */
-        delete: operations["delete_preinterview_preinterview__result_id__delete"];
+        /** Delete Pre Interview */
+        delete: operations["delete_pre_interview_preinterview__result_id__delete"];
         options?: never;
         head?: never;
-        /** Edit Preinterview */
-        patch: operations["edit_preinterview_preinterview__result_id__patch"];
+        /** Edit Pre Interview */
+        patch: operations["edit_pre_interview_preinterview__result_id__patch"];
         trace?: never;
     };
 }
@@ -865,7 +882,7 @@ export interface components {
             /**
              * Open Time
              * Format: date-time
-             * @default 2025-09-09T00:39:02.428877Z
+             * @default 2025-09-09T05:16:24.519833Z
              */
             open_time: string;
             /** Close Time */
@@ -1021,7 +1038,7 @@ export interface operations {
                     "application/json": components["schemas"]["ApplicationResponse"];
                 };
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1057,7 +1074,7 @@ export interface operations {
                     "application/json": components["schemas"]["ApplicationResponse"][];
                 };
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1084,7 +1101,7 @@ export interface operations {
                     "application/json": components["schemas"]["ApplicationWithVacancyResponse"][];
                 };
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1113,7 +1130,7 @@ export interface operations {
                     "application/json": components["schemas"]["ApplicationResponse"];
                 };
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1219,14 +1236,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description You are not authorized to transfer this application OR You are not authorized to change this application OR You are not authorized to change status of application */
+            /** @description You are not authorized to change status of application OR You are not authorized to change this application OR You are not authorized to transfer this application */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -1349,7 +1366,7 @@ export interface operations {
                     "application/json": components["schemas"]["UserResponse"];
                 };
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1378,7 +1395,7 @@ export interface operations {
                     "application/json": components["schemas"]["ClientSecretCreateResponse"];
                 };
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1418,7 +1435,7 @@ export interface operations {
                     "application/json": components["schemas"]["InterviewMessageResponse"][];
                 };
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1835,7 +1852,7 @@ export interface operations {
                     "application/json": components["schemas"]["VacancyResponse"][];
                 };
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1902,7 +1919,7 @@ export interface operations {
                     "application/json": components["schemas"]["VacancyWithSkillsResponse"][];
                 };
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1971,7 +1988,7 @@ export interface operations {
                     "application/json": components["schemas"]["VacancyResponse"];
                 };
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -2108,7 +2125,7 @@ export interface operations {
                     "application/json": components["schemas"]["VacancyWithSkillsResponse"];
                 };
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -2274,7 +2291,7 @@ export interface operations {
                     "application/json": components["schemas"]["UserResponse"];
                 };
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -2381,14 +2398,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Invalid token OR Invalid auth scheme */
+            /** @description Invalid auth scheme OR Invalid token */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Forbidden OR Only admins can change admin flag */
+            /** @description Only admins can change admin flag OR Forbidden */
             403: {
                 headers: {
                     [name: string]: unknown;
@@ -2413,7 +2430,7 @@ export interface operations {
             };
         };
     };
-    create_preinterview_preinterview_post: {
+    create_pre_interview_preinterview_post: {
         parameters: {
             query: {
                 is_recommended: boolean;
@@ -2454,7 +2471,52 @@ export interface operations {
             };
         };
     };
-    get_preinterview_preinterview__result_id__get: {
+    get_pre_interview_for_application_preinterview_for_application__application_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                application_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PreInterviewResponse"];
+                };
+            };
+            /** @description Admin only */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Pre interview assessment for application {application_id} not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_pre_interview_preinterview__result_id__get: {
         parameters: {
             query?: never;
             header?: never;
@@ -2499,7 +2561,7 @@ export interface operations {
             };
         };
     };
-    delete_preinterview_preinterview__result_id__delete: {
+    delete_pre_interview_preinterview__result_id__delete: {
         parameters: {
             query?: never;
             header?: never;
@@ -2542,7 +2604,7 @@ export interface operations {
             };
         };
     };
-    edit_preinterview_preinterview__result_id__patch: {
+    edit_pre_interview_preinterview__result_id__patch: {
         parameters: {
             query?: {
                 is_recommended?: boolean | null;

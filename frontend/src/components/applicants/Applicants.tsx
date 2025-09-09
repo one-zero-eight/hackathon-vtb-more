@@ -1,77 +1,23 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import ApplicantCard from './ApplicantCard';
 import { Button } from '@/components/ui/button';
 import SearchBar from '../SearchBar';
+import { $api } from '@/api';
+import { useParams } from '@tanstack/react-router';
 
 type Applicant = {
   id: number;
   fullName: string;
-  score: number;
+  score: number | null;
   profileUrl: string;
   reportUrl?: string;
+  status: string;
+  userId: number;
+  isRecommended?: boolean;
+  reason?: string | null;
 };
 
-const mockApplicantsInterview: Applicant[] = [
-  {
-    id: 1,
-    fullName: 'Иван Иванов',
-    score: 87,
-    profileUrl: '/profile/1',
-    reportUrl: '/report/1',
-  },
-  {
-    id: 3,
-    fullName: 'Алексей Смирнов',
-    score: 73,
-    profileUrl: '/profile/3',
-    reportUrl: '/report/3',
-  },
-  { id: 4, fullName: 'Дмитрий Кузнецов', score: 65, profileUrl: '/profile/4' },
-  {
-    id: 5,
-    fullName: 'Екатерина Соколова',
-    score: 91,
-    profileUrl: '/profile/5',
-    reportUrl: '/report/5',
-  },
-  { id: 6, fullName: 'Сергей Васильев', score: 78, profileUrl: '/profile/6' },
-  {
-    id: 7,
-    fullName: 'Ольга Морозова',
-    score: 84,
-    profileUrl: '/profile/7',
-    reportUrl: '/report/7',
-  },
-  { id: 8, fullName: 'Павел Новиков', score: 69, profileUrl: '/profile/8' },
-  {
-    id: 9,
-    fullName: 'Наталья Козлова',
-    score: 88,
-    profileUrl: '/profile/9',
-    reportUrl: '/report/9',
-  },
-];
-
-const mockApplicantsDecision: Applicant[] = [
-  { id: 2, fullName: 'Мария Петрова', score: 92, profileUrl: '/profile/2' },
-  { id: 10, fullName: 'Илья Медведев', score: 81, profileUrl: '/profile/10' },
-  {
-    id: 11,
-    fullName: 'Анна Орлова',
-    score: 76,
-    profileUrl: '/profile/11',
-    reportUrl: '/report/11',
-  },
-  { id: 12, fullName: 'Виктор Павлов', score: 64, profileUrl: '/profile/12' },
-  {
-    id: 13,
-    fullName: 'Юлия Семёнова',
-    score: 89,
-    profileUrl: '/profile/13',
-    reportUrl: '/report/13',
-  },
-  { id: 14, fullName: 'Роман Фёдоров', score: 71, profileUrl: '/profile/14' },
-];
+// Удаляем моковые данные - будем использовать реальные данные из API
 
 const TABS = [
   { key: 'interview', label: 'Ожидают интервью' },
@@ -82,18 +28,206 @@ const Applicants = () => {
   const [activeTab, setActiveTab] = useState<'interview' | 'decision'>(
     'interview'
   );
+  const { id } = useParams({ from: '/hr/vacancies/$id/applicants' });
   const [query, setQuery] = useState('');
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [sortKey, setSortKey] = useState<'name' | 'score'>('name');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
-  const allApplicants =
-    activeTab === 'interview'
-      ? mockApplicantsInterview
-      : mockApplicantsDecision;
+  // Получаем заявки для конкретной вакансии
+  const { data: applications, isLoading: isLoadingApplications } =
+    $api.useQuery('get', '/applications');
+
+  // Получаем всех пользователей
+  const { data: users, isLoading: isLoadingUsers } = $api.useQuery(
+    'get',
+    '/users'
+  );
+
+  // Фильтруем заявки по вакансии
+  const vacancyApplications = useMemo(() => {
+    if (!applications || !id) return [];
+    return applications.filter(app => app.vacancy_id === Number(id));
+  }, [applications, id]);
+
+  // Создаем Map для хранения pre-interview данных
+  const [preInterviewData, setPreInterviewData] = useState<Record<number, any>>(
+    {}
+  );
+  const [isLoadingPreInterviews, setIsLoadingPreInterviews] = useState(false);
+
+  // Загружаем pre-interview данные для всех заявок
+  useEffect(() => {
+    if (!vacancyApplications || vacancyApplications.length === 0) {
+      setPreInterviewData({});
+      return;
+    }
+
+    const loadPreInterviewData = async () => {
+      setIsLoadingPreInterviews(true);
+      const data: Record<number, any> = {};
+
+      // Загружаем данные для каждой заявки параллельно
+      const promises = vacancyApplications.map(async app => {
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/preinterview/for_application/${app.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const result = await response.json();
+            data[app.id] = result;
+            console.log(
+              `Loaded pre-interview data for application ${app.id}:`,
+              result
+            );
+          } else {
+            console.log(
+              `No pre-interview data for application ${app.id}, status: ${response.status}`
+            );
+            // Не сохраняем данные для заявок без pre-interview
+          }
+        } catch (error) {
+          console.warn(
+            `Failed to load pre-interview data for application ${app.id}:`,
+            error
+          );
+        }
+      });
+
+      await Promise.all(promises);
+      console.log('All pre-interview data loaded:', data);
+      setPreInterviewData(data);
+      setIsLoadingPreInterviews(false);
+    };
+
+    loadPreInterviewData();
+  }, [vacancyApplications]);
+
+  // Создаем объект пользователей для быстрого поиска
+  const usersMap = useMemo(() => {
+    if (!users) return {};
+    return users.reduce(
+      (acc, user) => {
+        acc[user.id] = user;
+        return acc;
+      },
+      {} as Record<number, any>
+    );
+  }, [users]);
+
+  // Функция для получения скора из pre-interview данных или GitHub статистики
+  const getScore = (applicationId: number, githubStats: any) => {
+    // Сначала ищем pre-interview данные для этой заявки
+    const preInterviewDataForApp = preInterviewData[applicationId];
+
+    // Добавляем отладочную информацию
+    console.log(`Application ${applicationId}:`, {
+      preInterviewData: preInterviewDataForApp,
+      hasScore: preInterviewDataForApp?.score !== undefined,
+      score: preInterviewDataForApp?.score,
+      githubStats,
+    });
+
+    if (preInterviewDataForApp?.score !== undefined) {
+      return preInterviewDataForApp.score;
+    }
+
+    // Если нет pre-interview данных, используем GitHub статистику
+    if (!githubStats) return null; // Не показываем скор если нет данных
+
+    // Конвертируем rank в числовое значение
+    const rankScores: Record<string, number> = {
+      'A+': 100,
+      A: 90,
+      'B+': 80,
+      B: 70,
+      'C+': 60,
+      C: 50,
+      'D+': 40,
+      D: 30,
+      'E+': 20,
+      E: 10,
+      F: 0,
+    };
+
+    const baseScore = rankScores[githubStats.rank] || 0;
+    const progressBonus = (githubStats.rank_progress || 0) * 0.1; // 10% бонус за прогресс
+
+    return Math.min(100, Math.round(baseScore + progressBonus));
+  };
+
+  // Функция для получения информации о рекомендации
+  const getRecommendationInfo = (applicationId: number) => {
+    const preInterviewDataForApp = preInterviewData[applicationId];
+
+    return {
+      isRecommended: preInterviewDataForApp?.is_recommended || false,
+      reason: preInterviewDataForApp?.reason || null,
+    };
+  };
+
+  // Преобразуем заявки в формат Applicant (ТОЛЬКО те, у кого есть pre-interview данные)
+  const allApplicants = useMemo(() => {
+    if (!vacancyApplications || !usersMap) return [];
+
+    const applicants = vacancyApplications
+      .filter(app => {
+        // Показываем ТОЛЬКО заявки с pre-interview данными
+        const hasPreInterviewData = preInterviewData[app.id];
+        return hasPreInterviewData;
+      })
+      .map(app => {
+        const user = usersMap[app.user_id];
+        const score = getScore(app.id, app.github_stats);
+        const recommendationInfo = getRecommendationInfo(app.id);
+
+        const applicant = {
+          id: app.id,
+          fullName: user?.name || 'Неизвестный пользователь',
+          score: score,
+          profileUrl: app.profile_url || `/profile/${app.user_id}`,
+          reportUrl: `/report/${app.id}`,
+          status: app.status,
+          userId: app.user_id,
+          isRecommended: recommendationInfo.isRecommended,
+          reason: recommendationInfo.reason,
+        };
+
+        console.log(`Created applicant for ${app.id}:`, applicant);
+        return applicant;
+      });
+
+    console.log(
+      'All applicants created (only with pre-interview data):',
+      applicants
+    );
+    return applicants;
+  }, [vacancyApplications, usersMap, preInterviewData]);
+
+  // Разделяем заявки по статусам
+  const applicantsInterview = useMemo(() => {
+    // Все заявки с pre-interview данными показываем в "Ожидают интервью"
+    return allApplicants;
+  }, [allApplicants]);
+
+  const applicantsDecision = useMemo(() => {
+    // Заявки с результатами после завершения интервью (пока пустой, так как все заявки с pre-interview данными)
+    return [];
+  }, []);
+
+  // Получаем текущий список заявок в зависимости от активной вкладки
+  const currentApplicants = useMemo(() => {
+    return activeTab === 'interview' ? applicantsInterview : applicantsDecision;
+  }, [activeTab, applicantsInterview, applicantsDecision]);
 
   const applicants = useMemo(() => {
-    const filtered = allApplicants.filter(a =>
+    const filtered = currentApplicants.filter(a =>
       a.fullName.toLowerCase().includes(query.trim().toLowerCase())
     );
     const sorted = [...filtered].sort((a, b) => {
@@ -103,21 +237,12 @@ const Applicants = () => {
           : b.fullName.localeCompare(a.fullName);
       }
       // score
-      return sortDir === 'asc'
-        ? a.score - (b.score as number)
-        : (b.score as number) - a.score;
+      const aScore = a.score ?? 0;
+      const bScore = b.score ?? 0;
+      return sortDir === 'asc' ? aScore - bScore : bScore - aScore;
     });
     return sorted;
-  }, [allApplicants, query, sortDir, sortKey]);
-
-  const toggleSort = (key: 'name' | 'score') => {
-    if (sortKey === key) {
-      setSortDir(d => (d === 'asc' ? 'desc' : 'asc'));
-    } else {
-      setSortKey(key);
-      setSortDir('asc');
-    }
-  };
+  }, [currentApplicants, query, sortDir, sortKey]);
 
   const toggleSelect = (id: number, checked?: boolean) => {
     setSelectedIds(prev => {
@@ -129,13 +254,34 @@ const Applicants = () => {
     });
   };
 
-  const countInterview = mockApplicantsInterview.length;
-  const countDecision = mockApplicantsDecision.length;
+  const countInterview = applicantsInterview.length;
+  const countDecision = applicantsDecision.length;
+
+  // Состояние загрузки
+  const isLoading =
+    isLoadingApplications || isLoadingUsers || isLoadingPreInterviews;
 
   const handleApprove = () => {
     // Placeholder action
     console.log('Approved ids:', selectedIds);
   };
+
+  if (isLoading) {
+    return (
+      <div className="w-full flex flex-col items-center gap-6 md:gap-8">
+        <div className="container-w mx-auto space-y-6 px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex items-center justify-center py-12">
+            <div className="text-center">
+              <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-gray-600 dark:text-gray-400">
+                Загрузка заявок...
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full flex flex-col items-center gap-6 md:gap-8">
@@ -143,7 +289,7 @@ const Applicants = () => {
         {/* Header */}
         <div className="flex items-center justify-between gap-4">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-100">
-            Senior Frontend Developer
+            Заявки на вакансию #{id}
           </h1>
         </div>
 
@@ -196,23 +342,6 @@ const Applicants = () => {
           </Button>
         </div>
 
-        {/* Columns header */}
-        <div className="flex items-center text-gray-300 select-none mt-4">
-          <button
-            onClick={() => toggleSort('name')}
-            className="flex-1 text-left hover:text-white"
-          >
-            Полное имя{' '}
-            {sortKey === 'name' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
-          </button>
-          <button
-            onClick={() => toggleSort('score')}
-            className="w-28 text-right hover:text-white"
-          >
-            Рейтинг {sortKey === 'score' ? (sortDir === 'asc' ? '↑' : '↓') : ''}
-          </button>
-        </div>
-
         {/* List */}
         <div className="space-y-2">
           {applicants.length === 0 ? (
@@ -226,9 +355,12 @@ const Applicants = () => {
                 checked={selectedIds.includes(applicant.id)}
                 onCheck={val => toggleSelect(applicant.id, Boolean(val))}
                 fullName={applicant.fullName}
-                score={`${applicant.score}%`}
+                score={applicant.score !== null ? `${applicant.score}%` : 'N/A'}
                 profileUrl={applicant.profileUrl}
                 reportUrl={applicant.reportUrl}
+                status={applicant.status}
+                isRecommended={applicant.isRecommended}
+                reason={applicant.reason}
               />
             ))
           )}

@@ -1,9 +1,22 @@
 import React, { useMemo, useState } from 'react';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import SearchBar from '@/components/SearchBar';
 import VacancyFilters from '@/components/vacancies/VacancyFilters';
 import { Button } from '@/components/ui/button';
-import { Filter, X, Users, Eye, Pencil, Archive } from 'lucide-react';
+import {
+  Filter,
+  X,
+  Users,
+  Eye,
+  Pencil,
+  Archive,
+  Group,
+  Delete,
+  DeleteIcon,
+  Trash,
+  Plus,
+  Sparkles,
+} from 'lucide-react';
 import { $api } from '@/api';
 import { type HRVacancy, transformHRVacancyData } from '@/types/hr-vacancy';
 import { LoadingSpinner, ErrorState } from '@/components/ui';
@@ -31,7 +44,8 @@ const transformToVacancyData = (hrVacancies: HRVacancy[]) => {
 
 export const Vacancies = () => {
   const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
-
+  const [type, setType] = useState<'active' | 'not-active'>('active');
+  const navigate = useNavigate();
   // Получаем данные пользователя и вакансий
   const { data: user } = $api.useQuery('get', '/auth/me');
   const {
@@ -69,16 +83,34 @@ export const Vacancies = () => {
     hasActiveFilters,
   } = useVacancyFilters(vacancyData);
 
-  // Преобразуем отфильтрованные данные обратно в HR формат
+  // Преобразуем отфильтрованные данные обратно в HR формат и фильтруем по типу (активные/архивные)
   const filteredVacancies = useMemo(() => {
-    return baseVacancies.filter(hrVacancy =>
+    const filteredBySearch = baseVacancies.filter(hrVacancy =>
       filteredVacancyData.some(vacancyData => vacancyData.id === hrVacancy.id)
     );
-  }, [baseVacancies, filteredVacancyData]);
+
+    // Дополнительно фильтруем по isActive в зависимости от выбранного типа
+    return filteredBySearch.filter(vacancy => {
+      if (type === 'active') {
+        return vacancy.isActive === true;
+      } else {
+        return vacancy.isActive === false;
+      }
+    });
+  }, [baseVacancies, filteredVacancyData, type]);
 
   const handleSearch = (q: string) => {
     setSearchQuery(q);
   };
+
+  // Подсчитываем количество активных и архивных вакансий
+  const activeCount = useMemo(() => {
+    return baseVacancies.filter(vacancy => vacancy.isActive === true).length;
+  }, [baseVacancies]);
+
+  const archiveCount = useMemo(() => {
+    return baseVacancies.filter(vacancy => vacancy.isActive === false).length;
+  }, [baseVacancies]);
 
   // Показываем состояние загрузки
   if (isLoading) {
@@ -118,32 +150,89 @@ export const Vacancies = () => {
 
       {/* Search Bar */}
       <SearchBar
-        placeholder="🔍 Поиск по вашим вакансиям, навыкам, городам..."
+        placeholder="Поиск по вашим вакансиям, навыкам, городам..."
         onSearch={handleSearch}
       />
 
       {/* HR actions */}
-      <div className="container-w -mt-2 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <Link to="/hr/vacancies/create" className="inline-flex">
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
-              Создать вакансию
-            </Button>
-          </Link>
-          <Link to="/hr/vacancies/archieve" className="inline-flex">
-            <Button variant="outline" className="gap-2">
-              <Archive className="w-4 h-4" /> Архив
-            </Button>
-          </Link>
-        </div>
-        {hasActiveFilters && (
-          <button
-            onClick={resetFilters}
-            className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
+      <div className="container-w -mt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-2">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between w-full gap-3 sm:gap-2">
+          <div className="relative inline-flex items-center bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-1 shadow-inner border border-gray-200 dark:border-gray-700 transition-shadow duration-300 w-full sm:w-auto">
+            {/* Animated background slider */}
+            <div
+              className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white dark:bg-gray-700 rounded-lg shadow-md transition-all duration-300 ease-in-out ${
+                type === 'active' ? 'left-1' : 'left-[calc(50%+2px)]'
+              }`}
+            />
+
+            <button
+              onClick={() => setType('active')}
+              className={`relative z-10 px-4 sm:px-6 py-2.5 text-sm font-semibold rounded-lg transition-all cursor-pointer duration-300 ease-in-out flex-1 sm:flex-none ${
+                type === 'active'
+                  ? 'text-indigo-600 dark:text-indigo-400'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+              }`}
+            >
+              <span className="flex items-center justify-center gap-2">
+                <div
+                  className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                    type === 'active' ? 'bg-green-500' : 'bg-gray-400'
+                  }`}
+                />
+                <span className="hidden xs:inline">Активные</span>
+                <span className="xs:hidden">Актив</span>
+                <span
+                  className={`px-2 py-0.5 text-xs rounded-full transition-colors duration-300 ${
+                    type === 'active'
+                      ? 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400'
+                      : 'bg-gray-200 text-gray-500 dark:bg-gray-700 dark:text-gray-400'
+                  }`}
+                >
+                  {activeCount}
+                </span>
+              </span>
+            </button>
+
+            <button
+              onClick={() => setType('not-active')}
+              className={`relative z-10 px-4 sm:px-6 py-2.5 text-sm font-semibold rounded-lg transition-all cursor-pointer duration-300 ease-in-out flex-1 sm:flex-none ${
+                type === 'not-active'
+                  ? 'text-indigo-600 dark:text-indigo-400'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+              }`}
+            >
+              <span className="flex items-center justify-center gap-2">
+                <Archive
+                  className={`w-4 h-4 transition-colors duration-300 ${
+                    type === 'not-active' ? 'text-orange-500' : 'text-gray-400'
+                  }`}
+                />
+                <span className="hidden xs:inline">Архив</span>
+                <span className="xs:hidden">Арх</span>
+                <span
+                  className={`px-2 py-0.5 text-xs rounded-full transition-colors duration-300 ${
+                    type === 'not-active'
+                      ? 'bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400'
+                      : 'bg-gray-200 text-gray-500 dark:bg-gray-700 dark:text-gray-400'
+                  }`}
+                >
+                  {archiveCount}
+                </span>
+              </span>
+            </button>
+          </div>
+
+          <Button
+            className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 shadow-sm hover:shadow-md transition-all duration-300 ease-in-out rounded-xl px-4 sm:px-6 py-6 font-semibold text-sm cursor-pointer w-full sm:w-auto"
+            onClick={() => navigate({ to: '/hr/vacancies/create' })}
           >
-            Очистить поиск и фильтры
-          </button>
-        )}
+            <span className="flex items-center justify-center gap-2">
+              <Plus className="w-4 h-4" />
+              <span className="hidden sm:inline">Создать вакансию</span>
+              <span className="sm:hidden">Создать</span>
+            </span>
+          </Button>
+        </div>
       </div>
 
       {/* Mobile Filters Button */}
@@ -174,6 +263,7 @@ export const Vacancies = () => {
         {/* Vacancy List */}
         <div className="flex-1">
           <HRVacancyList
+            type={type}
             vacancies={filteredVacancies}
             totalCount={baseVacancies.length}
             onResetFilters={resetFilters}
@@ -206,16 +296,14 @@ export const Vacancies = () => {
                 <X className="w-5 h-5" />
               </Button>
             </div>
-
             {/* Filters Content */}
-            <VacancyFilters
+            {/* <VacancyFilters
               filters={filters}
               setFilters={setFilters}
               filterOptions={filterOptions}
               expandedSections={expandedSections}
               setExpandedSections={setExpandedSections}
-            />
-
+            /> */}
             {/* Apply Button */}
             <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
               <Button
@@ -235,21 +323,28 @@ export const Vacancies = () => {
 function StatusBadge({
   status,
   statusText,
+  isActive,
 }: {
   status: HRVacancy['status'];
   statusText: string;
+  isActive: boolean;
 }) {
-  const styles: Record<HRVacancy['status'], string> = {
+  const styles: Record<string, string> = {
     active: 'bg-green-100 text-green-700',
     draft: 'bg-gray-100 text-gray-700',
     closed: 'bg-red-100 text-red-700',
     archived: 'bg-yellow-100 text-yellow-700',
   };
+
+  // Если вакансия неактивна, показываем архивный статус
+  const displayStatus = isActive ? status : 'archived';
+  const displayText = isActive ? statusText : 'Архив';
+
   return (
     <span
-      className={`px-2 md:px-3 py-1 text-xs md:text-sm font-medium rounded-full ${styles[status]}`}
+      className={`px-2 md:px-3 py-1 text-xs md:text-sm font-medium rounded-full ${styles[displayStatus]}`}
     >
-      {statusText}
+      {displayText}
     </span>
   );
 }
@@ -258,10 +353,12 @@ function HRVacancyList({
   vacancies,
   totalCount,
   onResetFilters,
+  type,
 }: {
   vacancies: HRVacancy[];
   totalCount: number;
   onResetFilters: () => void;
+  type: 'active' | 'not-active';
 }) {
   if (vacancies.length === 0) {
     return (
@@ -286,11 +383,12 @@ function HRVacancyList({
   }
 
   return (
-    <div className="w-full flex flex-col gap-4 min-h-[30vh] rounded-2xl md:rounded-3xl items-center">
+    <div className="w-full bg-re flex flex-col gap-4 min-h-[30vh] rounded-2xl md:rounded-3xl items-center">
       <div className="w-full mb-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-100">
-            Ваши вакансии ({vacancies.length})
+            {type === 'active' ? 'Активные вакансии' : 'Архивные вакансии'} (
+            {vacancies.length})
           </h2>
           <div className="flex items-center space-x-4">
             {vacancies.length !== totalCount && (
@@ -316,9 +414,10 @@ function HRVacancyCard({
   vacancy: HRVacancy;
   index: number;
 }) {
+  const navigate = useNavigate();
   return (
     <div
-      className="w-full md:w-[95%] bg-white dark:bg-slate-900/40 rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-gray-100 dark:border-slate-600/30 hover:shadow-md dark:hover:shadow-lg hover:border-gray-200 dark:hover:border-slate-500/50 transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm"
+      className="w-full  bg-white dark:bg-slate-900/40 rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-gray-100 dark:border-slate-600/30 hover:shadow-md dark:hover:shadow-lg hover:border-gray-200 dark:hover:border-slate-500/50 transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm"
       style={{
         animationDelay: `${index * 50}ms`,
         animation: 'fadeInUp 0.5s ease-out forwards',
@@ -333,6 +432,7 @@ function HRVacancyCard({
             <StatusBadge
               status={vacancy.status}
               statusText={vacancy.statusText}
+              isActive={vacancy.isActive}
             />
           </div>
 
@@ -354,47 +454,64 @@ function HRVacancyCard({
           </div>
 
           <div className="flex flex-wrap items-center gap-3 text-gray-600 dark:text-gray-400 mb-3 md:mb-4">
-            <span className="px-2 md:px-3 py-1 bg-green-100 text-green-700 text-xs md:text-sm font-medium rounded-full">
-              {vacancy.type}
-            </span>
             <span className="px-2 md:px-3 py-1 bg-blue-100 text-blue-700 text-xs md:text-sm font-medium rounded-full">
-              {formatExperienceRange(vacancy.requiredExperience)}
+              {formatExperienceRange(vacancy.requiredExperience)} опыта
             </span>
             <span className="px-2 md:px-3 py-1 bg-purple-100 text-purple-700 text-xs md:text-sm font-medium rounded-full">
               {vacancy.weeklyHours} ч/нед
             </span>
           </div>
-
-          <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
-            <div className="flex items-center gap-1">
-              <Users className="w-4 h-4" /> {vacancy.applicationsCount} откликов
-            </div>
-            <div className="flex items-center gap-1">
-              <Eye className="w-4 h-4" /> {vacancy.viewsCount} просмотров
-            </div>
-          </div>
         </div>
 
-        <div className="lg:ml-4 flex flex-col sm:flex-row gap-2 sm:items-start">
-          <Link
-            to="/hr/vacancies/$id/applicants"
-            params={{ id: vacancy.id.toString() }}
-            className="inline-flex"
-          >
-            <Button className="w-full lg:w-auto bg-indigo-600 hover:bg-indigo-700 text-white">
-              Кандидаты
+        {vacancy.isActive ? (
+          <div className="flex flex-col w-[250px] gap-3 items-center justify-center">
+            <Button
+              onClick={() =>
+                navigate({
+                  to: `/hr/vacancies/${vacancy.id.toString()}/applicants`,
+                })
+              }
+              className="bg-indigo-600 text-lg w-full hover:bg-indigo-700 text-white cursor-pointer"
+            >
+              <Group className="w-4 h-4" /> Кандидаты
             </Button>
-          </Link>
-          <Link
-            to="/hr/vacancies/$id/update"
-            params={{ id: vacancy.id.toString() }}
-            className="inline-flex"
-          >
-            <Button variant="outline" className="gap-2">
+
+            <Button
+              onClick={() =>
+                navigate({
+                  to: `/hr/vacancies/${vacancy.id.toString()}/update`,
+                })
+              }
+              variant="outline"
+              className="gap-2 cursor-pointer text-lg w-full"
+            >
               <Pencil className="w-4 h-4" /> Редактировать
             </Button>
-          </Link>
-        </div>
+            <Button className="text-lg text-white w-full bg-red-900 hover:bg-red-950 gap-2 cursor-pointer">
+              <Trash className="w-4 h-4" /> Удалить
+            </Button>
+          </div>
+        ) : (
+          <div className="flex flex-col w-[250px] gap-3 items-center justify-center">
+            <Button className="bg-green-600 text-lg w-full hover:bg-green-700 text-white cursor-pointer">
+              <Group className="w-4 h-4" /> Активировать
+            </Button>
+            <Button
+              onClick={() =>
+                navigate({
+                  to: `/hr/vacancies/${vacancy.id.toString()}/update`,
+                })
+              }
+              variant="outline"
+              className="gap-2 cursor-pointer text-lg w-full"
+            >
+              <Pencil className="w-4 h-4" /> Редактировать
+            </Button>
+            <Button className="text-lg text-white w-full bg-red-900 hover:bg-red-950 gap-2 cursor-pointer">
+              <Trash className="w-4 h-4" /> Удалить
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
