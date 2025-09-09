@@ -25,6 +25,7 @@ app.add_middleware(
 from src.api.application.routes import router as application_router  # noqa: E402
 from src.api.auth.routes import router as auth_router  # noqa: E402
 from src.api.interview.routes import router as interview_router  # noqa: E402
+from src.api.post_interview.routes import router as post_interview_router  # noqa: E402
 from src.api.pre_interview.routes import router as pre_interview_router  # noqa: E402
 from src.api.skill.routes import skills_router, skills_type_router  # noqa: E402
 from src.api.user.routes import router as user_router  # noqa: E402
@@ -33,8 +34,9 @@ from src.api.vacancy.routes import router as vacancy_router  # noqa: E402
 app.include_router(application_router)
 app.include_router(auth_router)
 app.include_router(interview_router)
+app.include_router(post_interview_router)
+app.include_router(pre_interview_router)
 app.include_router(skills_router)
 app.include_router(skills_type_router)
-app.include_router(vacancy_router)
 app.include_router(user_router)
-app.include_router(pre_interview_router)
+app.include_router(vacancy_router)

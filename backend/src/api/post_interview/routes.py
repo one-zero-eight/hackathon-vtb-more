@@ -12,7 +12,7 @@ from src.db.repositories import ApplicationRepository, PostInterviewResultReposi
 from src.schemas import PreInterviewResponse
 from src.schemas.post_interview import PostInterviewResultResponse
 
-router = APIRouter(prefix="/preinterview", tags=["Pre-interview results"], route_class=AutoDeriveResponsesAPIRoute)
+router = APIRouter(prefix="/postinterview", tags=["Post-interview results"], route_class=AutoDeriveResponsesAPIRoute)
 
 
 @router.post("", status_code=http_status.HTTP_201_CREATED)
