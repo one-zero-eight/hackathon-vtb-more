@@ -4,7 +4,7 @@ from openai.types.responses import EasyInputMessageParam, ResponseInputFileParam
 
 from src.config import open_ai_text_settings
 from src.db.models import Application, InterviewMessage, PostInterviewResult, PreInterviewResult, Vacancy
-from src.db.repositories import PostInterviewResultRepository, PreInterviewResultRepository
+from src.db.repositories import PostInterviewResultRepository, PreInterviewResultRepository, SkillResultRepository
 from src.schemas import PostInterviewAIStructure, PreInterviewAIStructure
 from src.services.ai.openai_client import async_client
 from src.services.ai.prompt_builder import (
@@ -72,7 +72,8 @@ async def post_interview_assessment(
     vacancy: Vacancy,
     transcript: list[InterviewMessage],
     pre_interview_result: PreInterviewResult,
-    repository: PostInterviewResultRepository,
+    post_interview_repository: PostInterviewResultRepository,
+    skill_results_repository: SkillResultRepository,
 ) -> PostInterviewResult:
     system_msg = EasyInputMessageParam(
         role="system",
@@ -91,13 +92,12 @@ async def post_interview_assessment(
         filename="CV.pdf",
         file_data=f"data:application/pdf;base64,{base64_string}",
     )
-    _text = (
-        build_post_interview_assessment_prompt(
-            vacancy=vacancy,
-            transcript=transcript,
-            pre_interview_result=pre_interview_result,
-        )
+    _text = build_post_interview_assessment_prompt(
+        vacancy=vacancy,
+        transcript=transcript,
+        pre_interview_result=pre_interview_result,
     )
+
     text_input = ResponseInputTextParam(type="input_text", text=_text)
     user_msg = EasyInputMessageParam(role="user", content=[text_input, file_input])
 
@@ -109,7 +109,7 @@ async def post_interview_assessment(
 
     parsed = response.output_parsed
 
-    post_interview_result = await repository.create_result(
+    post_interview_result = await post_interview_repository.create_result(
         is_recommended=bool(parsed.is_recommended),
         score=float(parsed.score),
         interview_summary=str(parsed.interview_summary),
@@ -119,5 +119,15 @@ async def post_interview_assessment(
         candidate_roadmap=str(parsed.candidate_roadmap),
         application_id=application.id,
     )
+
+    if parsed.skill_scores:
+        items = []
+        valid_skill_ids = {s.id for s in (vacancy.skills or [])}
+        for it in parsed.skill_scores:
+            if it.skill_id in valid_skill_ids:
+                items.append({"skill_id": int(it.skill_id), "score": float(it.score)})
+
+        if items:
+            await skill_results_repository.bulk_create_skill_results(application_id=application.id, items=items)
 
     return post_interview_result

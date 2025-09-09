@@ -7,7 +7,6 @@ import {
   X,
   Building2,
   Briefcase,
-  Users,
   Home,
   User,
   Settings,
@@ -39,8 +38,7 @@ export default function Navbar() {
 
   const menuItems = [
     { label: 'Главная', href: '/', icon: Home },
-    { label: 'Вакансии', href: '/user/vacancies', icon: Briefcase },
-    { label: 'О проекте', href: '/about', icon: Users },
+    { label: 'Вакансии', href: '/user/vacancies', icon: Briefcase }
   ];
 
   return (
@@ -48,31 +46,33 @@ export default function Navbar() {
       <div className="container-w mx-auto">
         <div className="flex justify-between items-center h-16">
           {/* Логотип */}
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center">
-              <Building2 className="w-6 h-6 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+          <div className="flex items-center space-x-12">
+              <div className="flex items-center space-x-2">
+                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center">
+                      <Building2 className="w-6 h-6 text-primary-foreground" />
+                  </div>
+                  <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
               AInna
             </span>
+              </div>
+
+              <div className="hidden md:flex items-center space-x-8">
+                  {menuItems.map(item => {
+                      const Icon = item.icon;
+                      return (
+                          <a
+                              key={item.href}
+                              href={item.href}
+                              className="flex items-center space-x-2 text-foreground/70 hover:text-foreground transition-colors duration-200 group"
+                          >
+                              <Icon className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                              <span className="font-medium">{item.label}</span>
+                          </a>
+                      );
+                  })}
+              </div>
           </div>
 
-          {/* Десктопное меню */}
-          <div className="hidden md:flex items-center space-x-8">
-            {menuItems.map(item => {
-              const Icon = item.icon;
-              return (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="flex items-center space-x-2 text-foreground/70 hover:text-foreground transition-colors duration-200 group"
-                >
-                  <Icon className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                  <span className="font-medium">{item.label}</span>
-                </a>
-              );
-            })}
-          </div>
 
           {/* Правая часть - кнопки и переключатель темы */}
           <div className="flex items-center space-x-4">

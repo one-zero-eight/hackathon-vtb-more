@@ -175,9 +175,27 @@ class SkillResultRepository:
             skill_result = await session.get(SkillResult, skill_id)
             return skill_result
 
-    async def get_application_result(self, application_id: int) -> list[SkillResult]:
+    async def get_application_results(self, application_id: int) -> list[SkillResult]:
         async with self._create_session() as session:
-            result = await session.execute(
-                select(SkillResult).filter(SkillResult.application_id == application_id)
-            )
+            result = await session.execute(select(SkillResult).filter(SkillResult.application_id == application_id))
             return result.scalars().all()
+
+    async def bulk_create_skill_results(self, application_id: int, items: list[dict]) -> list[SkillResult]:
+        if not items:
+            return []
+
+        async with self._create_session() as session:
+            objs: list[SkillResult] = []
+            for it in items:
+                objs.append(
+                    SkillResult(
+                        application_id=application_id,
+                        skill_id=int(it["skill_id"]),
+                        score=float(it["score"]),
+                    )
+                )
+
+            session.add_all(objs)
+            await session.commit()
+
+            return objs

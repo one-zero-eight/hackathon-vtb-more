@@ -4,7 +4,7 @@ from src.schemas.interview import (
     InterviewHistoryRequest,
     InterviewMessageResponse,
 )
-from src.schemas.post_interview import PostInterviewAIStructure
+from src.schemas.post_interview import PostInterviewAIStructure, PostInterviewResponse, PostInterviewResultResponse
 from src.schemas.pre_interview import PreInterviewAIStructure, PreInterviewResponse
 from src.schemas.skills import (
     SkillResponse,
@@ -49,6 +49,8 @@ __all__ = [
     'InterviewHistoryRequest',
     'InterviewMessageResponse',
     'PostInterviewAIStructure',
+    'PostInterviewResponse',
+    'PostInterviewResultResponse',
     'PreInterviewAIStructure',
     'PreInterviewResponse',
 ]

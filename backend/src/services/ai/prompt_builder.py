@@ -2,7 +2,7 @@ import json
 
 import PyPDF2
 
-from src.db.models import Application, InterviewMessage, PreInterviewResult, Vacancy
+from src.db.models import Application, InterviewMessage, PreInterviewResult, Skill, Vacancy
 from src.services.pre_interview.github_eval import GithubStats
 
 
@@ -42,6 +42,18 @@ def build_pre_interview_result_prompt(result: PreInterviewResult) -> str:
         f"- Score: {result.score}\n"
         f"- Reason: {result.reason}\n"
     )
+
+
+def build_skills_prompt(skills: list[Skill]) -> str:
+    if not skills:
+        return "- (no skills listed)"
+
+    lines: list[str] = []
+    for s in skills:
+        name = (s.skill_type.name if getattr(s, "skill_type", None) else "").strip()
+        details = (s.details or "").strip().replace("\n", " ")
+        lines.append(f"- id: {s.id}; weight: {s.weight}; name: {name}; details: {details}")
+    return "\n".join(lines)
 
 
 def _extract_text_from_pdf(pdf_path: str) -> str:
@@ -118,6 +130,7 @@ Candidate CV:
 </cv>
 """
 
+
 def build_post_interview_assessment_prompt(
     vacancy: Vacancy,
     transcript: list[InterviewMessage],
@@ -126,12 +139,35 @@ def build_post_interview_assessment_prompt(
     vacancy_text = build_vacancy_prompt(vacancy)
     transcript_text = build_transcript_prompt(transcript)
     result_text = build_pre_interview_result_prompt(pre_interview_result)
+
+    skills_block = build_skills_prompt(vacancy.skills)
+    skills_count = len(vacancy.skills)
+
     return f"""
-Evaluate the candidate for the role described in vacancy. Use only attached info (CV file, vacancy info, pre-interview result) to evaluate candidate.
+You are a technical recruiter evaluating a candidate strictly from the attached information (CV file, vacancy info, pre-interview result, interview transcript). Produce only a structured decision matching the provided schema. All free-text fields must be written in Russian. Do not include any extra keys or commentary outside the schema.
+
+Scoring rules:
+- For every skill listed under Vacancy → Skills, output exactly one SkillResult with: skill_id (verbatim), weight (verbatim), and score in [0.0–1.0]. Do not omit any listed skill. If evidence is insufficient, assign a cautious score (e.g., 0.45–0.55) rather than skipping.
+- The top-level score should align with the per-skill evaluations and weights; be conservative when evidence is limited.
+- is_recommended must reflect overall suitability and risks based only on the provided materials.
+
+Writing rules (Russian):
+- interview_summary: 3–5 neutral sentences describing strengths, gaps, notable moments.
+- candidate_response: Polite, actionable feedback for the candidate; exclude internal rationale and sensitive decision logic.
+- summary: Internal rationale connecting is_recommended, interpretation of skill scores, evidence, and risks.
+- emotional_analysis: Observations inferred from the transcript’s tone and behavior; avoid clinical labels.
+- candidate_roadmap: Actionable plan with prioritized gaps, concrete steps, recommended resources, and suggested timelines.
+
+Return strictly in the specified structured format. If Vacancy → Skills is empty, skill_scores may be empty; otherwise include one SkillResult for each listed skill.
 
 Vacancy:
 <vacancy>
 {vacancy_text}
+
+Skills (score each; preserve id and weight exactly; count={skills_count}):
+<skills>
+{skills_block if skills_block else "- (no skills listed)"}
+</skills>
 </vacancy>
 
 Interview transcript:
@@ -143,6 +179,4 @@ Pre-interview candidate assessment:
 <pre_interview_result>
 {result_text}
 </pre_interview_result>
-
-Respond strictly according to attached structure.
 """

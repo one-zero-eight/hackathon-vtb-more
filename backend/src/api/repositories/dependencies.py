@@ -7,6 +7,7 @@ from src.db.repositories import (
     PostInterviewResultRepository,
     PreInterviewResultRepository,
     SkillRepository,
+    SkillResultRepository,
     SkillTypeRepository,
     UserRepository,
     VacancyRepository,
@@ -68,6 +69,12 @@ def get_interview_message_repository(
     storage: AbstractSQLAlchemyStorage = Depends(get_storage),
 ) -> InterviewMessageRepository:
     return InterviewMessageRepository(storage)
+
+
+def get_skill_result_repository(
+    storage: AbstractSQLAlchemyStorage = Depends(get_storage),
+) -> SkillResultRepository:
+    return SkillResultRepository(storage)
 
 
 def get_converting_repository() -> ConvertingRepository:

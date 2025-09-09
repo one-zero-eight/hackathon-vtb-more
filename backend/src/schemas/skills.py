@@ -43,7 +43,6 @@ class SkillResultAIStructure(BaseSchema):
 class SkillResultResponse(BaseSchema):
     id: int
     score: float
-    weight: float # mirrors skill weight
     skill_id: int
 
     model_config = ConfigDict(from_attributes=True)

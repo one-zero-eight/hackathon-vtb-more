@@ -18,6 +18,17 @@ class PostInterviewResultResponse(BaseSchema):
     candidate_roadmap: str
 
 
+class PostInterviewResponse(BaseSchema):
+    id: int
+    is_recommended: bool
+    score: float
+    summary: str
+    interview_summary: str
+    candidate_response: str
+    emotional_analysis: str
+    candidate_roadmap: str
+
+
 class PostInterviewAIStructure(BaseSchema):
     score: float = Field(..., gt=0, lt=1, description="Float between 0.0–1.0; prefer two-decimal precision, representing how suitable candidate is.")
     is_recommended: bool = Field(description="Whether the candidate is recommended for the next stage or hire based on the overall evaluation.")
