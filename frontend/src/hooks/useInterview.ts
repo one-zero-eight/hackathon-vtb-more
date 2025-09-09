@@ -8,7 +8,7 @@ type SessionResp = {
   session_id: string;
 };
 
-export function useInterview() {
+export function useInterview(application_id: string) {
   const pcRef = useRef<RTCPeerConnection | null>(null);
   const dcRef = useRef<RTCDataChannel | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -22,7 +22,7 @@ export function useInterview() {
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [isListening, setIsListening] = useState<boolean>(false);
   const [transcripts, setTranscripts] = useState<
-    { role: string; message: string }[]
+    { role: 'user' | 'assistant'; message: string }[]
   >([]);
 
   // Safe status update function
@@ -44,6 +44,10 @@ export function useInterview() {
     setStatus(newStatus);
   };
 
+  const sendInterViewChat = $api.useMutation(
+    'post',
+    '/interview/message_history'
+  );
   async function startInterview() {
     try {
       console.log('Starting interview...');
@@ -58,7 +62,7 @@ export function useInterview() {
       }
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/interview/session?application_id=1`,
+        `${import.meta.env.VITE_API_URL}/interview/session?application_id=${application_id}`,
         {
           headers,
         }
@@ -236,6 +240,12 @@ export function useInterview() {
     audioContextRef.current = null;
     setIsConnected(false);
     safeSetStatus('idle');
+    sendInterViewChat.mutate({
+      body: {
+        application_id: Number(application_id),
+        messages: transcripts,
+      },
+    });
   }
 
   // Логируем изменения транскрипта для отладки

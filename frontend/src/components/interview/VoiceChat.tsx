@@ -5,12 +5,13 @@ import { Button } from '../ui/button';
 import { $api } from '@/api';
 import Orb from '../Orb';
 import { useEffect } from 'react';
+import { useParams } from '@tanstack/react-router';
 
-function App() {
+function VoiceChat() {
+  const { applicationId } = useParams({ from: '/interview/$applicationId' });
   const { status, transcript, transcripts, startInterview, stopInterview } =
-    useInterview();
+    useInterview(applicationId);
 
-  console.log(transcripts);
   return (
     <div className="w-screen -mt-16 h-screen gap-40 flex flex-col items-center justify-center">
       {status === 'connected' && (
@@ -66,4 +67,4 @@ function App() {
   );
 }
 
-export default App;
+export default VoiceChat;
