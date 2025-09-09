@@ -12,7 +12,7 @@ from src.db.repositories import ApplicationRepository, PostInterviewResultReposi
 from src.schemas import PreInterviewResponse
 from src.schemas.post_interview import PostInterviewResultResponse
 
-router = APIRouter(prefix="/preinterview", tags=["Pre-interview results"], route_class=AutoDeriveResponsesAPIRoute)
+router = APIRouter(prefix="/postinterview", tags=["Post-interview results"], route_class=AutoDeriveResponsesAPIRoute)
 
 
 @router.post("", status_code=http_status.HTTP_201_CREATED)
@@ -45,6 +45,10 @@ async def get_post_interview_for_application(
     _: User = Depends(require_admin),
 ) -> PostInterviewResultResponse:
     application = await application_repository.get_application(application_id)
+    if application is None:
+        raise HTTPException(
+            status_code=404, detail=f"Application {application_id} not found"
+        )
     result = application.post_interview_result
     if result is None:
         raise HTTPException(404, f"Post interview assessment for application {application_id} not found")
