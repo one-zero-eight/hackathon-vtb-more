@@ -1,4 +1,4 @@
-from pydantic import Field, computed_field
+from pydantic import Field
 
 from src.schemas.interview import InterviewMessageResponse
 from src.schemas.pydantic_base import BaseSchema
@@ -8,6 +8,7 @@ from src.schemas.skills import SkillResultAIStructure, SkillResultResponse
 class PostInterviewResultResponse(BaseSchema):
     id: int
     is_recommended: bool
+    score: float
     skill_scores: list[SkillResultResponse]
     summary: str
     interview_transcript: list[InterviewMessageResponse]
@@ -16,15 +17,9 @@ class PostInterviewResultResponse(BaseSchema):
     emotional_analysis: str
     candidate_roadmap: str
 
-    @computed_field(return_type=float)
-    @property
-    def score(self) -> float:
-        if not self.skill_scores:
-            return 0.0
-        return sum(s.score * s.weight for s in self.skill_scores)
-
 
 class PostInterviewAIStructure(BaseSchema):
+    score: float = Field(..., gt=0, lt=1, description="Float between 0.0–1.0; prefer two-decimal precision, representing how suitable candidate is.")
     is_recommended: bool = Field(description="Whether the candidate is recommended for the next stage or hire based on the overall evaluation.")
     skill_scores: list[SkillResultAIStructure] = Field(description="List of per-skill evaluation results, each containing the skill ID and its normalized score")
     interview_summary: str = Field(description="Concise and neutral summary of the interview transcript (e.g., 3–5 sentences) capturing key strengths, gaps, and notable moments.")
