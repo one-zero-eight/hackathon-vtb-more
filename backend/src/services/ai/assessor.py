@@ -63,6 +63,10 @@ async def pre_interview_assessment(
         application_id=application.id,
     )
 
+    print(f"is_recommended: {response.output_parsed.is_recommended}")
+    print(f"Score: {response.output_parsed.score}")
+    print(f"reason: {response.output_parsed.reason}")
+
     return pre_interview_result
 
 
@@ -124,6 +128,8 @@ async def post_interview_assessment(
         interview_summary=str(parsed.interview_summary),
         candidate_response=str(parsed.candidate_response),
         summary=str(parsed.summary),
+        emotional_analysis=str(parsed.emotional_analysis),
+        candidate_roadmap=str(parsed.candidate_response),
         application_id=application.id,
     )
 

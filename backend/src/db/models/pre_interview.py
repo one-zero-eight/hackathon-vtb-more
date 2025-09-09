@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.db.models import Base
@@ -18,9 +18,12 @@ class PreInterviewResult(Base):
 
     is_recommended: Mapped[bool]
     score: Mapped[float]
-    reason: Mapped[str | None] = mapped_column(nullable=True)
+    reason: Mapped[str | None] = mapped_column(Text, nullable=True)
 
-    application_id: Mapped[int] = mapped_column(ForeignKey("application.id", ondelete="CASCADE"))
+    application_id: Mapped[int] = mapped_column(
+        ForeignKey("application.id", ondelete="CASCADE"),
+        unique=True,
+    )
 
     application: Mapped[Application] = relationship(
         "Application",

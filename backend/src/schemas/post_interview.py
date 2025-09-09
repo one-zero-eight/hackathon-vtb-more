@@ -13,6 +13,8 @@ class PostInterviewResultResponse(BaseSchema):
     interview_transcript: list[InterviewMessageResponse]
     interview_summary: str
     candidate_response: str
+    emotional_analysis: str
+    candidate_roadmap: str
 
     @computed_field(return_type=float)
     @property
@@ -28,3 +30,5 @@ class PostInterviewAIStructure(BaseSchema):
     interview_summary: str = Field(description="Concise and neutral summary of the interview transcript (e.g., 3–5 sentences) capturing key strengths, gaps, and notable moments.")
     candidate_response: str = Field(description="Polite, actionable message addressed to the candidate; excludes internal notes and sensitive decision rationale.")
     summary: str = Field(description="Comprehensive internal summary aggregating the rationale for is_recommended, interpretation of skill scores, supporting evidence, and any risks or concerns.")
+    emotional_analysis: str = Field(description="Emotional analysis of the candidate based on interview transcript.")
+    candidate_roadmap: str = Field(description="Actionable, candidate-facing development plan outlining prioritized skill gaps, concrete next steps, recommended resources, and suggested timelines derived from the interview.")

@@ -8,6 +8,10 @@
    ```bash
    cp settings.example.yaml settings.yaml
    ```
+4. Start Postgres and Unoserver:
+   ```bash
+   docker compose up db unoserver
+   ```
 5. Start development server:
    ```bash
    cd backend
