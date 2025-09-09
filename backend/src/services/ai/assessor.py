@@ -10,8 +10,6 @@ from src.services.ai.openai_client import async_client
 from src.services.ai.prompt_builder import build_github_prompt, build_vacancy_prompt
 from src.services.pre_interview.github_eval import GithubStats
 
-#TODO: test the work with github
-
 
 async def pre_interview_assessment(
     *,
@@ -43,10 +41,7 @@ async def pre_interview_assessment(
         "Output the exact schema with is_recommended: bool, score: float between 0 and 1, "
         "reason: justification of is_recommended and score values\n\n" + vacancy_text
     )
-
     _text += f"Candidate github stats:\n{build_github_prompt(github)}"
-
-    print(_text)
 
     text_input = ResponseInputTextParam(type="input_text", text=_text)
 
@@ -57,13 +52,11 @@ async def pre_interview_assessment(
         input=[system_msg, user_msg],
         model=open_ai_text_settings.model,
     )
-
-    print(response.output_parsed.reason)
-
     pre_interview_result = await repository.create_result(
         is_recommended=bool(response.output_parsed.is_recommended),
         score=float(response.output_parsed.score),
         reason=str(response.output_parsed.reason),
         application_id=application.id,
     )
+
     return pre_interview_result

@@ -11,17 +11,21 @@ if TYPE_CHECKING:
     from src.db.models.application import Application
 
 
-class InterviewMessage(Base):
-    __tablename__ = "interview_message"
+class PostInterviewResult(Base):
+    __tablename__ = "post_interview_result"
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    role: Mapped[str]
-    message: Mapped[str]
+    is_recommended: Mapped[bool]
+    score: Mapped[float]
+    interview_summary: Mapped[str]
+    candidate_response: Mapped[str]
+    summary: Mapped[str]
 
     application_id: Mapped[int] = mapped_column(ForeignKey("application.id", ondelete="CASCADE"))
+
     application: Mapped[Application] = relationship(
         "Application",
-        back_populates="interview_messages",
+        back_populates="post_interview_result",
         lazy="selectin",
     )

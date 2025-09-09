@@ -67,6 +67,8 @@ class VacancyFromFile(BaseSchema):
     weekly_hours_occupancy: int | None = None
     required_experience: int | None = None
 
+    model_config = ConfigDict(from_attributes=True)
+
 
 class VacancyWithSkillsResponse(BaseSchema):
     vacancy: VacancyResponse

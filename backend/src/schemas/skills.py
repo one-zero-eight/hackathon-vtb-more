@@ -1,4 +1,6 @@
-from pydantic import ConfigDict
+from typing import Self
+
+from pydantic import ConfigDict, Field, model_validator
 
 from src.schemas.pydantic_base import BaseSchema
 
@@ -24,6 +26,25 @@ class SkillCreateRequestNoId(BaseSchema):
     weight: float
     details: str
     skill_type_id: int
+
+
+class SkillResultAIStructure(BaseSchema):
+    skill_id: int = Field(description="exactly the ID of the skill being evaluated; do not invent new IDs.")
+    score: int = Field(description="float between 0.0–1.0")
+
+    @model_validator(mode="after")
+    def validate_score(self) -> Self:
+        if self.score < 0 or self.score > 1:
+            raise ValueError("Score must be between 0 and 1")
+        return self
+
+
+class SkillResultResponse(BaseSchema):
+    id: int
+    skill_id: int
+    score: int
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class SkillTypeCreateRequest(BaseSchema):

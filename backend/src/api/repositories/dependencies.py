@@ -4,6 +4,7 @@ from src.config import api_settings
 from src.db.repositories import (
     ApplicationRepository,
     InterviewMessageRepository,
+    PostInterviewResultRepository,
     PreInterviewResultRepository,
     SkillRepository,
     SkillTypeRepository,
@@ -51,10 +52,16 @@ def get_vacancy_repository(
     return VacancyRepository(storage)
 
 
-def get_preinterview_repository(
+def get_pre_interview_repository(
     storage: AbstractSQLAlchemyStorage = Depends(get_storage),
 ) -> PreInterviewResultRepository:
     return PreInterviewResultRepository(storage)
+
+
+def get_post_interview_repository(
+    storage: AbstractSQLAlchemyStorage = Depends(get_storage),
+) -> PostInterviewResultRepository:
+    return PostInterviewResultRepository(storage)
 
 
 def get_interview_message_repository(
