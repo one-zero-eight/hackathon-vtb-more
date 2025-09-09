@@ -39,6 +39,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/applications/my/with_vacancies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get User Applications With Vacancies */
+        get: operations["get_user_applications_with_vacancies_applications_my_with_vacancies_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/applications/{application_id}": {
         parameters: {
             query?: never;
@@ -413,6 +430,11 @@ export interface components {
             /** Vacancy Id */
             vacancy_id: number;
             github_stats?: components["schemas"]["GithubStats"] | null;
+        };
+        /** ApplicationWithVacancyResponse */
+        ApplicationWithVacancyResponse: {
+            application: components["schemas"]["ApplicationResponse"];
+            vacancy: components["schemas"]["VacancyResponse"];
         };
         /** Audio */
         Audio: {
@@ -843,7 +865,7 @@ export interface components {
             /**
              * Open Time
              * Format: date-time
-             * @default 2025-09-09T00:25:10.335367Z
+             * @default 2025-09-09T00:39:02.428877Z
              */
             open_time: string;
             /** Close Time */
@@ -999,7 +1021,7 @@ export interface operations {
                     "application/json": components["schemas"]["ApplicationResponse"];
                 };
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1035,7 +1057,34 @@ export interface operations {
                     "application/json": components["schemas"]["ApplicationResponse"][];
                 };
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    get_user_applications_with_vacancies_applications_my_with_vacancies_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationWithVacancyResponse"][];
+                };
+            };
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1064,7 +1113,7 @@ export interface operations {
                     "application/json": components["schemas"]["ApplicationResponse"];
                 };
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1170,7 +1219,7 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1300,7 +1349,7 @@ export interface operations {
                     "application/json": components["schemas"]["UserResponse"];
                 };
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1329,7 +1378,7 @@ export interface operations {
                     "application/json": components["schemas"]["ClientSecretCreateResponse"];
                 };
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1369,7 +1418,7 @@ export interface operations {
                     "application/json": components["schemas"]["InterviewMessageResponse"][];
                 };
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1786,7 +1835,7 @@ export interface operations {
                     "application/json": components["schemas"]["VacancyResponse"][];
                 };
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1853,7 +1902,7 @@ export interface operations {
                     "application/json": components["schemas"]["VacancyWithSkillsResponse"][];
                 };
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -1922,7 +1971,7 @@ export interface operations {
                     "application/json": components["schemas"]["VacancyResponse"];
                 };
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -2059,7 +2108,7 @@ export interface operations {
                     "application/json": components["schemas"]["VacancyWithSkillsResponse"];
                 };
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -2225,7 +2274,7 @@ export interface operations {
                     "application/json": components["schemas"]["UserResponse"];
                 };
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -2332,14 +2381,14 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Invalid auth scheme OR Invalid token */
+            /** @description Invalid token OR Invalid auth scheme */
             401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            /** @description Only admins can change admin flag OR Forbidden */
+            /** @description Forbidden OR Only admins can change admin flag */
             403: {
                 headers: {
                     [name: string]: unknown;

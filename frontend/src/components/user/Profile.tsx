@@ -5,20 +5,45 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import ApplicationCard from './ApplicationCard';
 import ApplicationFilters from './ApplicationFilters';
-import { mockUserProfile, type UserProfile } from '@/data/mockVacancies';
 import { $api } from '@/api';
+import { ErrorState, LoadingSpinner } from '../ui';
+import {
+  transformApplicationData,
+  type Application,
+  type UserProfile,
+} from '@/types/application';
 
 const Profile = () => {
-  const [profile, setProfile] = useState<UserProfile>(mockUserProfile);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
   const [editForm, setEditForm] = useState({
-    fullName: profile.fullName,
-    email: profile.email,
+    fullName: '',
+    email: '',
   });
 
   const { data: user, isLoading, error } = $api.useQuery('get', '/auth/me');
+  const {
+    data: applications,
+    isLoading: applicationsLoading,
+    error: applicationError,
+  } = $api.useQuery('get', '/applications/my/with_vacancies');
 
+  // Преобразуем данные API в формат UI
+  const transformedApplications = useMemo(() => {
+    if (!applications) return [];
+    return transformApplicationData(applications);
+  }, [applications]);
+
+  // Создаем профиль пользователя из API данных
+  const profile: UserProfile = useMemo(
+    () => ({
+      id: user?.id || 0,
+      fullName: user?.name || '',
+      email: user?.email || '',
+      applications: transformedApplications,
+    }),
+    [user, transformedApplications]
+  );
   useEffect(() => {
     if (user && !isLoading) {
       setEditForm({
@@ -31,52 +56,56 @@ const Profile = () => {
   const handleEdit = () => {
     setIsEditing(true);
     setEditForm({
-      fullName: user?.name || profile.fullName,
-      email: user?.email || profile.email,
+      fullName: user?.name || '',
+      email: user?.email || '',
     });
   };
 
   const handleSave = () => {
-    setProfile(prev => ({
-      ...prev,
-      ...editForm,
-    }));
+    // TODO: Реализовать обновление профиля через API
     setIsEditing(false);
   };
 
   const handleCancel = () => {
     setIsEditing(false);
     setEditForm({
-      fullName: user?.name || profile.fullName,
-      email: user?.email || profile.email,
+      fullName: user?.name || '',
+      email: user?.email || '',
     });
   };
 
   const filteredApplications = useMemo(() => {
     if (!selectedStatus) return profile.applications;
-    return profile.applications.filter(
-      app => app.statusText === selectedStatus
-    );
+
+    // Фильтруем по оптимизированным статусам
+    return profile.applications.filter(app => {
+      switch (selectedStatus) {
+        case 'На рассмотрении':
+          return app.status === 'pending';
+        case 'Одобрена':
+          return app.status === 'approved';
+        case 'Отклонена':
+          return app.status === 'rejected';
+        default:
+          return true;
+      }
+    });
   }, [profile.applications, selectedStatus]);
 
-  // Обработка ошибки загрузки пользователя
-  if (error) {
+  if (isLoading || applicationsLoading) {
     return (
-      <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-        <div className="container-w mx-auto">
-          <Card className="bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800">
-            <CardContent className="p-6 text-center">
-              <h2 className="text-xl font-semibold text-red-800 dark:text-red-200 mb-2">
-                Ошибка загрузки данных пользователя
-              </h2>
-              <p className="text-red-600 dark:text-red-300">
-                Не удалось загрузить информацию о пользователе. Проверьте
-                подключение к интернету и попробуйте обновить страницу.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      <LoadingSpinner
+        title="Загрузка профиля"
+        description="Пожалуйста, подождите, пока загружаются данные пользователя..."
+      />
+    );
+  }
+  if (error || applicationError) {
+    return (
+      <ErrorState
+        title="Ошибка загрузки данных пользователя"
+        description=" Не удалось загрузить информацию о пользователе Проверьте подключение к интернету и попробуйте обновить страницу."
+      />
     );
   }
 
@@ -160,7 +189,7 @@ const Profile = () => {
                   <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg">
                     <User className="w-4 h-4 text-gray-500" />
                     <span className="text-gray-900 dark:text-gray-100">
-                      {user?.name || profile.fullName}
+                      {profile.fullName}
                     </span>
                   </div>
                 )}
@@ -189,7 +218,7 @@ const Profile = () => {
                   <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg">
                     <Mail className="w-4 h-4 text-gray-500" />
                     <span className="text-gray-900 dark:text-gray-100">
-                      {user?.email || profile.email}
+                      {profile.email}
                     </span>
                   </div>
                 )}
@@ -238,7 +267,7 @@ const Profile = () => {
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="flex flex-col gap-6">
                   {filteredApplications.map((application, index) => (
                     <ApplicationCard
                       key={application.id}

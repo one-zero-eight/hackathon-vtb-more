@@ -1,10 +1,11 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
+import { type Application } from '@/types/application';
 
 interface ApplicationFiltersProps {
   selectedStatus: string | null;
   onStatusChange: (status: string | null) => void;
-  applications: any[];
+  applications: Application[];
 }
 
 const ApplicationFilters: React.FC<ApplicationFiltersProps> = ({
@@ -19,19 +20,24 @@ const ApplicationFilters: React.FC<ApplicationFiltersProps> = ({
   const filters = [
     { key: null, label: 'Все', count: applications.length },
     {
-      key: 'Предварительная проверка',
-      label: 'На проверке',
-      count: getStatusCount('Предварительная проверка'),
+      key: 'На рассмотрении',
+      label: 'На рассмотрении',
+      count: getStatusCount('На рассмотрении'),
     },
     {
-      key: 'Ожидаем интервью',
-      label: 'Ожидают интервью',
-      count: getStatusCount('Ожидаем интервью'),
+      key: 'Одобрена',
+      label: 'Одобрена',
+      count:
+        getStatusCount('Одобрена') +
+        getStatusCount('Одобрена для собеседования') +
+        getStatusCount('На собеседовании'),
     },
     {
-      key: 'Ожидаем результат',
-      label: 'Ожидают результат',
-      count: getStatusCount('Ожидаем результат'),
+      key: 'Отклонена',
+      label: 'Отклонена',
+      count:
+        getStatusCount('Отклонена') +
+        getStatusCount('Отклонена для собеседования'),
     },
   ];
 
