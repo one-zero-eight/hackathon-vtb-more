@@ -32,27 +32,31 @@ The project is an **automated recruitment system powered by artificial intellige
 **Backend**
 
 1. Go to the backend folder:
-```
+```bash
 cd backend
 ```
 
 2. Install dependencies:
-```
+```bash
 uv sync
 ```
 
 3. Copy and configure settings:
-
-```
+```bash
 cp settings.example.yaml settings.yaml
 ```
 
 Edit settings.yaml according to your environment (see settings.schema.yaml
  for details).
 
-4. Start the backend server:
-
+4. Start Postgres and Unoserver:
+```bash
+docker compose up db unoserver
 ```
+
+5. Start the backend server:
+
+```bash
 cd backend
 uv run -m src.api --reload
 ```
@@ -62,17 +66,17 @@ uv run -m src.api --reload
 **Frontend**
 
 1. Go to the frontend folder:
-```
+```bash
 cd frontend
 ```
 
 2. Install dependencies:
-```
+```bash
 pnpm install
 ```
 
 3. Start the frontend development server:
-```
+```bash
 pnpm start
 ```
 
@@ -81,12 +85,12 @@ pnpm start
 **Backend / Server**
 
 1. Go to the backend folder:
-```
+```bash
 cd backend
 ```
 
 2. Copy the settings:
-```
+```bash
 cp settings.example.yaml settings.yaml
 ```
 
@@ -95,19 +99,19 @@ cp settings.example.yaml settings.yaml
 > **Note:** make sure to change `db_url` and `unoserver_server` from `localhost/127.0.0.1` to the service names `db` and `unoserver`.
 
 4. Build and start the services:
-```
+```bash
 docker compose up --build -d
 ```
 
 **Frontend**
 
 1. Go to the frontend folder:
-```
+```bash
 cd frontend
 ```
 
 2. Build the frontend:
-```
+```bash
 pnpm build
 ```
 
