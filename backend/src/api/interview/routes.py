@@ -62,6 +62,10 @@ async def get_ephemeral_session(
     if not application:
         raise HTTPException(status_code=404, detail="Application not found")
 
+    if application.status != Status.APPROVED_FOR_INTERVIEW:
+        raise HTTPException(status_code=403, detail=f"Application {application_id} has not been approved for interview. "
+                                                    f"Current status: {application.status}")
+
     system_prompt = build_realtime_prompt(application)
 
     session = await async_client.realtime.client_secrets.create(
