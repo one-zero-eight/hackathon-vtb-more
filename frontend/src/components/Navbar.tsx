@@ -13,18 +13,25 @@ import {
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useNavigate } from '@tanstack/react-router';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
+
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
-  const token = localStorage.getItem('token');
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate({ to: '/' });
   };
 
   const menuItems = [
@@ -81,12 +88,23 @@ export default function Navbar() {
             </Button>
 
             {/* Кнопки авторизации */}
-            {token ? (
-              <div
-                className="hidden sm:flex cursor-pointer items-center space-x-3"
-                onClick={() => navigate({ to: '/user/profile' })}
-              >
-                <User className="w-6 h-6" />
+            {isAuthenticated ? (
+              <div className="hidden sm:flex items-center space-x-3">
+                <div
+                  className="cursor-pointer flex items-center space-x-2"
+                  onClick={() => navigate({ to: '/user/profile' })}
+                >
+                  <User className="w-6 h-6" />
+                  <span className="text-sm">Профиль</span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="cursor-pointer"
+                >
+                  Выйти
+                </Button>
               </div>
             ) : (
               <div className="hidden sm:flex items-center space-x-3">
@@ -150,19 +168,45 @@ export default function Navbar() {
 
             {/* Мобильные кнопки авторизации */}
             <div className="space-y-3 px-4 pt-4 border-t border-border">
-              <Button
-                variant="outline"
-                className="w-full "
-                onClick={() => navigate({ to: '/auth' })}
-              >
-                Войти
-              </Button>
-              <Button
-                onClick={() => navigate({ to: '/auth' })}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-              >
-                Регистрация
-              </Button>
+              {isAuthenticated ? (
+                <>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => {
+                      navigate({ to: '/user/profile' });
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    Профиль
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  >
+                    Выйти
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => navigate({ to: '/auth' })}
+                  >
+                    Войти
+                  </Button>
+                  <Button
+                    onClick={() => navigate({ to: '/auth' })}
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  >
+                    Регистрация
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
