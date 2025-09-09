@@ -75,20 +75,34 @@ const Profile = () => {
   };
 
   const filteredApplications = useMemo(() => {
-    if (!selectedStatus) return profile.applications;
+    let applications = profile.applications;
 
-    // Фильтруем по оптимизированным статусам
-    return profile.applications.filter(app => {
-      switch (selectedStatus) {
-        case 'На рассмотрении':
-          return app.status === 'pending';
-        case 'Одобрена':
-          return app.status === 'approved';
-        case 'Отклонена':
-          return app.status === 'rejected';
-        default:
-          return true;
-      }
+    // Фильтруем по выбранному статусу
+    if (selectedStatus) {
+      applications = applications.filter(app => {
+        switch (selectedStatus) {
+          case 'На рассмотрении':
+            return app.status === 'pending';
+          case 'Одобрена':
+            return app.status === 'approved';
+          case 'Отклонена':
+            return app.status === 'rejected';
+          default:
+            return true;
+        }
+      });
+    }
+
+    // Сортируем: сначала заявки готовые к интервью, затем остальные
+    return applications.sort((a, b) => {
+      const aIsInterviewReady = a.originalStatus === 'approved_for_interview';
+      const bIsInterviewReady = b.originalStatus === 'approved_for_interview';
+
+      if (aIsInterviewReady && !bIsInterviewReady) return -1;
+      if (!aIsInterviewReady && bIsInterviewReady) return 1;
+
+      // Если оба имеют одинаковый приоритет, сортируем по дате (новые сверху)
+      return new Date(b.openTime).getTime() - new Date(a.openTime).getTime();
     });
   }, [profile.applications, selectedStatus]);
 
@@ -267,7 +281,7 @@ const Profile = () => {
                   </p>
                 </div>
               ) : (
-                <div className="flex flex-col gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {filteredApplications.map((application, index) => (
                     <ApplicationCard
                       key={application.id}

@@ -10,14 +10,19 @@ import {
   Users,
   Home,
   User,
+  Settings,
+  FileText,
+  UserCheck,
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useNavigate } from '@tanstack/react-router';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { isAdmin, isAuthenticated } = useAuth();
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
@@ -27,12 +32,19 @@ export default function Navbar() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const menuItems = [
+  const baseMenuItems = [
     { label: 'Главная', href: '/', icon: Home },
     { label: 'Вакансии', href: '/user/vacancies', icon: Briefcase },
-    { label: 'Компании', href: '/companies', icon: Building2 },
-    { label: 'О нас', href: '/about', icon: Users },
   ];
+
+  const adminMenuItems = [
+    { label: 'HR Вакансии', href: '/hr/vacancies', icon: Briefcase },
+    { label: 'Создать вакансию', href: '/hr/vacancies/create', icon: FileText },
+  ];
+
+  const menuItems = isAdmin
+    ? [...baseMenuItems, ...adminMenuItems]
+    : baseMenuItems;
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-md border-b border-border">
@@ -82,12 +94,14 @@ export default function Navbar() {
             </Button>
 
             {/* Кнопки авторизации */}
-            {token ? (
-              <div
-                className="hidden sm:flex cursor-pointer items-center space-x-3"
-                onClick={() => navigate({ to: '/user/profile' })}
-              >
-                <User className="w-6 h-6" />
+            {token && isAuthenticated ? (
+              <div className="hidden sm:flex items-center space-x-3">
+                <div
+                  className="cursor-pointer items-center space-x-2 flex"
+                  onClick={() => navigate({ to: '/user/profile' })}
+                >
+                  <User className="w-6 h-6" />
+                </div>
               </div>
             ) : (
               <div className="hidden sm:flex items-center space-x-3">
@@ -151,19 +165,54 @@ export default function Navbar() {
 
             {/* Мобильные кнопки авторизации */}
             <div className="space-y-3 px-4 pt-4 border-t border-border">
-              <Button
-                variant="outline"
-                className="w-full "
-                onClick={() => navigate({ to: '/auth' })}
-              >
-                Войти
-              </Button>
-              <Button
-                onClick={() => navigate({ to: '/auth' })}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-              >
-                Регистрация
-              </Button>
+              {token && isAuthenticated ? (
+                <>
+                  {isAdmin && (
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => {
+                        navigate({ to: '/hr/vacancies' });
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      HR Панель
+                    </Button>
+                  )}
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => {
+                      navigate({ to: '/user/profile' });
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    Профиль {isAdmin && '(Admin)'}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => {
+                      navigate({ to: '/auth' });
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    Войти
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      navigate({ to: '/auth' });
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  >
+                    Регистрация
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>

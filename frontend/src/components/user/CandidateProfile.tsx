@@ -3,10 +3,37 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { mockCandidate } from '@/data/mockCandidates';
 import { Button } from '../ui/button';
 import { Label } from '@/components/ui/label';
+import { useLocation, useParams } from '@tanstack/react-router';
+import { $api } from '@/api';
+import { LoadingSpinner } from '../ui';
 
 const CandidateProfile = () => {
   const candidate = mockCandidate;
+  const { id, app_id } = useParams({ from: '/user/vacancy/$app_id/$id/' });
+  const { data: preInterview, isLoading: prevLoading } = $api.useQuery(
+    'get',
+    '/preinterview/for_application/{application_id}',
+    {
+      params: {
+        path: { application_id: Number(app_id) },
+      },
+    }
+  );
 
+  const { data: userData, isLoading: userLoad } = $api.useQuery(
+    'get',
+    '/users/{user_id}',
+    {
+      params: {
+        path: {
+          user_id: Number(id),
+        },
+      },
+    }
+  );
+  if (prevLoading || userLoad) {
+    return <LoadingSpinner />;
+  }
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black py-8 px-4 sm:px-6 lg:px-8">
       <div className="container-w mx-auto space-y-8">
@@ -39,7 +66,7 @@ const CandidateProfile = () => {
                 <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg">
                   <User className="w-4 h-4 text-gray-500" />
                   <span className="text-gray-900 dark:text-gray-100">
-                    {candidate.fullName}
+                    {userData?.name}
                   </span>
                 </div>
               </div>
@@ -54,7 +81,7 @@ const CandidateProfile = () => {
                 <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg">
                   <Mail className="w-4 h-4 text-gray-500" />
                   <span className="text-gray-900 dark:text-gray-100">
-                    {candidate.email}
+                    {userData?.email}
                   </span>
                 </div>
               </div>
@@ -70,7 +97,6 @@ const CandidateProfile = () => {
               Резюме
             </CardTitle>
           </CardHeader>
-
           <CardContent>
             {/* Applications List */}
             <div className="space-y-4 mt-8">
@@ -99,7 +125,9 @@ const CandidateProfile = () => {
               </div>
 
               <Card className="w-full bg-white dark:bg-slate-900/40 border border-gray-100 dark:border-slate-600/30">
-                <CardContent className="pt-0">some text</CardContent>
+                <CardContent className="pt-0">
+                  {preInterview?.reason}
+                </CardContent>
               </Card>
             </div>
           </CardContent>

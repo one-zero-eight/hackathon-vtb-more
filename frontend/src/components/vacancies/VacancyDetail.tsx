@@ -28,7 +28,7 @@ import {
 import { $api } from '@/api';
 
 const VacancyDetail: React.FC = () => {
-  const { id } = useParams({ from: '/user/vacancy/$id/' });
+  const { id } = useParams({ strict: false });
   const navigate = useNavigate();
   const { showToast } = useToast();
 
@@ -68,7 +68,7 @@ const VacancyDetail: React.FC = () => {
     try {
       const formData = new FormData();
       formData.append('file', cvFile);
-      formData.append('vacancy_id', id);
+      formData.append('vacancy_id', id || '');
       if (githubUsername) {
         formData.append('github', githubUsername);
       }
