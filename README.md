@@ -110,12 +110,17 @@ docker compose up --build -d
 cd frontend
 ```
 
-2. Build the frontend:
+2. Make .env file
+```bash
+cp .env.example .env
+```
+
+3. Build the frontend:
 ```bash
 pnpm build
 ```
 
-3. Serve the frontend (e.g., via Nginx or any static file server)
+4. Serve the frontend (e.g., via Nginx or any static file server)
 
 
 ## 🧩 Components
