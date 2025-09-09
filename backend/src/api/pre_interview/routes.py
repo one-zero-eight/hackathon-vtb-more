@@ -23,7 +23,7 @@ async def create_pre_interview(
 ) -> PreInterviewResponse:
     application = await application_repository.get_application(application_id)
     if not application:
-        raise HTTPException(status_code=404, detail="Application not found")
+        raise HTTPException(status_code=404, detail=f"Application {application_id} not found")
 
     pre_interview = await pre_interview_repository.create_result(
         is_recommended=is_recommended,
@@ -66,11 +66,11 @@ async def edit_pre_interview(
         result_id=result_id, is_recommended=is_recommended, score=score, application_id=application_id,
     )
     if pre_interview is None:
-        raise HTTPException(404, "Invalid result_id")
+        raise HTTPException(404, f"Pre-interview {result_id} not found")
 
     application = await application_repository.get_application(application_id)
     if not application:
-        raise HTTPException(status_code=404, detail="Application not found")
+        raise HTTPException(status_code=404, detail=f"Application {application_id} not found")
 
     return PreInterviewResponse.model_validate(pre_interview)
 
@@ -84,7 +84,7 @@ async def get_pre_interview(
     pre_interview = await pre_interview_repository.get_result(result_id)
 
     if pre_interview is None:
-        raise HTTPException(404, "Invalid result_id")
+        raise HTTPException(404, f"Pre-interview {result_id} not found")
 
     return PreInterviewResponse.model_validate(pre_interview)
 
@@ -98,6 +98,6 @@ async def delete_pre_interview(
     pre_interview = await pre_interview_repository.delete_result(result_id)
 
     if pre_interview is None:
-        raise HTTPException(404, "Invalid result_id")
+        raise HTTPException(404, f"Pre-interview {result_id} not found")
 
     return Response(status_code=http_status.HTTP_204_NO_CONTENT)

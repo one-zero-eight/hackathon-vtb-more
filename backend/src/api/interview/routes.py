@@ -64,7 +64,7 @@ async def get_ephemeral_session(
 ) -> ClientSecretCreateResponse:
     application = await application_repository.get_application(application_id)
     if not application:
-        raise HTTPException(status_code=404, detail="Application not found")
+        raise HTTPException(status_code=404, detail=f"Application {application_id} not found")
 
     if application.status != Status.APPROVED_FOR_INTERVIEW:
         raise HTTPException(status_code=403, detail=f"Application {application_id} has not been approved for interview. "
@@ -108,8 +108,8 @@ async def upload_message_history(
     created_messages = []
     application = await application_repository.get_application(data.application_id)
     if not application:
-        raise HTTPException(status_code=404, detail="Application not found")
-    vacancy = await application_repository.get_applications_vacancy(application.vacancy_id)
+        raise HTTPException(status_code=404, detail=f"Application {data.application_id} not found")
+    vacancy = await application_repository.get_applications_vacancy(application.id)
     if not vacancy:
         raise HTTPException(status_code=404, detail="Vacancy not found")
     pre_interview = await application_repository.get_applications_pre_interview(application.id)

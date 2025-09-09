@@ -109,7 +109,7 @@ async def edit_post_interview(
 ) -> PostInterviewResponse:
     application = await application_repository.get_application(application_id)
     if not application:
-        raise HTTPException(status_code=404, detail="Application not found")
+        raise HTTPException(status_code=404, detail=f"Application {application_id} not found")
 
     post_interview = await pre_interview_repository.edit_result(
         result_id=result_id,
@@ -122,7 +122,7 @@ async def edit_post_interview(
     )
 
     if post_interview is None:
-        raise HTTPException(404, "Invalid result_id")
+        raise HTTPException(404, f"Post-interview {result_id} not found")
 
     return PostInterviewResponse.model_validate(post_interview)
 
@@ -136,7 +136,7 @@ async def get_post_interview(
     post_interview = await post_interview_repository.get_result(result_id)
 
     if post_interview is None:
-        raise HTTPException(404, "Invalid result_id")
+        raise HTTPException(404, f"Post-interview {result_id} not found")
 
     return PostInterviewResponse.model_validate(post_interview)
 
@@ -150,6 +150,6 @@ async def delete_post_interview(
     post_interview = await post_interview_repository.delete_result(result_id)
 
     if post_interview is None:
-        raise HTTPException(404, "Invalid result_id")
+        raise HTTPException(404, f"Post-interview {result_id} not found")
 
     return Response(status_code=http_status.HTTP_204_NO_CONTENT)

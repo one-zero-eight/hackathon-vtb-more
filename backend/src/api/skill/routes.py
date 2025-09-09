@@ -43,7 +43,7 @@ async def get_skill(
 ) -> SkillResponse:
     skill = await skills_repository.get_skill(skill_id)
     if not skill:
-        raise HTTPException(404, "No such skill")
+        raise HTTPException(404, f"Skill {skill_id} not found")
         
     return SkillResponse.model_validate(skill)
 
@@ -71,7 +71,7 @@ async def edit_skill(
         vacancy_id=vacancy_id,
     )
     if skill is None:
-        raise HTTPException(404, "Invalid skill_id")
+        raise HTTPException(404, f"Skill {skill_id} not found")
 
     return SkillResponse.model_validate(skill)
 
@@ -84,7 +84,7 @@ async def delete_skill(
 ):
     skill = await skills_repository.delete_skill(skill_id)
     if skill is None:
-        raise HTTPException(404, "Invalid skill_id")
+        raise HTTPException(404, f"Skill {skill_id} not found")
         
     return Response(status_code=http_status.HTTP_204_NO_CONTENT)
 
@@ -111,7 +111,7 @@ async def get_skill_type(
 ) -> SkillTypeResponse:
     skill_type = await skills_repository.get_skill_type(skill_type_id)
     if not skill_type:
-        raise HTTPException(404, "No such skill type")
+        raise HTTPException(404, f"Skill type {skill_type_id} not found")
         
     return SkillTypeResponse.model_validate(skill_type)
 
@@ -132,7 +132,7 @@ async def edit_skill_type(
 ) -> SkillTypeResponse:
     skill_type = await skill_type_repository.edit_skill_type(data.id, data.name)
     if skill_type is None:
-        raise HTTPException(404, "Invalid skill_type_id")
+        raise HTTPException(404, f"Skill type {data.skill_type_id} not found")
 
     return SkillTypeResponse.model_validate(skill_type)
 
@@ -145,6 +145,6 @@ async def delete_skill_type(
 ):
     skill_type = await skill_type_repository.delete_skill_type(skill_type_id)
     if skill_type is None:
-        raise HTTPException(404, "Invalid skill_type_id")
+        raise HTTPException(404, f"Skill type {skill_type_id} not found")
 
     return Response(status_code=http_status.HTTP_204_NO_CONTENT)
