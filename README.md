@@ -31,12 +31,17 @@ The project is an **automated recruitment system powered by artificial intellige
 
 **Backend**
 
-1. Install dependencies:
+1. Go to the backend folder:
+```
+cd backend
+```
+
+2. Install dependencies:
 ```
 uv sync
 ```
 
-2. Copy and configure settings:
+3. Copy and configure settings:
 
 ```
 cp settings.example.yaml settings.yaml
@@ -45,7 +50,7 @@ cp settings.example.yaml settings.yaml
 Edit settings.yaml according to your environment (see settings.schema.yaml
  for details).
 
-3. Start the backend server:
+4. Start the backend server:
 
 ```
 cd backend
@@ -56,41 +61,65 @@ uv run -m src.api --reload
 
 **Frontend**
 
-1. Install dependencies:
+1. Go to the frontend folder:
+```
+cd frontend
+```
+
+2. Install dependencies:
 ```
 pnpm install
 ```
 
-Start the frontend development server:
+3. Start the frontend development server:
 ```
 pnpm start
 ```
 
 ### Production Mode
 
-This mode uses Docker Compose to run both backend and frontend together.
+**Backend / Server**
 
-1. Copy the settings:
+1. Go to the backend folder:
+```
+cd backend
+```
+
+2. Copy the settings:
 ```
 cp settings.example.yaml settings.yaml
 ```
 
-2. Adjust settings.yaml for production (refer to settings.schema.yaml
+3. Adjust settings.yaml for production (refer to settings.schema.yaml
 ).
+> **Note:** make sure to change `db_url` and `unoserver_server` from `localhost/127.0.0.1` to the service names `db` and `unoserver`.
 
-3. Build and start the services:
+4. Build and start the services:
 ```
 docker compose up --build -d
 ```
 
-4. Access the application via the server's configured domain or IP.
+**Frontend**
+
+1. Go to the frontend folder:
+```
+cd frontend
+```
+
+2. Build the frontend:
+```
+pnpm build
+```
+
+3. Serve the frontend (e.g., via Nginx or any static file server)
+
 
 ## 🧩 Components
 
 | Name     | Description                                         | More Info                                       |
 |--------------|--------------------------------------------------|-------------------------------------------------|
 | **Frontend** | React interface providing voice interaction | 📄 [`frontend/README.md`](./frontend/README.md) |
-| **Backend**  | FastAPI service with REST API and integration with external AI APIs      | 📄 [`backend/README.md`](./backend/README.md)   |
+| **Backend**  | FastAPI backend with REST API and integration with external AI APIs      | 📄 [`backend/README.md`](./backend/README.md)   |
 
 
 
@@ -100,8 +129,8 @@ docker compose up --build -d
 
 | Team member                                                        | Contribution                                                                            |
 |------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| [Stillah](https://github.com/Stillah)                          | Backend: creating endpoints                     |
 | [ZolotarevAlexandr](https://github.com/ZolotarevAlexandr)        | Backend + ML: architecture and external APIs                        |
+| [Stillah](https://github.com/Stillah)                          | Backend: creating endpoints                     |
 | [belyakova-anna](https://github.com/belyakova-anna)              | Frontend: page design and development                                        |
 | [projacktor](https://github.com/projacktor)             | DevOps: project deployment |
 
