@@ -63,6 +63,10 @@ async def pre_interview_assessment(
         application_id=application.id,
     )
 
+    print(f"is_recommended: {response.output_parsed.is_recommended}")
+    print(f"Score: {response.output_parsed.score}")
+    print(f"reason: {response.output_parsed.reason}")
+
     return pre_interview_result
 
 

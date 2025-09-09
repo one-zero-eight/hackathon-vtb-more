@@ -93,17 +93,17 @@ async def create_skill_type(
     return SkillTypeResponse.model_validate(skill_type)
 
 
-@skills_type_router.get("/{skill_id}")
+@skills_type_router.get("/{skill_type_id}")
 async def get_skill_type(
-    skill_id: int,
+    skill_type_id: int,
     skills_repository: SkillTypeRepository = Depends(get_skill_type_repository),
     _: User = Depends(require_admin),
-) -> SkillResponse:
-    skill_type = await skills_repository.get_skill_type(skill_id)
+) -> SkillTypeResponse:
+    skill_type = await skills_repository.get_skill_type(skill_type_id)
     if not skill_type:
         raise HTTPException(404, "No such skill type")
         
-    return SkillResponse.model_validate(skill_type)
+    return SkillTypeResponse.model_validate(skill_type)
 
 @skills_type_router.get("")
 async def get_all_skill_types(
