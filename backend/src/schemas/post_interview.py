@@ -1,18 +1,25 @@
-from pydantic import Field
+from pydantic import Field, computed_field
 
-from src.schemas import InterviewMessageResponse, SkillResultAIStructure, SkillResultResponse
+from src.schemas.interview import InterviewMessageResponse
 from src.schemas.pydantic_base import BaseSchema
+from src.schemas.skills import SkillResultAIStructure, SkillResultResponse
 
 
 class PostInterviewResultResponse(BaseSchema):
     id: int
     is_recommended: bool
-    score: float
     skill_scores: list[SkillResultResponse]
     summary: str
     interview_transcript: list[InterviewMessageResponse]
     interview_summary: str
     candidate_response: str
+
+    @computed_field(return_type=float)
+    @property
+    def score(self) -> float:
+        if not self.skill_scores:
+            return 0.0
+        return sum(s.score * s.weight for s in self.skill_scores)
 
 
 class PostInterviewAIStructure(BaseSchema):

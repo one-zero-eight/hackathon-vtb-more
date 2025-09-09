@@ -1,6 +1,8 @@
+import json
+
 import PyPDF2
 
-from src.db.models import Application, Vacancy
+from src.db.models import Application, InterviewMessage, PreInterviewResult, Vacancy
 from src.services.pre_interview.github_eval import GithubStats
 
 
@@ -19,12 +21,27 @@ def build_vacancy_prompt(vacancy: Vacancy) -> str:
         f"- Required skills: {', '.join(skill_names) if skill_names else 'N/A'}\n"
     )
 
+
 def build_github_prompt(stats: GithubStats | None) -> str:
     if stats is None:
         return "No github info found\n"
     
     prompt = f"```json\n{stats.model_dump_json(indent=2)}\n```"
     return prompt
+
+
+def build_transcript_prompt(messages: list[InterviewMessage]) -> str:
+    data = [{"role": m.role, "message": m.message} for m in messages]
+    return json.dumps(data, ensure_ascii=False, indent=2)
+
+
+def build_pre_interview_result_prompt(result: PreInterviewResult) -> str:
+    return (
+        f"Pre-interview result:\n"
+        f"- Is recommended: {result.is_recommended}\n"
+        f"- Score: {result.score}\n"
+        f"- Reason: {result.reason}\n"
+    )
 
 
 def _extract_text_from_pdf(pdf_path: str) -> str:
@@ -53,7 +70,7 @@ Your objectives are:
 - Do not analyze or evaluate the candidate; do not share any opinions or conclusions about their suitability.
 - Do not provide any feedback or summary at any point. The evaluation and final decision will be made separately.
 - Change complexity of your questions based on the level of the candidate
-- If you consider that interview can or should be over, you should send <end_of_conversation> xml tag
+- If you consider that interview should be over, you should send <end_of_conversation> xml tag
 
 Interview Flow:
 1. Introduce yourself with your name, give candidate short info about position.
@@ -98,4 +115,33 @@ Candidate CV:
 <cv>
 {cv_text}
 </cv>
+"""
+
+def build_post_interview_assessment_prompt(
+    vacancy: Vacancy,
+    transcript: list[InterviewMessage],
+    pre_interview_result: PreInterviewResult,
+) -> str:
+    vacancy_text = build_vacancy_prompt(vacancy)
+    transcript_text = build_transcript_prompt(transcript)
+    result_text = build_pre_interview_result_prompt(pre_interview_result)
+    return f"""
+Evaluate the candidate for the role described in vacancy. Use only attached info (CV file, vacancy info, pre-interview result) to evaluate candidate.
+
+Vacancy:
+<vacancy>
+{vacancy_text}
+</vacancy>
+
+Interview transcript:
+<transcript>
+{transcript_text}
+</transcript>
+
+Pre-interview candidate assessment:
+<pre_interview_result>
+{result_text}
+</pre_interview_result>
+
+Respond strictly according to attached structure.
 """

@@ -30,7 +30,8 @@ class SkillCreateRequestNoId(BaseSchema):
 
 class SkillResultAIStructure(BaseSchema):
     skill_id: int = Field(description="exactly the ID of the skill being evaluated; do not invent new IDs.")
-    score: int = Field(description="float between 0.0–1.0")
+    weight: float = Field(description="exactly the same as weight of the skill being evaluated.")
+    score: float = Field(description="float between 0.0–1.0")
 
     @model_validator(mode="after")
     def validate_score(self) -> Self:
@@ -41,8 +42,9 @@ class SkillResultAIStructure(BaseSchema):
 
 class SkillResultResponse(BaseSchema):
     id: int
+    score: float
+    weight: float # mirrors skill weight
     skill_id: int
-    score: int
 
     model_config = ConfigDict(from_attributes=True)
 

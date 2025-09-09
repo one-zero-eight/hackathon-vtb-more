@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db import AbstractSQLAlchemyStorage
-from src.db.models import Application
+from src.db.models import Application, PreInterviewResult, Vacancy
 from src.schemas import Status
 
 
@@ -86,3 +86,13 @@ class ApplicationRepository:
             await session.delete(application)
             await session.commit()
             return application
+
+    async def get_applications_vacancy(self, application_id) -> Vacancy:
+        async with self._create_session() as session:
+            application = await session.get(Application, application_id)
+            return application.vacancy
+
+    async def get_applications_pre_interview(self, application_id) -> PreInterviewResult:
+        async with self._create_session() as session:
+            application = await session.get(Application, application_id)
+            return application.pre_interview_result

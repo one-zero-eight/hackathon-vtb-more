@@ -9,11 +9,20 @@ from openai.types.realtime.client_secret_create_params import (
 from openai.types.realtime.realtime_audio_config_param import Input, InputTranscription
 
 from src.api.auth.dependencies import get_current_user
-from src.api.repositories.dependencies import get_application_repository, get_interview_message_repository
+from src.api.repositories.dependencies import (
+    get_application_repository,
+    get_interview_message_repository,
+    get_post_interview_repository,
+)
 from src.config import open_ai_realtime_settings
 from src.db.models import User
-from src.db.repositories import ApplicationRepository, InterviewMessageRepository
-from src.schemas import InterviewHistoryRequest, InterviewMessageResponse
+from src.db.repositories import (
+    ApplicationRepository,
+    InterviewMessageRepository,
+    PostInterviewResultRepository,
+)
+from src.schemas import InterviewHistoryRequest, InterviewMessageResponse, Status
+from src.services.ai.assessor import post_interview_assessment
 from src.services.ai.openai_client import async_client
 from src.services.ai.prompt_builder import build_realtime_prompt
 
@@ -57,17 +66,32 @@ async def upload_message_history(
     data: InterviewHistoryRequest,
     _: User = Depends(get_current_user),
     message_repository: InterviewMessageRepository = Depends(get_interview_message_repository),
+    post_interview_repository: PostInterviewResultRepository = Depends(get_post_interview_repository),
+    application_repository: ApplicationRepository = Depends(get_application_repository),
 ) -> list[InterviewMessageResponse]:
-    result = []
-    messages = data.messages
-    application_id = data.application_id
+    created_messages = []
+    application = await application_repository.get_application(data.application_id)
+    vacancy = await application_repository.get_applications_vacancy(application.vacancy_id)
+    pre_interview = await application_repository.get_applications_pre_interview(application.id)
 
-    for msg in messages:
+    for msg in data.messages:
         created_message = await message_repository.create_message(
             role=msg.role,
             message=msg.message,
-            application_id=application_id,
+            application_id=data.application_id,
         )
-        result.append(created_message)
+        created_messages.append(created_message)
 
-    return result
+    post_interview_res = await post_interview_assessment(
+        application=application,
+        vacancy=vacancy,
+        transcript=created_messages,
+        pre_interview_result=pre_interview,
+        repository=post_interview_repository,
+    )
+    if post_interview_res.is_recommended:
+        await application_repository.edit_application(application.id, status=Status.APPROVED)
+    else:
+        await application_repository.edit_application(application.id, status=Status.REJECTED)
+
+    return created_messages

@@ -40,3 +40,48 @@ class PostInterviewResultRepository:
             session.add(result)
             await session.commit()
             return result
+
+    async def get_result(self, result_id: int) -> PostInterviewResult | None:
+        async with self._create_session() as session:
+            return await session.get(PostInterviewResult, result_id)
+
+    async def edit_result(
+        self,
+        result_id: int,
+        is_recommended: bool | None = None,
+        score: float | None = None,
+        interview_summary: str | None = None,
+        candidate_response: str | None = None,
+        summary: str | None = None,
+        application_id: int | None = None,
+    ) -> PostInterviewResult | None:
+        async with self._create_session() as session:
+            result = await session.get(PostInterviewResult, result_id)
+            if result is None:
+                return None
+
+            if is_recommended is not None:
+                result.is_recommended = is_recommended
+            if score is not None:
+                result.score = score
+            if interview_summary is not None:
+                result.interview_summary = interview_summary
+            if candidate_response is not None:
+                result.candidate_response = candidate_response
+            if summary is not None:
+                result.summary = summary
+            if application_id is not None:
+                result.application_id = application_id
+
+            await session.commit()
+            return result
+
+    async def delete_result(self, result_id: int) -> PostInterviewResult | None:
+        async with self._create_session() as session:
+            result = await session.get(PostInterviewResult, result_id)
+            if result is None:
+                return None
+
+            await session.delete(result)
+            await session.commit()
+            return result

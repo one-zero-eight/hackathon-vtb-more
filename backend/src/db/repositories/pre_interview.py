@@ -37,7 +37,7 @@ class PreInterviewResultRepository:
 
     async def edit_result(
         self,
-        result_id: int | None = None,
+        result_id: int,
         is_recommended: bool | None = None,
         score: float | None = None,
         application_id: int | None = None,
