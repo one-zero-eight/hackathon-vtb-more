@@ -60,9 +60,7 @@ async def create_application(
     else:
         application = await application_repository.edit_application(application.id, status=Status.REJECTED_FOR_INTERVIEW)
 
-    
-    print(pre_interview_res.reason)
-    application.github_stats = github_info
+        application.github_stats = github_info
 
     return ApplicationResponse.model_validate(application)
 
@@ -73,6 +71,15 @@ async def list_applications(
     _: User = Depends(require_admin),
 ) -> list[ApplicationResponse]:
     applications = await application_repository.get_all_applications()
+    return [ApplicationResponse.model_validate(app) for app in applications]
+
+
+@router.get("/my")
+async def get_user_applications(
+    application_repository: ApplicationRepository = Depends(get_application_repository),
+    user: User = Depends(get_current_user),
+) -> list[ApplicationResponse]:
+    applications = await application_repository.get_user_applications(user.id)
     return [ApplicationResponse.model_validate(app) for app in applications]
 
 
