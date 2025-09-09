@@ -8,8 +8,8 @@ api_settings:
   unoserver_port: 2003
 open_ai_text_settings:
   api_key: ...
-  model: "gpt-5-mini"
+  model: "gpt-5"
 open_ai_realtime_settings:
   model: "gpt-realtime"
-  transcription_model: "gpt-4o-mini-transcribe"
+  transcription_model: "gpt-4o-transcribe"
   language: "ru"
