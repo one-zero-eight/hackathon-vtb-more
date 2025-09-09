@@ -128,6 +128,8 @@ async def post_interview_assessment(
         interview_summary=str(parsed.interview_summary),
         candidate_response=str(parsed.candidate_response),
         summary=str(parsed.summary),
+        emotional_analysis=str(parsed.emotional_analysis),
+        candidate_roadmap=str(parsed.candidate_response),
         application_id=application.id,
     )
 

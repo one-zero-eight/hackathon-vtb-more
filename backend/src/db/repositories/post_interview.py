@@ -26,6 +26,8 @@ class PostInterviewResultRepository:
         interview_summary: str,
         candidate_response: str,
         summary: str,
+        emotional_analysis: str,
+        candidate_roadmap: str,
         application_id: int,
     ) -> PostInterviewResult:
         async with self._create_session() as session:
@@ -35,6 +37,8 @@ class PostInterviewResultRepository:
                 interview_summary=interview_summary,
                 candidate_response=candidate_response,
                 summary=summary,
+                emotional_analysis=emotional_analysis,
+                candidate_roadmap=candidate_roadmap,
                 application_id=application_id,
             )
             session.add(result)
@@ -53,6 +57,8 @@ class PostInterviewResultRepository:
         interview_summary: str | None = None,
         candidate_response: str | None = None,
         summary: str | None = None,
+        emotional_analysis: str | None = None,
+        candidate_roadmap: str | None = None,
         application_id: int | None = None,
     ) -> PostInterviewResult | None:
         async with self._create_session() as session:
@@ -70,6 +76,10 @@ class PostInterviewResultRepository:
                 result.candidate_response = candidate_response
             if summary is not None:
                 result.summary = summary
+            if emotional_analysis is not None:
+                result.emotional_analysis = emotional_analysis
+            if candidate_roadmap is not None:
+                result.candidate_roadmap = candidate_roadmap
             if application_id is not None:
                 result.application_id = application_id
 

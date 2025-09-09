@@ -21,6 +21,8 @@ class PostInterviewResult(Base):
     interview_summary: Mapped[str] = mapped_column(Text)
     candidate_response: Mapped[str] = mapped_column(Text)
     summary: Mapped[str] = mapped_column(Text)
+    emotional_analysis: Mapped[str] = mapped_column(Text)
+    candidate_roadmap: Mapped[str] = mapped_column(Text)
 
     application_id: Mapped[int] = mapped_column(
         ForeignKey("application.id", ondelete="CASCADE"),
