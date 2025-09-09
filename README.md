@@ -1,7 +1,7 @@
 # AI-HR
 > by one-zero-eight
 
-http://31.56.222.234/
+https://hr.innohassle.ru/
 
 
 ## 💡 Idea
