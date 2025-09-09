@@ -12,7 +12,7 @@ from src.api.repositories.dependencies import (
 from src.api.utils import save_file_as_pdf
 from src.db.models import User
 from src.db.repositories import ApplicationRepository, PreInterviewResultRepository, VacancyRepository
-from src.schemas import ApplicationResponse, Status
+from src.schemas import ApplicationResponse, ApplicationWithVacancyResponse, Status, VacancyResponse
 from src.services.ai.assessor import pre_interview_assessment
 from src.services.converting import ConvertingRepository
 from src.services.pre_interview.github_eval import parse_github_stats
@@ -81,6 +81,22 @@ async def get_user_applications(
 ) -> list[ApplicationResponse]:
     applications = await application_repository.get_user_applications(user.id)
     return [ApplicationResponse.model_validate(app) for app in applications]
+
+
+@router.get("/my/with_vacancies")
+async def get_user_applications_with_vacancies(
+    application_repository: ApplicationRepository = Depends(get_application_repository),
+    user: User = Depends(get_current_user),
+) -> list[ApplicationWithVacancyResponse]:
+    applications = await application_repository.get_user_applications(user.id)
+    result = []
+    for app in applications:
+        app_with_vacancy = ApplicationWithVacancyResponse(
+            application=ApplicationResponse.model_validate(app),
+            vacancy=VacancyResponse.model_validate(app.vacancy),
+        )
+        result.append(ApplicationWithVacancyResponse.model_validate(app_with_vacancy))
+    return result
 
 
 @router.get("/{application_id}")

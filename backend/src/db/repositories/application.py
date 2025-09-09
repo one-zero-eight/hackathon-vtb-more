@@ -44,6 +44,11 @@ class ApplicationRepository:
             result = await session.execute(select(Application))
             return result.scalars().all()
 
+    async def get_user_applications(self, user_id: int) -> list[Application]:
+        async with self._create_session() as session:
+            result = await session.execute(select(Application).filter(Application.user_id == user_id))
+            return result.scalars().all()
+
     async def edit_application(
         self,
         application_id: int,

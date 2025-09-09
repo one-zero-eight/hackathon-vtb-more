@@ -1,4 +1,4 @@
-from src.schemas.application import ApplicationResponse, Status
+from src.schemas.application import ApplicationResponse, ApplicationWithVacancyResponse, Status
 from src.schemas.auth import LoginRequest, RegisterRequest, TokenPayload, TokenResponse
 from src.schemas.interview import (
     InterviewHistoryRequest,
@@ -19,6 +19,7 @@ from src.schemas.vacancy import (
 
 __all__ = [
     'ApplicationResponse',
+    'ApplicationWithVacancyResponse',
     'Status',
     'LoginRequest',
     'RegisterRequest',

@@ -1,5 +1,6 @@
 from enum import StrEnum
 
+from src.schemas import VacancyResponse
 from src.schemas.pydantic_base import BaseSchema
 from src.services.pre_interview.github_eval import GithubStats
 
@@ -23,3 +24,8 @@ class ApplicationResponse(BaseSchema):
     github_stats: GithubStats | None = None
 
     model_config = dict(from_attributes=True)
+
+
+class ApplicationWithVacancyResponse(BaseSchema):
+    application: ApplicationResponse
+    vacancy: VacancyResponse
