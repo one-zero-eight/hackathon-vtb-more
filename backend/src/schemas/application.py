@@ -1,7 +1,7 @@
 from enum import StrEnum
 
-from src.schemas import VacancyResponse
 from src.schemas.pydantic_base import BaseSchema
+from src.schemas.vacancy import VacancyResponse
 from src.services.pre_interview.github_eval import GithubStats
 
 
