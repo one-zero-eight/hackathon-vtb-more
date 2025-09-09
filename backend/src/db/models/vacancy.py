@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import datetime
+from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from sqlalchemy import DateTime, ForeignKey
+from sqlalchemy import DECIMAL, DateTime, ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.db.models import Base
@@ -20,14 +21,18 @@ class Vacancy(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
 
     name: Mapped[str]
-    description: Mapped[str]
-    salary: Mapped[float | None]
+    description: Mapped[str] = mapped_column(Text)
+    salary: Mapped[Decimal | None] = mapped_column(
+        DECIMAL(10, 2),
+        nullable=True,
+    )
     city: Mapped[str]
     weekly_hours_occupancy: Mapped[int]
     required_experience: Mapped[int]  # required experience in years
 
     open_time: Mapped[datetime.datetime] = mapped_column(
-        DateTime(timezone=True), default=lambda: datetime.datetime.now(tz=datetime.UTC),
+        DateTime(timezone=True),
+        default=lambda: datetime.datetime.now(tz=datetime.UTC),
     )
     close_time: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True),

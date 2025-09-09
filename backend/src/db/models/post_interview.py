@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.db.models import Base
@@ -18,11 +18,14 @@ class PostInterviewResult(Base):
 
     is_recommended: Mapped[bool]
     score: Mapped[float]
-    interview_summary: Mapped[str]
-    candidate_response: Mapped[str]
-    summary: Mapped[str]
+    interview_summary: Mapped[str] = mapped_column(Text)
+    candidate_response: Mapped[str] = mapped_column(Text)
+    summary: Mapped[str] = mapped_column(Text)
 
-    application_id: Mapped[int] = mapped_column(ForeignKey("application.id", ondelete="CASCADE"))
+    application_id: Mapped[int] = mapped_column(
+        ForeignKey("application.id", ondelete="CASCADE"),
+        unique=True,
+    )
 
     application: Mapped[Application] = relationship(
         "Application",

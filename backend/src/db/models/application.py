@@ -43,19 +43,27 @@ class Application(Base):
         "PreInterviewResult",
         back_populates="application",
         lazy="selectin",
+        cascade="all, delete-orphan",
+        uselist=False,
+        single_parent=True,
     )
     post_interview_result: Mapped[PostInterviewResult] = relationship(
         "PostInterviewResult",
         back_populates="application",
         lazy="selectin",
+        cascade="all, delete-orphan",
+        uselist=False,
+        single_parent=True,
     )
     interview_messages: Mapped[list[InterviewMessage]] = relationship(
         "InterviewMessage",
         back_populates="application",
         lazy="selectin",
+        cascade="all, delete-orphan",
     )
     skill_results: Mapped[list[SkillResult]] = relationship(
         "SkillResult",
         back_populates="application",
         lazy="selectin",
+        cascade="all, delete-orphan",
     )
