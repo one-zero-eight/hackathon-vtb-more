@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db import AbstractSQLAlchemyStorage
-from src.db.models import Skill, SkillType
+from src.db.models import Skill, SkillResult, SkillType
 
 
 class SkillRepository:
@@ -139,3 +139,45 @@ class SkillTypeRepository:
 
             await session.commit()
             return skill_type
+
+
+class SkillResultRepository:
+    storage: AbstractSQLAlchemyStorage
+
+    def __init__(self, storage: AbstractSQLAlchemyStorage) -> None:
+        self.storage = storage
+
+    def update_storage(self, storage: AbstractSQLAlchemyStorage) -> Self:
+        self.storage = storage
+        return self
+
+    def _create_session(self) -> AsyncSession:
+        return self.storage.create_session()
+
+    async def create_skill_result(
+        self,
+        score: float,
+        skill_id: int,
+        application_id: int,
+    ) -> SkillResult:
+        async with self._create_session() as session:
+            skill_result = SkillResult(
+                score=score,
+                application_id=application_id,
+                skill_id=skill_id,
+            )
+            session.add(skill_result)
+            await session.commit()
+            return skill_result
+
+    async def get_skill_result(self, skill_id: int) -> SkillResult:
+        async with self._create_session() as session:
+            skill_result = await session.get(SkillResult, skill_id)
+            return skill_result
+
+    async def get_application_result(self, application_id: int) -> list[SkillResult]:
+        async with self._create_session() as session:
+            result = await session.execute(
+                select(SkillResult).filter(SkillResult.application_id == application_id)
+            )
+            return result.scalars().all()

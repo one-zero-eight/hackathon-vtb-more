@@ -3,10 +3,16 @@ from src.schemas.auth import LoginRequest, RegisterRequest, TokenPayload, TokenR
 from src.schemas.interview import (
     InterviewHistoryRequest,
     InterviewMessageResponse,
-    PreInterviewAIStructure,
-    PreInterviewResponse,
 )
-from src.schemas.skills import SkillResponse, SkillTypeCreateRequest, SkillTypeResponse, SkillTypeUpdateRequest
+from src.schemas.pre_interview import PreInterviewAIStructure, PreInterviewResponse
+from src.schemas.skills import (
+    SkillResponse,
+    SkillResultAIStructure,
+    SkillResultResponse,
+    SkillTypeCreateRequest,
+    SkillTypeResponse,
+    SkillTypeUpdateRequest,
+)
 from src.schemas.user import UserCreate, UserResponse
 from src.schemas.vacancy import (
     VacancyCreateRequest,
@@ -28,6 +34,8 @@ __all__ = [
     'UserCreate',
     'UserResponse',
     'SkillResponse',
+    'SkillResultAIStructure',
+    'SkillResultResponse',
     'SkillTypeCreateRequest',
     'SkillTypeResponse',
     'SkillTypeUpdateRequest',

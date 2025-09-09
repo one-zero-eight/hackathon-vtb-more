@@ -8,7 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.db.models import Base
 
 if TYPE_CHECKING:
-    from src.db.models import Vacancy
+    from src.db.models import Application, Vacancy
 
 
 class SkillType(Base):
@@ -41,7 +41,34 @@ class Skill(Base):
         lazy='selectin',
     )
     vacancy: Mapped[Vacancy] = relationship(
-        'Vacancy',
-        back_populates='skills',
+        "Vacancy",
+        back_populates="skills",
+        lazy="selectin",
+    )
+    skill_results: Mapped[list[SkillResult]] = relationship(
+        'SkillResult',
+        back_populates='skill',
+        lazy='selectin',
+    )
+
+
+class SkillResult(Base):
+    __tablename__ = 'skill_result'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    score: Mapped[float]
+
+    skill_id: Mapped[int] = mapped_column(ForeignKey('skill.id', ondelete='CASCADE'))
+    application_id: Mapped[int] = mapped_column(ForeignKey('application.id', ondelete='CASCADE'))
+
+    skill: Mapped[Skill] = relationship(
+        'Skill',
+        back_populates='skill_results',
+        lazy='selectin',
+    )
+    application: Mapped[Application] = relationship(
+        'Application',
+        back_populates='skill_results',
         lazy='selectin',
     )

@@ -6,7 +6,7 @@ from src.api.auth.dependencies import get_current_user, require_admin
 from src.api.repositories.dependencies import (
     get_application_repository,
     get_converting_repository,
-    get_preinterview_repository,
+    get_pre_interview_repository,
     get_vacancy_repository,
 )
 from src.api.utils import save_file_as_pdf
@@ -27,7 +27,7 @@ async def create_application(
     github: str | None = Form(None),
     application_repository: ApplicationRepository = Depends(get_application_repository),
     vacancy_repository: VacancyRepository = Depends(get_vacancy_repository),
-    pre_interview_repository: PreInterviewResultRepository = Depends(get_preinterview_repository),
+    pre_interview_repository: PreInterviewResultRepository = Depends(get_pre_interview_repository),
     converting_repository: ConvertingRepository = Depends(get_converting_repository),
     user: User = Depends(get_current_user),
 ) -> ApplicationResponse:

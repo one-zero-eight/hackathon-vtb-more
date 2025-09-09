@@ -9,6 +9,7 @@ from src.db.models import Base
 
 if TYPE_CHECKING:
     from src.db.models.interview import InterviewMessage, PreInterviewResult
+    from src.db.models.skill import SkillResult
     from src.db.models.user import User
     from src.db.models.vacancy import Vacancy
 
@@ -43,6 +44,11 @@ class Application(Base):
     )
     interview_messages: Mapped[list[InterviewMessage]] = relationship(
         "InterviewMessage",
+        back_populates="application",
+        lazy="selectin",
+    )
+    skill_results: Mapped[list[SkillResult]] = relationship(
+        "SkillResult",
         back_populates="application",
         lazy="selectin",
     )
