@@ -13,12 +13,20 @@ const Vacancies: React.FC = () => {
     '/vacancy/with_skills'
   );
 
-  // Адаптируем данные из API в формат Vacancy
+  // Адаптируем данные из API в формат VacancyData
   const adaptedVacancies =
     vacanciesList?.map(item => ({
-      ...item.vacancy,
-      experience: item.vacancy.required_experience,
-      skills: item.skills, // добавляем навыки для возможного использования
+      id: item.vacancy.id,
+      name: item.vacancy.name,
+      description: item.vacancy.description,
+      city: item.vacancy.city,
+      salary: item.vacancy.salary,
+      required_experience: item.vacancy.required_experience,
+      weekly_hours_occupancy: item.vacancy.weekly_hours_occupancy,
+      open_time: item.vacancy.open_time,
+      close_time: item.vacancy.close_time,
+      is_active: item.vacancy.is_active,
+      user_id: item.vacancy.user_id,
     })) || [];
 
   const {
@@ -30,6 +38,8 @@ const Vacancies: React.FC = () => {
     filteredVacancies,
     searchQuery,
     setSearchQuery,
+    resetFilters,
+    hasActiveFilters,
   } = useVacancyFilters(adaptedVacancies); // передаем реальные данные
 
   const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
@@ -37,19 +47,6 @@ const Vacancies: React.FC = () => {
   const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
-
-  const handleResetFilters = () => {
-    setFilters({
-      salaryRange: [],
-      city: [],
-      experienceRange: [],
-    });
-    setSearchQuery(''); // также сбрасываем поиск
-  };
-
-  const hasActiveFilters =
-    Object.values(filters).some(filter => filter.length > 0) ||
-    searchQuery.trim().length > 0;
 
   return (
     <div className="w-full flex flex-col items-center gap-6 md:gap-8">
@@ -122,7 +119,7 @@ const Vacancies: React.FC = () => {
             <VacancyList
               vacancies={filteredVacancies}
               totalCount={adaptedVacancies.length}
-              onResetFilters={handleResetFilters}
+              onResetFilters={resetFilters}
             />
           )}
         </div>
