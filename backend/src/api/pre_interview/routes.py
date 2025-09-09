@@ -18,8 +18,13 @@ async def create_pre_interview(
     application_id: int,
     reason: str,
     pre_interview_repository: PreInterviewResultRepository = Depends(get_pre_interview_repository),
+    application_repository: ApplicationRepository = Depends(get_application_repository),
     _: User = Depends(require_admin),
 ) -> PreInterviewResponse:
+    application = await application_repository.get_application(application_id)
+    if not application:
+        raise HTTPException(status_code=404, detail="Application not found")
+
     pre_interview = await pre_interview_repository.create_result(
         is_recommended=is_recommended,
         score=score,
@@ -54,14 +59,18 @@ async def edit_pre_interview(
     score: float | None = None,
     application_id: int | None = None,
     pre_interview_repository: PreInterviewResultRepository = Depends(get_pre_interview_repository),
+    application_repository: ApplicationRepository = Depends(get_application_repository),
     _: User = Depends(require_admin),
 ) -> PreInterviewResponse:
     pre_interview = await pre_interview_repository.edit_result(
         result_id=result_id, is_recommended=is_recommended, score=score, application_id=application_id,
     )
-
     if pre_interview is None:
         raise HTTPException(404, "Invalid result_id")
+
+    application = await application_repository.get_application(application_id)
+    if not application:
+        raise HTTPException(status_code=404, detail="Application not found")
 
     return PreInterviewResponse.model_validate(pre_interview)
 

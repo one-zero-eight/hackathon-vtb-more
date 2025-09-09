@@ -55,6 +55,11 @@ async def create_application(
     user: User = Depends(get_current_user),
 ) -> ApplicationResponse:
     dest_path = await save_file_as_pdf(file, converting_repository)
+    vacancy = await vacancy_repository.get_vacancy(vacancy_id)
+    if vacancy is None:
+        raise HTTPException(
+            status_code=404, detail=f"Vacancy {vacancy_id} not found"
+        )
 
     application = await application_repository.create_application(
         cv=str(dest_path),
@@ -143,12 +148,16 @@ async def edit_application_endpoint(
     user_id: int | None = Form(None),
     vacancy_id: int | None = Form(None),
     application_repository: ApplicationRepository = Depends(get_application_repository),
+    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository),
     converting_repository: ConvertingRepository = Depends(get_converting_repository),
     user: User = Depends(get_current_user),
 ) -> ApplicationResponse:
     application = await application_repository.get_application(application_id)
     if not application:
         raise HTTPException(status_code=404, detail="No such application")
+    vacancy = vacancy_repository.get_vacancy(vacancy_id)
+    if not vacancy:
+        raise HTTPException(status_code=404, detail="No such vacancy")
 
     if application.user_id != user_id and not user.is_admin:
         raise HTTPException(status_code=403, detail="You are not authorized to change this application")

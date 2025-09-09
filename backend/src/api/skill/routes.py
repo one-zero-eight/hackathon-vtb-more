@@ -3,9 +3,9 @@ from fastapi import status as http_status
 from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 
 from src.api.auth.dependencies import require_admin
-from src.api.repositories.dependencies import get_skill_repository, get_skill_type_repository
+from src.api.repositories.dependencies import get_skill_repository, get_skill_type_repository, get_vacancy_repository
 from src.db.models import User
-from src.db.repositories import SkillRepository, SkillTypeRepository
+from src.db.repositories import SkillRepository, SkillTypeRepository, VacancyRepository
 from src.schemas import SkillResponse, SkillTypeCreateRequest, SkillTypeResponse, SkillTypeUpdateRequest
 
 skills_router = APIRouter(prefix="/skills", tags=["Skills"], route_class=AutoDeriveResponsesAPIRoute)
@@ -18,8 +18,13 @@ async def create_skill(
     skill_type_id: int,
     vacancy_id: int,
     skills_repository: SkillRepository = Depends(get_skill_repository),
+    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository),
     _: User = Depends(require_admin),
 ) -> SkillResponse:
+    vacancy = await vacancy_repository.get_vacancy(vacancy_id)
+    if not vacancy:
+        raise HTTPException(404, f"Vacancy {vacancy_id} not found")
+
     skill = await skills_repository.create_skill(
         weight=weight,
         details=details,
@@ -51,8 +56,13 @@ async def edit_skill(
     skill_type_id: int | None = None,
     vacancy_id: int | None = None,
     skills_repository: SkillRepository = Depends(get_skill_repository),
+    vacancy_repository: VacancyRepository = Depends(get_vacancy_repository),
     _: User = Depends(require_admin),
 ) -> SkillResponse:
+    vacancy = await vacancy_repository.get_vacancy(vacancy_id)
+    if not vacancy:
+        raise HTTPException(404, f"Vacancy {vacancy_id} not found")
+
     skill = await skills_repository.edit_skill(
         skill_id=skill_id,
         weight=weight,
