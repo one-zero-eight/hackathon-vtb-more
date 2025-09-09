@@ -26,7 +26,6 @@
 
 ### Deployment
 We use Docker with Docker Compose plugin to run the service on servers.
-
 1. Copy the file with settings: `cp settings.example.yaml settings.yaml`.
 2. Change settings in the `settings.yaml` file according to your needs
    (check [settings.schema.yaml](settings.schema.yaml) for more info).
