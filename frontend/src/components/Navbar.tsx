@@ -30,8 +30,7 @@ export default function Navbar() {
   const menuItems = [
     { label: 'Главная', href: '/', icon: Home },
     { label: 'Вакансии', href: '/user/vacancies', icon: Briefcase },
-    { label: 'Компании', href: '/companies', icon: Building2 },
-    { label: 'О нас', href: '/about', icon: Users },
+    { label: 'О проекте', href: '/about', icon: Users },
   ];
 
   return (
