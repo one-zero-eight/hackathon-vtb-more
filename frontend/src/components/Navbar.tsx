@@ -43,10 +43,6 @@ export default function Navbar() {
     { label: 'О проекте', href: '/about', icon: Users },
   ];
 
-
-
-
-
   return (
     <nav className="fixed top-0 left-0 right-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container-w mx-auto">
@@ -150,8 +146,9 @@ export default function Navbar() {
 
         {/* Мобильное меню */}
         <div
-          className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-            }`}
+          className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+            isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          }`}
         >
           <div className="py-4 space-y-4 border-t border-border">
             {/* Мобильные пункты меню */}

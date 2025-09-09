@@ -83,6 +83,7 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({
     application.originalStatus === 'approved_for_interview';
   const StatusIcon = statusConfig.icon;
 
+  console.log(application.id);
   return (
     <Card className="group hover:shadow-md transition-all duration-200 bg-white dark:bg-slate-900/40 border border-gray-200 dark:border-slate-700/50 hover:border-gray-300 dark:hover:border-slate-600/70">
       <CardContent className="p-5">

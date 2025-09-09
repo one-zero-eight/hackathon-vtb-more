@@ -5,6 +5,7 @@ import { FileText, Eye, CheckCircle, XCircle, Check, X } from 'lucide-react';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { $api } from '@/api';
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 interface ApplicantCardProps {
   checked?: boolean;
   onCheck?: (checked: boolean) => void;
@@ -29,10 +30,14 @@ const ApplicantCard = ({
 }: ApplicantCardProps) => {
   // Определяем цвет скора в зависимости от значения
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [localIsRecommended, setLocalIsRecommended] = useState(isRecommended);
-
   const preIntMutate = $api.useMutation('patch', '/preinterview/{result_id}');
 
+  const applicationMutate = $api.useMutation(
+    'patch',
+    '/applications/{application_id}'
+  );
   const recomend = async (id: number, type: 'rec' | 'not-rec') => {
     try {
       const response = await fetch(
@@ -61,14 +66,34 @@ const ApplicantCard = ({
             },
           },
         });
+
+        // Update application status using direct fetch with FormData
+        const formData = new FormData();
+        formData.append(
+          'status',
+          type === 'rec' ? 'approved_for_interview' : 'rejected_for_interview'
+        );
+
+        await fetch(`${import.meta.env.VITE_API_URL}/applications/${id}`, {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: formData,
+        });
         // Update local state after successful API call
         setLocalIsRecommended(type === 'rec');
+
+        // Invalidate applications queries to refresh data in Profile component
+        queryClient.invalidateQueries({
+          queryKey: ['get', '/applications/my/with_vacancies'],
+        });
+        queryClient.invalidateQueries({ queryKey: ['get', '/applications'] });
       }
     } catch (error) {
       console.error('Error updating recommendation:', error);
     }
   };
-
   return (
     <Card className="group hover:shadow-lg transition-all duration-200 bg-white dark:bg-slate-900/40 border border-gray-200 dark:border-slate-600/30 mb-3 rounded-xl overflow-hidden">
       <div className="p-3 sm:p-4">

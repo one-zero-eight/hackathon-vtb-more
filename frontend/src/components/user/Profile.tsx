@@ -26,6 +26,7 @@ const Profile = () => {
     data: applications,
     isLoading: applicationsLoading,
     error: applicationError,
+    refetch: refetchApplications,
   } = $api.useQuery('get', '/applications/my/with_vacancies');
 
   // Преобразуем данные API в формат UI
@@ -52,6 +53,11 @@ const Profile = () => {
       });
     }
   }, [user, isLoading]);
+
+  // Refetch applications data when component mounts to get latest status
+  useEffect(() => {
+    refetchApplications();
+  }, [refetchApplications]);
 
   const handleEdit = () => {
     setIsEditing(true);

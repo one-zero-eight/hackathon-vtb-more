@@ -4,2952 +4,3008 @@
  */
 
 export interface paths {
-    "/applications": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List Applications */
-        get: operations["list_applications_applications_get"];
-        put?: never;
-        /** Create Application */
-        post: operations["create_application_applications_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+  '/applications': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/applications/my": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get User Applications */
-        get: operations["get_user_applications_applications_my_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** List Applications */
+    get: operations['list_applications_applications_get'];
+    put?: never;
+    /** Create Application */
+    post: operations['create_application_applications_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/applications/my': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/applications/my/with_vacancies": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get User Applications With Vacancies */
-        get: operations["get_user_applications_with_vacancies_applications_my_with_vacancies_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Get User Applications */
+    get: operations['get_user_applications_applications_my_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/applications/my/with_vacancies': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/applications/{application_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Application */
-        get: operations["get_application_applications__application_id__get"];
-        put?: never;
-        post?: never;
-        /** Delete Application */
-        delete: operations["delete_application_applications__application_id__delete"];
-        options?: never;
-        head?: never;
-        /** Edit Application Endpoint */
-        patch: operations["edit_application_endpoint_applications__application_id__patch"];
-        trace?: never;
+    /** Get User Applications With Vacancies */
+    get: operations['get_user_applications_with_vacancies_applications_my_with_vacancies_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/applications/{application_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/register": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Register */
-        post: operations["register_auth_register_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Get Application */
+    get: operations['get_application_applications__application_id__get'];
+    put?: never;
+    post?: never;
+    /** Delete Application */
+    delete: operations['delete_application_applications__application_id__delete'];
+    options?: never;
+    head?: never;
+    /** Edit Application Endpoint */
+    patch: operations['edit_application_endpoint_applications__application_id__patch'];
+    trace?: never;
+  };
+  '/auth/register': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/token": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Login */
-        post: operations["login_auth_token_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Register */
+    post: operations['register_auth_register_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/token': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/auth/me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Read Me */
-        get: operations["read_me_auth_me_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Login */
+    post: operations['login_auth_token_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/auth/me': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/interview/session": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Ephemeral Session */
-        get: operations["get_ephemeral_session_interview_session_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Read Me */
+    get: operations['read_me_auth_me_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/interview/session': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/interview/message_history": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Upload Message History */
-        post: operations["upload_message_history_interview_message_history_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Get Ephemeral Session */
+    get: operations['get_ephemeral_session_interview_session_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/interview/message_history': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/postinterview": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create Post Interview */
-        post: operations["create_post_interview_postinterview_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Upload Message History */
+    post: operations['upload_message_history_interview_message_history_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/postinterview': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/postinterview/for_application/{application_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Post Interview For Application */
-        get: operations["get_post_interview_for_application_postinterview_for_application__application_id__get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Create Post Interview */
+    post: operations['create_post_interview_postinterview_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/postinterview/for_application/{application_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/postinterview/{result_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Post Interview */
-        get: operations["get_post_interview_postinterview__result_id__get"];
-        put?: never;
-        post?: never;
-        /** Delete Post Interview */
-        delete: operations["delete_post_interview_postinterview__result_id__delete"];
-        options?: never;
-        head?: never;
-        /** Edit Post Interview */
-        patch: operations["edit_post_interview_postinterview__result_id__patch"];
-        trace?: never;
+    /** Get Post Interview For Application */
+    get: operations['get_post_interview_for_application_postinterview_for_application__application_id__get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/postinterview/{result_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/preinterview": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create Pre Interview */
-        post: operations["create_pre_interview_preinterview_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Get Post Interview */
+    get: operations['get_post_interview_postinterview__result_id__get'];
+    put?: never;
+    post?: never;
+    /** Delete Post Interview */
+    delete: operations['delete_post_interview_postinterview__result_id__delete'];
+    options?: never;
+    head?: never;
+    /** Edit Post Interview */
+    patch: operations['edit_post_interview_postinterview__result_id__patch'];
+    trace?: never;
+  };
+  '/preinterview': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/preinterview/for_application/{application_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Pre Interview For Application */
-        get: operations["get_pre_interview_for_application_preinterview_for_application__application_id__get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Create Pre Interview */
+    post: operations['create_pre_interview_preinterview_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/preinterview/for_application/{application_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/preinterview/{result_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Pre Interview */
-        get: operations["get_pre_interview_preinterview__result_id__get"];
-        put?: never;
-        post?: never;
-        /** Delete Pre Interview */
-        delete: operations["delete_pre_interview_preinterview__result_id__delete"];
-        options?: never;
-        head?: never;
-        /** Edit Pre Interview */
-        patch: operations["edit_pre_interview_preinterview__result_id__patch"];
-        trace?: never;
+    /** Get Pre Interview For Application */
+    get: operations['get_pre_interview_for_application_preinterview_for_application__application_id__get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/preinterview/{result_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/skills": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Create Skill */
-        post: operations["create_skill_skills_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Get Pre Interview */
+    get: operations['get_pre_interview_preinterview__result_id__get'];
+    put?: never;
+    post?: never;
+    /** Delete Pre Interview */
+    delete: operations['delete_pre_interview_preinterview__result_id__delete'];
+    options?: never;
+    head?: never;
+    /** Edit Pre Interview */
+    patch: operations['edit_pre_interview_preinterview__result_id__patch'];
+    trace?: never;
+  };
+  '/skills': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/skills/{skill_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Skill */
-        get: operations["get_skill_skills__skill_id__get"];
-        put?: never;
-        post?: never;
-        /** Delete Skill */
-        delete: operations["delete_skill_skills__skill_id__delete"];
-        options?: never;
-        head?: never;
-        /** Edit Skill */
-        patch: operations["edit_skill_skills__skill_id__patch"];
-        trace?: never;
+    get?: never;
+    put?: never;
+    /** Create Skill */
+    post: operations['create_skill_skills_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/skills/{skill_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/skills_type": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get All Skill Types */
-        get: operations["get_all_skill_types_skills_type_get"];
-        put?: never;
-        /** Create Skill Type */
-        post: operations["create_skill_type_skills_type_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        /** Edit Skill Type */
-        patch: operations["edit_skill_type_skills_type_patch"];
-        trace?: never;
+    /** Get Skill */
+    get: operations['get_skill_skills__skill_id__get'];
+    put?: never;
+    post?: never;
+    /** Delete Skill */
+    delete: operations['delete_skill_skills__skill_id__delete'];
+    options?: never;
+    head?: never;
+    /** Edit Skill */
+    patch: operations['edit_skill_skills__skill_id__patch'];
+    trace?: never;
+  };
+  '/skills_type': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/skills_type/{skill_type_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Skill Type */
-        get: operations["get_skill_type_skills_type__skill_type_id__get"];
-        put?: never;
-        post?: never;
-        /** Delete Skill Type */
-        delete: operations["delete_skill_type_skills_type__skill_type_id__delete"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Get All Skill Types */
+    get: operations['get_all_skill_types_skills_type_get'];
+    put?: never;
+    /** Create Skill Type */
+    post: operations['create_skill_type_skills_type_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    /** Edit Skill Type */
+    patch: operations['edit_skill_type_skills_type_patch'];
+    trace?: never;
+  };
+  '/skills_type/{skill_type_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/users": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** List Users */
-        get: operations["list_users_users_get"];
-        put?: never;
-        /** Register */
-        post: operations["register_users_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Get Skill Type */
+    get: operations['get_skill_type_skills_type__skill_type_id__get'];
+    put?: never;
+    post?: never;
+    /** Delete Skill Type */
+    delete: operations['delete_skill_type_skills_type__skill_type_id__delete'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/users': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/users/{user_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get User Endpoint */
-        get: operations["get_user_endpoint_users__user_id__get"];
-        put?: never;
-        post?: never;
-        /** Delete User Endpoint */
-        delete: operations["delete_user_endpoint_users__user_id__delete"];
-        options?: never;
-        head?: never;
-        /** Edit User Endpoint */
-        patch: operations["edit_user_endpoint_users__user_id__patch"];
-        trace?: never;
+    /** List Users */
+    get: operations['list_users_users_get'];
+    put?: never;
+    /** Register */
+    post: operations['register_users_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/users/{user_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/vacancy": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get All Vacancies */
-        get: operations["get_all_vacancies_vacancy_get"];
-        put?: never;
-        /** Create Vacancy */
-        post: operations["create_vacancy_vacancy_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Get User Endpoint */
+    get: operations['get_user_endpoint_users__user_id__get'];
+    put?: never;
+    post?: never;
+    /** Delete User Endpoint */
+    delete: operations['delete_user_endpoint_users__user_id__delete'];
+    options?: never;
+    head?: never;
+    /** Edit User Endpoint */
+    patch: operations['edit_user_endpoint_users__user_id__patch'];
+    trace?: never;
+  };
+  '/vacancy': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/vacancy/with_skills": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get All Vacancies With Skills */
-        get: operations["get_all_vacancies_with_skills_vacancy_with_skills_get"];
-        put?: never;
-        /** Create Vacancy With Skills */
-        post: operations["create_vacancy_with_skills_vacancy_with_skills_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Get All Vacancies */
+    get: operations['get_all_vacancies_vacancy_get'];
+    put?: never;
+    /** Create Vacancy */
+    post: operations['create_vacancy_vacancy_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/vacancy/with_skills': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/vacancy/{vacancy_id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Vacancy */
-        get: operations["get_vacancy_vacancy__vacancy_id__get"];
-        put?: never;
-        post?: never;
-        /** Delete Vacancy */
-        delete: operations["delete_vacancy_vacancy__vacancy_id__delete"];
-        options?: never;
-        head?: never;
-        /** Edit Vacancy */
-        patch: operations["edit_vacancy_vacancy__vacancy_id__patch"];
-        trace?: never;
+    /** Get All Vacancies With Skills */
+    get: operations['get_all_vacancies_with_skills_vacancy_with_skills_get'];
+    put?: never;
+    /** Create Vacancy With Skills */
+    post: operations['create_vacancy_with_skills_vacancy_with_skills_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/vacancy/{vacancy_id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/vacancy/{vacancy_id}/with_skills": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** Get Vacancy With Skills */
-        get: operations["get_vacancy_with_skills_vacancy__vacancy_id__with_skills_get"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Get Vacancy */
+    get: operations['get_vacancy_vacancy__vacancy_id__get'];
+    put?: never;
+    post?: never;
+    /** Delete Vacancy */
+    delete: operations['delete_vacancy_vacancy__vacancy_id__delete'];
+    options?: never;
+    head?: never;
+    /** Edit Vacancy */
+    patch: operations['edit_vacancy_vacancy__vacancy_id__patch'];
+    trace?: never;
+  };
+  '/vacancy/{vacancy_id}/with_skills': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    "/vacancy/from_file": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Get Vacancy From File */
-        post: operations["get_vacancy_from_file_vacancy_from_file_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
+    /** Get Vacancy With Skills */
+    get: operations['get_vacancy_with_skills_vacancy__vacancy_id__with_skills_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/vacancy/from_file': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
+    get?: never;
+    put?: never;
+    /** Get Vacancy From File */
+    post: operations['get_vacancy_from_file_vacancy_from_file_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-    schemas: {
-        /** ApplicationResponse */
-        ApplicationResponse: {
-            /** Id */
-            id: number;
-            /** Cv */
-            cv: string;
-            /** Profile Url */
-            profile_url: string | null;
-            /** Status */
-            status: string;
-            /** User Id */
-            user_id: number;
-            /** Vacancy Id */
-            vacancy_id: number;
-            github_stats?: components["schemas"]["GithubStats"] | null;
-        };
-        /** ApplicationWithVacancyResponse */
-        ApplicationWithVacancyResponse: {
-            application: components["schemas"]["ApplicationResponse"];
-            vacancy: components["schemas"]["VacancyResponse"];
-        };
-        /** Audio */
-        Audio: {
-            input?: components["schemas"]["AudioInput"] | null;
-            output?: components["schemas"]["AudioOutput"] | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** AudioInput */
-        AudioInput: {
-            /** Format */
-            format?: string | null;
-            noise_reduction?: components["schemas"]["AudioInputNoiseReduction"] | null;
-            transcription?: components["schemas"]["AudioInputTranscription"] | null;
-            turn_detection?: components["schemas"]["AudioInputTurnDetection"] | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** AudioInputNoiseReduction */
-        AudioInputNoiseReduction: {
-            /** Type */
-            type?: ("near_field" | "far_field") | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** AudioInputTranscription */
-        AudioInputTranscription: {
-            /** Language */
-            language?: string | null;
-            /** Model */
-            model?: string | null;
-            /** Prompt */
-            prompt?: string | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** AudioInputTurnDetection */
-        AudioInputTurnDetection: {
-            /** Prefix Padding Ms */
-            prefix_padding_ms?: number | null;
-            /** Silence Duration Ms */
-            silence_duration_ms?: number | null;
-            /** Threshold */
-            threshold?: number | null;
-            /** Type */
-            type?: string | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** AudioOutput */
-        AudioOutput: {
-            /** Format */
-            format?: string | null;
-            /** Speed */
-            speed?: number | null;
-            /** Voice */
-            voice?: string | ("alloy" | "ash" | "ballad" | "coral" | "echo" | "sage" | "shimmer" | "verse" | "marin" | "cedar") | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** Body_create_application_applications_post */
-        Body_create_application_applications_post: {
-            /**
-             * File
-             * Format: binary
-             */
-            file: string;
-            /** Vacancy Id */
-            vacancy_id: number;
-            /** Github */
-            github?: string | null;
-        };
-        /** Body_edit_application_endpoint_applications__application_id__patch */
-        Body_edit_application_endpoint_applications__application_id__patch: {
-            /** File */
-            file?: string | null;
-            status?: components["schemas"]["Status"] | null;
-            /** Github */
-            github?: string | null;
-            /** User Id */
-            user_id?: number | null;
-            /** Vacancy Id */
-            vacancy_id?: number | null;
-        };
-        /** Body_get_vacancy_from_file_vacancy_from_file_post */
-        Body_get_vacancy_from_file_vacancy_from_file_post: {
-            /**
-             * File
-             * Format: binary
-             */
-            file: string;
-        };
-        /** ClientSecretCreateResponse */
-        ClientSecretCreateResponse: {
-            /** Expires At */
-            expires_at: number;
-            /** Session */
-            session: components["schemas"]["RealtimeSessionCreateResponse"] | components["schemas"]["SessionRealtimeTranscriptionSessionCreateResponse"];
-            /** Value */
-            value: string;
-        } & {
-            [key: string]: unknown;
-        };
-        /** GithubStats */
-        GithubStats: {
-            /** Github Stats Url */
-            github_stats_url: string;
-            /** Fullname */
-            fullname: string;
-            /**
-             * Rank
-             * @enum {string}
-             */
-            rank: "A+" | "A" | "A-" | "B+" | "B" | "B-" | "C+" | "C" | "C-" | "D+" | "D" | "D-" | "E+" | "E" | "E-" | "F+" | "F";
-            /** Rank Progress */
-            rank_progress: number;
-            /** Stats */
-            stats: components["schemas"]["Stat"][];
-        };
-        /** HTTPValidationError */
-        HTTPValidationError: {
-            /** Detail */
-            detail?: components["schemas"]["ValidationError"][];
-        };
-        /** InterviewHistoryRequest */
-        InterviewHistoryRequest: {
-            /** Application Id */
-            application_id: number;
-            /** Messages */
-            messages: components["schemas"]["InterviewMessage"][];
-        };
-        /** InterviewMessage */
-        InterviewMessage: {
-            /**
-             * Role
-             * @enum {string}
-             */
-            role: "user" | "assistant";
-            /** Message */
-            message: string;
-        };
-        /** InterviewMessageResponse */
-        InterviewMessageResponse: {
-            /** Id */
-            id: number;
-            /**
-             * Role
-             * @enum {string}
-             */
-            role: "user" | "assistant";
-            /** Message */
-            message: string;
-        };
-        /** LoginRequest */
-        LoginRequest: {
-            /**
-             * Email
-             * Format: email
-             */
-            email: string;
-            /** Password */
-            password: string;
-        };
-        /** PostInterviewResultResponse */
-        PostInterviewResultResponse: {
-            /** Id */
-            id: number;
-            /** Is Recommended */
-            is_recommended: boolean;
-            /** Skill Scores */
-            skill_scores: components["schemas"]["SkillResultResponse"][];
-            /** Summary */
-            summary: string;
-            /** Interview Transcript */
-            interview_transcript: components["schemas"]["InterviewMessageResponse"][];
-            /** Interview Summary */
-            interview_summary: string;
-            /** Candidate Response */
-            candidate_response: string;
-            /** Emotional Analysis */
-            emotional_analysis: string;
-            /** Candidate Roadmap */
-            candidate_roadmap: string;
-            /** Score */
-            readonly score: number;
-        };
-        /** PreInterviewResponse */
-        PreInterviewResponse: {
-            /** Id */
-            id: number;
-            /** Is Recommended */
-            is_recommended: boolean;
-            /** Score */
-            score: number;
-            /** Reason */
-            reason: string | null;
-            /** Application Id */
-            application_id: number;
-        };
-        /** RealtimeSessionCreateResponse */
-        RealtimeSessionCreateResponse: {
-            /** Id */
-            id?: string | null;
-            audio?: components["schemas"]["Audio"] | null;
-            /** Expires At */
-            expires_at?: number | null;
-            /** Include */
-            include?: "item.input_audio_transcription.logprobs"[] | null;
-            /** Instructions */
-            instructions?: string | null;
-            /** Max Output Tokens */
-            max_output_tokens?: number | "inf" | null;
-            /** Model */
-            model?: string | null;
-            /** Object */
-            object?: string | null;
-            /** Output Modalities */
-            output_modalities?: ("text" | "audio")[] | null;
-            /** Tool Choice */
-            tool_choice?: string | null;
-            /** Tools */
-            tools?: components["schemas"]["Tool"][] | null;
-            /** Tracing */
-            tracing?: "auto" | components["schemas"]["TracingTracingConfiguration"] | null;
-            turn_detection?: components["schemas"]["TurnDetection"] | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** RegisterRequest */
-        RegisterRequest: {
-            /** Name */
-            name: string;
-            /**
-             * Email
-             * Format: email
-             */
-            email: string;
-            /** Password */
-            password: string;
-            /**
-             * Is Admin
-             * @default false
-             */
-            is_admin: boolean;
-        };
-        /** SessionRealtimeTranscriptionSessionCreateResponse */
-        SessionRealtimeTranscriptionSessionCreateResponse: {
-            /** Id */
-            id?: string | null;
-            audio?: components["schemas"]["SessionRealtimeTranscriptionSessionCreateResponseAudio"] | null;
-            /** Expires At */
-            expires_at?: number | null;
-            /** Include */
-            include?: "item.input_audio_transcription.logprobs"[] | null;
-            /** Object */
-            object?: string | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** SessionRealtimeTranscriptionSessionCreateResponseAudio */
-        SessionRealtimeTranscriptionSessionCreateResponseAudio: {
-            input?: components["schemas"]["SessionRealtimeTranscriptionSessionCreateResponseAudioInput"] | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** SessionRealtimeTranscriptionSessionCreateResponseAudioInput */
-        SessionRealtimeTranscriptionSessionCreateResponseAudioInput: {
-            /** Format */
-            format?: string | null;
-            noise_reduction?: components["schemas"]["SessionRealtimeTranscriptionSessionCreateResponseAudioInputNoiseReduction"] | null;
-            transcription?: components["schemas"]["SessionRealtimeTranscriptionSessionCreateResponseAudioInputTranscription"] | null;
-            turn_detection?: components["schemas"]["SessionRealtimeTranscriptionSessionCreateResponseAudioInputTurnDetection"] | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** SessionRealtimeTranscriptionSessionCreateResponseAudioInputNoiseReduction */
-        SessionRealtimeTranscriptionSessionCreateResponseAudioInputNoiseReduction: {
-            /** Type */
-            type?: ("near_field" | "far_field") | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** SessionRealtimeTranscriptionSessionCreateResponseAudioInputTranscription */
-        SessionRealtimeTranscriptionSessionCreateResponseAudioInputTranscription: {
-            /** Language */
-            language?: string | null;
-            /** Model */
-            model?: ("gpt-4o-transcribe" | "gpt-4o-mini-transcribe" | "whisper-1") | null;
-            /** Prompt */
-            prompt?: string | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** SessionRealtimeTranscriptionSessionCreateResponseAudioInputTurnDetection */
-        SessionRealtimeTranscriptionSessionCreateResponseAudioInputTurnDetection: {
-            /** Prefix Padding Ms */
-            prefix_padding_ms?: number | null;
-            /** Silence Duration Ms */
-            silence_duration_ms?: number | null;
-            /** Threshold */
-            threshold?: number | null;
-            /** Type */
-            type?: string | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** SkillCreateRequestNoId */
-        SkillCreateRequestNoId: {
-            /** Weight */
-            weight: number;
-            /** Details */
-            details: string;
-            /** Skill Type Id */
-            skill_type_id: number;
-        };
-        /** SkillResponse */
-        SkillResponse: {
-            /** Id */
-            id: number;
-            /** Weight */
-            weight: number;
-            /** Details */
-            details: string;
-            /** Skill Type Id */
-            skill_type_id: number;
-            /** Vacancy Id */
-            vacancy_id: number;
-        };
-        /** SkillResultResponse */
-        SkillResultResponse: {
-            /** Id */
-            id: number;
-            /** Score */
-            score: number;
-            /** Weight */
-            weight: number;
-            /** Skill Id */
-            skill_id: number;
-        };
-        /** SkillTypeCreateRequest */
-        SkillTypeCreateRequest: {
-            /** Name */
-            name: string;
-        };
-        /** SkillTypeResponse */
-        SkillTypeResponse: {
-            /** Id */
-            id: number;
-            /** Name */
-            name: string;
-        };
-        /** SkillTypeUpdateRequest */
-        SkillTypeUpdateRequest: {
-            /** Id */
-            id?: number | null;
-            /** Name */
-            name?: string | null;
-        };
-        /** Stat */
-        Stat: {
-            /** Name */
-            name: string;
-            /** Value */
-            value: string | number;
-            /**
-             * Icon
-             * @description svg tag to display on frontend
-             */
-            icon?: string | null;
-        };
-        /**
-         * Status
-         * @enum {string}
-         */
-        Status: "approved" | "rejected" | "approved_for_interview" | "rejected_for_interview" | "in_interview" | "pending";
-        /** TokenResponse */
-        TokenResponse: {
-            /** Access Token */
-            access_token: string;
-            /**
-             * Token Type
-             * @default bearer
-             */
-            token_type: string;
-        };
-        /** Tool */
-        Tool: {
-            /** Description */
-            description?: string | null;
-            /** Name */
-            name?: string | null;
-            /** Parameters */
-            parameters?: unknown | null;
-            /** Type */
-            type?: "function" | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** TracingTracingConfiguration */
-        TracingTracingConfiguration: {
-            /** Group Id */
-            group_id?: string | null;
-            /** Metadata */
-            metadata?: unknown | null;
-            /** Workflow Name */
-            workflow_name?: string | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** TurnDetection */
-        TurnDetection: {
-            /** Prefix Padding Ms */
-            prefix_padding_ms?: number | null;
-            /** Silence Duration Ms */
-            silence_duration_ms?: number | null;
-            /** Threshold */
-            threshold?: number | null;
-            /** Type */
-            type?: string | null;
-        } & {
-            [key: string]: unknown;
-        };
-        /** UserCreate */
-        UserCreate: {
-            /** Name */
-            name: string;
-            /** Email */
-            email: string;
-            /** Password */
-            password: string;
-            /**
-             * Is Admin
-             * @default false
-             */
-            is_admin: boolean;
-        };
-        /** UserResponse */
-        UserResponse: {
-            /** Id */
-            id: number;
-            /** Name */
-            name: string;
-            /** Email */
-            email: string;
-            /** Is Admin */
-            is_admin: boolean;
-        };
-        /** VacancyCreateRequest */
-        VacancyCreateRequest: {
-            /** Name */
-            name: string;
-            /** Description */
-            description: string;
-            /** Salary */
-            salary?: number | null;
-            /** City */
-            city: string;
-            /** Weekly Hours Occupancy */
-            weekly_hours_occupancy: number;
-            /** Required Experience */
-            required_experience: number;
-            /**
-             * Open Time
-             * Format: date-time
-             * @default 2025-09-09T18:01:13.954145Z
-             */
-            open_time: string;
-            /** Close Time */
-            close_time?: string | null;
-            /**
-             * Is Active
-             * @default true
-             */
-            is_active: boolean;
-        };
-        /** VacancyEditRequest */
-        VacancyEditRequest: {
-            /** Name */
-            name?: string | null;
-            /** Description */
-            description?: string | null;
-            /** Salary */
-            salary?: number | null;
-            /** City */
-            city?: string | null;
-            /** Weekly Hours Occupancy */
-            weekly_hours_occupancy?: number | null;
-            /** Required Experience */
-            required_experience?: number | null;
-            /** Open Time */
-            open_time?: string | null;
-            /** Close Time */
-            close_time?: string | null;
-            /** Is Active */
-            is_active?: boolean | null;
-            /** User Id */
-            user_id?: number | null;
-        };
-        /** VacancyFromFile */
-        VacancyFromFile: {
-            /** Name */
-            name?: string | null;
-            /** Description */
-            description?: string | null;
-            /** Salary */
-            salary?: number | null;
-            /** City */
-            city?: string | null;
-            /** Weekly Hours Occupancy */
-            weekly_hours_occupancy?: number | null;
-            /** Required Experience */
-            required_experience?: number | null;
-        };
-        /** VacancyResponse */
-        VacancyResponse: {
-            /** Id */
-            id: number;
-            /** Name */
-            name: string;
-            /** Description */
-            description: string;
-            /** Salary */
-            salary: number | null;
-            /** City */
-            city: string;
-            /** Weekly Hours Occupancy */
-            weekly_hours_occupancy: number;
-            /** Required Experience */
-            required_experience: number;
-            /**
-             * Open Time
-             * Format: date-time
-             */
-            open_time: string;
-            /** Close Time */
-            close_time: string | null;
-            /** Is Active */
-            is_active: boolean;
-            /** User Id */
-            user_id: number;
-        };
-        /** VacancyWithSkillsCreateRequest */
-        VacancyWithSkillsCreateRequest: {
-            vacancy: components["schemas"]["VacancyCreateRequest"];
-            /** Skills */
-            skills: components["schemas"]["SkillCreateRequestNoId"][];
-        };
-        /** VacancyWithSkillsResponse */
-        VacancyWithSkillsResponse: {
-            vacancy: components["schemas"]["VacancyResponse"];
-            /** Skills */
-            skills: components["schemas"]["SkillResponse"][];
-        };
-        /** ValidationError */
-        ValidationError: {
-            /** Location */
-            loc: (string | number)[];
-            /** Message */
-            msg: string;
-            /** Error Type */
-            type: string;
-        };
+  schemas: {
+    /** ApplicationResponse */
+    ApplicationResponse: {
+      /** Id */
+      id: number;
+      /** Cv */
+      cv: string;
+      /** Profile Url */
+      profile_url: string | null;
+      /** Status */
+      status: string;
+      /** User Id */
+      user_id: number;
+      /** Vacancy Id */
+      vacancy_id: number;
+      github_stats?: components['schemas']['GithubStats'] | null;
     };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+    /** ApplicationWithVacancyResponse */
+    ApplicationWithVacancyResponse: {
+      application: components['schemas']['ApplicationResponse'];
+      vacancy: components['schemas']['VacancyResponse'];
+    };
+    /** Audio */
+    Audio: {
+      input?: components['schemas']['AudioInput'] | null;
+      output?: components['schemas']['AudioOutput'] | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** AudioInput */
+    AudioInput: {
+      /** Format */
+      format?: string | null;
+      noise_reduction?:
+        | components['schemas']['AudioInputNoiseReduction']
+        | null;
+      transcription?: components['schemas']['AudioInputTranscription'] | null;
+      turn_detection?: components['schemas']['AudioInputTurnDetection'] | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** AudioInputNoiseReduction */
+    AudioInputNoiseReduction: {
+      /** Type */
+      type?: ('near_field' | 'far_field') | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** AudioInputTranscription */
+    AudioInputTranscription: {
+      /** Language */
+      language?: string | null;
+      /** Model */
+      model?: string | null;
+      /** Prompt */
+      prompt?: string | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** AudioInputTurnDetection */
+    AudioInputTurnDetection: {
+      /** Prefix Padding Ms */
+      prefix_padding_ms?: number | null;
+      /** Silence Duration Ms */
+      silence_duration_ms?: number | null;
+      /** Threshold */
+      threshold?: number | null;
+      /** Type */
+      type?: string | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** AudioOutput */
+    AudioOutput: {
+      /** Format */
+      format?: string | null;
+      /** Speed */
+      speed?: number | null;
+      /** Voice */
+      voice?:
+        | string
+        | (
+            | 'alloy'
+            | 'ash'
+            | 'ballad'
+            | 'coral'
+            | 'echo'
+            | 'sage'
+            | 'shimmer'
+            | 'verse'
+            | 'marin'
+            | 'cedar'
+          )
+        | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** Body_create_application_applications_post */
+    Body_create_application_applications_post: {
+      /**
+       * File
+       * Format: binary
+       */
+      file: string;
+      /** Vacancy Id */
+      vacancy_id: number;
+      /** Github */
+      github?: string | null;
+    };
+    /** Body_edit_application_endpoint_applications__application_id__patch */
+    Body_edit_application_endpoint_applications__application_id__patch: {
+      /** File */
+      file?: string | null;
+      status?: components['schemas']['Status'] | null;
+      /** Github */
+      github?: string | null;
+      /** User Id */
+      user_id?: number | null;
+      /** Vacancy Id */
+      vacancy_id?: number | null;
+    };
+    /** Body_get_vacancy_from_file_vacancy_from_file_post */
+    Body_get_vacancy_from_file_vacancy_from_file_post: {
+      /**
+       * File
+       * Format: binary
+       */
+      file: string;
+    };
+    /** ClientSecretCreateResponse */
+    ClientSecretCreateResponse: {
+      /** Expires At */
+      expires_at: number;
+      /** Session */
+      session:
+        | components['schemas']['RealtimeSessionCreateResponse']
+        | components['schemas']['SessionRealtimeTranscriptionSessionCreateResponse'];
+      /** Value */
+      value: string;
+    } & {
+      [key: string]: unknown;
+    };
+    /** GithubStats */
+    GithubStats: {
+      /** Github Stats Url */
+      github_stats_url: string;
+      /** Fullname */
+      fullname: string;
+      /**
+       * Rank
+       * @enum {string}
+       */
+      rank:
+        | 'A+'
+        | 'A'
+        | 'A-'
+        | 'B+'
+        | 'B'
+        | 'B-'
+        | 'C+'
+        | 'C'
+        | 'C-'
+        | 'D+'
+        | 'D'
+        | 'D-'
+        | 'E+'
+        | 'E'
+        | 'E-'
+        | 'F+'
+        | 'F';
+      /** Rank Progress */
+      rank_progress: number;
+      /** Stats */
+      stats: components['schemas']['Stat'][];
+    };
+    /** HTTPValidationError */
+    HTTPValidationError: {
+      /** Detail */
+      detail?: components['schemas']['ValidationError'][];
+    };
+    /** InterviewHistoryRequest */
+    InterviewHistoryRequest: {
+      /** Application Id */
+      application_id: number;
+      /** Messages */
+      messages: components['schemas']['InterviewMessage'][];
+    };
+    /** InterviewMessage */
+    InterviewMessage: {
+      /**
+       * Role
+       * @enum {string}
+       */
+      role: 'user' | 'assistant';
+      /** Message */
+      message: string;
+    };
+    /** InterviewMessageResponse */
+    InterviewMessageResponse: {
+      /** Id */
+      id: number;
+      /**
+       * Role
+       * @enum {string}
+       */
+      role: 'user' | 'assistant';
+      /** Message */
+      message: string;
+    };
+    /** LoginRequest */
+    LoginRequest: {
+      /**
+       * Email
+       * Format: email
+       */
+      email: string;
+      /** Password */
+      password: string;
+    };
+    /** PostInterviewResultResponse */
+    PostInterviewResultResponse: {
+      /** Id */
+      id: number;
+      /** Is Recommended */
+      is_recommended: boolean;
+      /** Skill Scores */
+      skill_scores: components['schemas']['SkillResultResponse'][];
+      /** Summary */
+      summary: string;
+      /** Interview Transcript */
+      interview_transcript: components['schemas']['InterviewMessageResponse'][];
+      /** Interview Summary */
+      interview_summary: string;
+      /** Candidate Response */
+      candidate_response: string;
+      /** Emotional Analysis */
+      emotional_analysis: string;
+      /** Candidate Roadmap */
+      candidate_roadmap: string;
+      /** Score */
+      readonly score: number;
+    };
+    /** PreInterviewResponse */
+    PreInterviewResponse: {
+      /** Id */
+      id: number;
+      /** Is Recommended */
+      is_recommended: boolean;
+      /** Score */
+      score: number;
+      /** Reason */
+      reason: string | null;
+      /** Application Id */
+      application_id: number;
+    };
+    /** RealtimeSessionCreateResponse */
+    RealtimeSessionCreateResponse: {
+      /** Id */
+      id?: string | null;
+      audio?: components['schemas']['Audio'] | null;
+      /** Expires At */
+      expires_at?: number | null;
+      /** Include */
+      include?: 'item.input_audio_transcription.logprobs'[] | null;
+      /** Instructions */
+      instructions?: string | null;
+      /** Max Output Tokens */
+      max_output_tokens?: number | 'inf' | null;
+      /** Model */
+      model?: string | null;
+      /** Object */
+      object?: string | null;
+      /** Output Modalities */
+      output_modalities?: ('text' | 'audio')[] | null;
+      /** Tool Choice */
+      tool_choice?: string | null;
+      /** Tools */
+      tools?: components['schemas']['Tool'][] | null;
+      /** Tracing */
+      tracing?:
+        | 'auto'
+        | components['schemas']['TracingTracingConfiguration']
+        | null;
+      turn_detection?: components['schemas']['TurnDetection'] | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** RegisterRequest */
+    RegisterRequest: {
+      /** Name */
+      name: string;
+      /**
+       * Email
+       * Format: email
+       */
+      email: string;
+      /** Password */
+      password: string;
+      /**
+       * Is Admin
+       * @default false
+       */
+      is_admin: boolean;
+    };
+    /** SessionRealtimeTranscriptionSessionCreateResponse */
+    SessionRealtimeTranscriptionSessionCreateResponse: {
+      /** Id */
+      id?: string | null;
+      audio?:
+        | components['schemas']['SessionRealtimeTranscriptionSessionCreateResponseAudio']
+        | null;
+      /** Expires At */
+      expires_at?: number | null;
+      /** Include */
+      include?: 'item.input_audio_transcription.logprobs'[] | null;
+      /** Object */
+      object?: string | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** SessionRealtimeTranscriptionSessionCreateResponseAudio */
+    SessionRealtimeTranscriptionSessionCreateResponseAudio: {
+      input?:
+        | components['schemas']['SessionRealtimeTranscriptionSessionCreateResponseAudioInput']
+        | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** SessionRealtimeTranscriptionSessionCreateResponseAudioInput */
+    SessionRealtimeTranscriptionSessionCreateResponseAudioInput: {
+      /** Format */
+      format?: string | null;
+      noise_reduction?:
+        | components['schemas']['SessionRealtimeTranscriptionSessionCreateResponseAudioInputNoiseReduction']
+        | null;
+      transcription?:
+        | components['schemas']['SessionRealtimeTranscriptionSessionCreateResponseAudioInputTranscription']
+        | null;
+      turn_detection?:
+        | components['schemas']['SessionRealtimeTranscriptionSessionCreateResponseAudioInputTurnDetection']
+        | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** SessionRealtimeTranscriptionSessionCreateResponseAudioInputNoiseReduction */
+    SessionRealtimeTranscriptionSessionCreateResponseAudioInputNoiseReduction: {
+      /** Type */
+      type?: ('near_field' | 'far_field') | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** SessionRealtimeTranscriptionSessionCreateResponseAudioInputTranscription */
+    SessionRealtimeTranscriptionSessionCreateResponseAudioInputTranscription: {
+      /** Language */
+      language?: string | null;
+      /** Model */
+      model?:
+        | ('gpt-4o-transcribe' | 'gpt-4o-mini-transcribe' | 'whisper-1')
+        | null;
+      /** Prompt */
+      prompt?: string | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** SessionRealtimeTranscriptionSessionCreateResponseAudioInputTurnDetection */
+    SessionRealtimeTranscriptionSessionCreateResponseAudioInputTurnDetection: {
+      /** Prefix Padding Ms */
+      prefix_padding_ms?: number | null;
+      /** Silence Duration Ms */
+      silence_duration_ms?: number | null;
+      /** Threshold */
+      threshold?: number | null;
+      /** Type */
+      type?: string | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** SkillCreateRequestNoId */
+    SkillCreateRequestNoId: {
+      /** Weight */
+      weight: number;
+      /** Details */
+      details: string;
+      /** Skill Type Id */
+      skill_type_id: number;
+    };
+    /** SkillResponse */
+    SkillResponse: {
+      /** Id */
+      id: number;
+      /** Weight */
+      weight: number;
+      /** Details */
+      details: string;
+      /** Skill Type Id */
+      skill_type_id: number;
+      /** Vacancy Id */
+      vacancy_id: number;
+    };
+    /** SkillResultResponse */
+    SkillResultResponse: {
+      /** Id */
+      id: number;
+      /** Score */
+      score: number;
+      /** Weight */
+      weight: number;
+      /** Skill Id */
+      skill_id: number;
+    };
+    /** SkillTypeCreateRequest */
+    SkillTypeCreateRequest: {
+      /** Name */
+      name: string;
+    };
+    /** SkillTypeResponse */
+    SkillTypeResponse: {
+      /** Id */
+      id: number;
+      /** Name */
+      name: string;
+    };
+    /** SkillTypeUpdateRequest */
+    SkillTypeUpdateRequest: {
+      /** Id */
+      id?: number | null;
+      /** Name */
+      name?: string | null;
+    };
+    /** Stat */
+    Stat: {
+      /** Name */
+      name: string;
+      /** Value */
+      value: string | number;
+      /**
+       * Icon
+       * @description svg tag to display on frontend
+       */
+      icon?: string | null;
+    };
+    /**
+     * Status
+     * @enum {string}
+     */
+    Status:
+      | 'approved'
+      | 'rejected'
+      | 'approved_for_interview'
+      | 'rejected_for_interview'
+      | 'in_interview'
+      | 'pending';
+    /** TokenResponse */
+    TokenResponse: {
+      /** Access Token */
+      access_token: string;
+      /**
+       * Token Type
+       * @default bearer
+       */
+      token_type: string;
+    };
+    /** Tool */
+    Tool: {
+      /** Description */
+      description?: string | null;
+      /** Name */
+      name?: string | null;
+      /** Parameters */
+      parameters?: unknown | null;
+      /** Type */
+      type?: 'function' | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** TracingTracingConfiguration */
+    TracingTracingConfiguration: {
+      /** Group Id */
+      group_id?: string | null;
+      /** Metadata */
+      metadata?: unknown | null;
+      /** Workflow Name */
+      workflow_name?: string | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** TurnDetection */
+    TurnDetection: {
+      /** Prefix Padding Ms */
+      prefix_padding_ms?: number | null;
+      /** Silence Duration Ms */
+      silence_duration_ms?: number | null;
+      /** Threshold */
+      threshold?: number | null;
+      /** Type */
+      type?: string | null;
+    } & {
+      [key: string]: unknown;
+    };
+    /** UserCreate */
+    UserCreate: {
+      /** Name */
+      name: string;
+      /** Email */
+      email: string;
+      /** Password */
+      password: string;
+      /**
+       * Is Admin
+       * @default false
+       */
+      is_admin: boolean;
+    };
+    /** UserResponse */
+    UserResponse: {
+      /** Id */
+      id: number;
+      /** Name */
+      name: string;
+      /** Email */
+      email: string;
+      /** Is Admin */
+      is_admin: boolean;
+    };
+    /** VacancyCreateRequest */
+    VacancyCreateRequest: {
+      /** Name */
+      name: string;
+      /** Description */
+      description: string;
+      /** Salary */
+      salary?: number | null;
+      /** City */
+      city: string;
+      /** Weekly Hours Occupancy */
+      weekly_hours_occupancy: number;
+      /** Required Experience */
+      required_experience: number;
+      /**
+       * Open Time
+       * Format: date-time
+       * @default 2025-09-09T21:00:49.905241Z
+       */
+      open_time: string;
+      /** Close Time */
+      close_time?: string | null;
+      /**
+       * Is Active
+       * @default true
+       */
+      is_active: boolean;
+    };
+    /** VacancyEditRequest */
+    VacancyEditRequest: {
+      /** Name */
+      name?: string | null;
+      /** Description */
+      description?: string | null;
+      /** Salary */
+      salary?: number | null;
+      /** City */
+      city?: string | null;
+      /** Weekly Hours Occupancy */
+      weekly_hours_occupancy?: number | null;
+      /** Required Experience */
+      required_experience?: number | null;
+      /** Open Time */
+      open_time?: string | null;
+      /** Close Time */
+      close_time?: string | null;
+      /** Is Active */
+      is_active?: boolean | null;
+      /** User Id */
+      user_id?: number | null;
+    };
+    /** VacancyFromFile */
+    VacancyFromFile: {
+      /** Name */
+      name?: string | null;
+      /** Description */
+      description?: string | null;
+      /** Salary */
+      salary?: number | null;
+      /** City */
+      city?: string | null;
+      /** Weekly Hours Occupancy */
+      weekly_hours_occupancy?: number | null;
+      /** Required Experience */
+      required_experience?: number | null;
+    };
+    /** VacancyResponse */
+    VacancyResponse: {
+      /** Id */
+      id: number;
+      /** Name */
+      name: string;
+      /** Description */
+      description: string;
+      /** Salary */
+      salary: number | null;
+      /** City */
+      city: string;
+      /** Weekly Hours Occupancy */
+      weekly_hours_occupancy: number;
+      /** Required Experience */
+      required_experience: number;
+      /**
+       * Open Time
+       * Format: date-time
+       */
+      open_time: string;
+      /** Close Time */
+      close_time: string | null;
+      /** Is Active */
+      is_active: boolean;
+      /** User Id */
+      user_id: number;
+    };
+    /** VacancyWithSkillsCreateRequest */
+    VacancyWithSkillsCreateRequest: {
+      vacancy: components['schemas']['VacancyCreateRequest'];
+      /** Skills */
+      skills: components['schemas']['SkillCreateRequestNoId'][];
+    };
+    /** VacancyWithSkillsResponse */
+    VacancyWithSkillsResponse: {
+      vacancy: components['schemas']['VacancyResponse'];
+      /** Skills */
+      skills: components['schemas']['SkillResponse'][];
+    };
+    /** ValidationError */
+    ValidationError: {
+      /** Location */
+      loc: (string | number)[];
+      /** Message */
+      msg: string;
+      /** Error Type */
+      type: string;
+    };
+  };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    list_applications_applications_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApplicationResponse"][];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  list_applications_applications_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    create_application_applications_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "multipart/form-data": components["schemas"]["Body_create_application_applications_post"];
-            };
+        content: {
+          'application/json': components['schemas']['ApplicationResponse'][];
         };
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApplicationResponse"];
-                };
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
         };
+        content?: never;
+      };
     };
-    get_user_applications_applications_my_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApplicationResponse"][];
-                };
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  create_application_applications_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    get_user_applications_with_vacancies_applications_my_with_vacancies_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApplicationWithVacancyResponse"][];
-                };
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+    requestBody: {
+      content: {
+        'multipart/form-data': components['schemas']['Body_create_application_applications_post'];
+      };
     };
-    get_application_applications__application_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                application_id: number;
-            };
-            cookie?: never;
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApplicationResponse"];
-                };
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description You are not authorized to view this application */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description No such application */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content: {
+          'application/json': components['schemas']['ApplicationResponse'];
         };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    delete_application_applications__application_id__delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                application_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description No such application */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  get_user_applications_applications_my_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    edit_application_endpoint_applications__application_id__patch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                application_id: number;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: {
-            content: {
-                "multipart/form-data": components["schemas"]["Body_edit_application_endpoint_applications__application_id__patch"];
-            };
+        content: {
+          'application/json': components['schemas']['ApplicationResponse'][];
         };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ApplicationResponse"];
-                };
-            };
-            /** @description No changes provided */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description You are not authorized to change this application OR You are not authorized to transfer this application OR You are not authorized to change status of application */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description No such application */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
         };
+        content?: never;
+      };
     };
-    register_auth_register_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RegisterRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TokenResponse"];
-                };
-            };
-            /** @description Email already in use */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  get_user_applications_with_vacancies_applications_my_with_vacancies_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    login_auth_token_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["LoginRequest"];
-            };
+        content: {
+          'application/json': components['schemas']['ApplicationWithVacancyResponse'][];
         };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["TokenResponse"];
-                };
-            };
-            /** @description Invalid credentials */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
         };
+        content?: never;
+      };
     };
-    read_me_auth_me_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserResponse"];
-                };
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  get_application_applications__application_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        application_id: number;
+      };
+      cookie?: never;
     };
-    get_ephemeral_session_interview_session_get: {
-        parameters: {
-            query: {
-                application_id: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["ClientSecretCreateResponse"];
-                };
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content: {
+          'application/json': components['schemas']['ApplicationResponse'];
         };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description You are not authorized to view this application */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such application */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    upload_message_history_interview_message_history_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["InterviewHistoryRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["InterviewMessageResponse"][];
-                };
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  delete_application_applications__application_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        application_id: number;
+      };
+      cookie?: never;
     };
-    create_post_interview_postinterview_post: {
-        parameters: {
-            query: {
-                is_recommended: boolean;
-                score: number;
-                interview_summary: string;
-                candidate_response: string;
-                summary: string;
-                application_id: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PostInterviewResultResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content?: never;
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
         };
+        content?: never;
+      };
+      /** @description No such application */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    get_post_interview_for_application_postinterview_for_application__application_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                application_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PostInterviewResultResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Post interview assessment for application {application_id} not found OR Application {application_id} not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  edit_application_endpoint_applications__application_id__patch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        application_id: number;
+      };
+      cookie?: never;
     };
-    get_post_interview_postinterview__result_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                result_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PostInterviewResultResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid result_id */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+    requestBody?: {
+      content: {
+        'multipart/form-data': components['schemas']['Body_edit_application_endpoint_applications__application_id__patch'];
+      };
     };
-    delete_post_interview_postinterview__result_id__delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                result_id: number;
-            };
-            cookie?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid result_id */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content: {
+          'application/json': components['schemas']['ApplicationResponse'];
         };
+      };
+      /** @description No changes provided */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description You are not authorized to change this application OR You are not authorized to change status of application OR You are not authorized to transfer this application */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such application */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    edit_post_interview_postinterview__result_id__patch: {
-        parameters: {
-            query?: {
-                is_recommended?: boolean | null;
-                score?: number | null;
-                interview_summary?: string | null;
-                candidate_response?: string | null;
-                summary?: string | null;
-                application_id?: number | null;
-            };
-            header?: never;
-            path: {
-                result_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PreInterviewResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid result_id */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  register_auth_register_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    create_pre_interview_preinterview_post: {
-        parameters: {
-            query: {
-                is_recommended: boolean;
-                score: number;
-                application_id: number;
-                reason: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PreInterviewResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RegisterRequest'];
+      };
     };
-    get_pre_interview_for_application_preinterview_for_application__application_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                application_id: number;
-            };
-            cookie?: never;
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PreInterviewResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Application {application_id} not found OR Pre interview assessment for application {application_id} not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content: {
+          'application/json': components['schemas']['TokenResponse'];
         };
+      };
+      /** @description Email already in use */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    get_pre_interview_preinterview__result_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                result_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PreInterviewResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid result_id */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  login_auth_token_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    delete_pre_interview_preinterview__result_id__delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                result_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid result_id */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LoginRequest'];
+      };
     };
-    edit_pre_interview_preinterview__result_id__patch: {
-        parameters: {
-            query?: {
-                is_recommended?: boolean | null;
-                score?: number | null;
-                application_id?: number | null;
-            };
-            header?: never;
-            path: {
-                result_id: number;
-            };
-            cookie?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["PreInterviewResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid result_id */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content: {
+          'application/json': components['schemas']['TokenResponse'];
         };
+      };
+      /** @description Invalid credentials */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    create_skill_skills_post: {
-        parameters: {
-            query: {
-                weight: number;
-                details: string;
-                skill_type_id: number;
-                vacancy_id: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SkillResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  read_me_auth_me_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    get_skill_skills__skill_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                skill_id: number;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SkillResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description No such skill */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content: {
+          'application/json': components['schemas']['UserResponse'];
         };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
     };
-    delete_skill_skills__skill_id__delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                skill_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid skill_id */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  get_ephemeral_session_interview_session_get: {
+    parameters: {
+      query: {
+        application_id: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    edit_skill_skills__skill_id__patch: {
-        parameters: {
-            query?: {
-                weight?: number | null;
-                details?: string | null;
-                skill_type_id?: number | null;
-                vacancy_id?: number | null;
-            };
-            header?: never;
-            path: {
-                skill_id: number;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SkillResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid skill_id */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content: {
+          'application/json': components['schemas']['ClientSecretCreateResponse'];
         };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    get_all_skill_types_skills_type_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SkillTypeResponse"][];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  upload_message_history_interview_message_history_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    create_skill_type_skills_type_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SkillTypeCreateRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SkillTypeResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['InterviewHistoryRequest'];
+      };
     };
-    edit_skill_type_skills_type_patch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["SkillTypeUpdateRequest"];
-            };
+        content: {
+          'application/json': components['schemas']['InterviewMessageResponse'][];
         };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SkillTypeResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid skill_type_id */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
         };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    get_skill_type_skills_type__skill_type_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                skill_type_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["SkillTypeResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description No such skill type */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  create_post_interview_postinterview_post: {
+    parameters: {
+      query: {
+        is_recommended: boolean;
+        score: number;
+        interview_summary: string;
+        candidate_response: string;
+        summary: string;
+        application_id: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    delete_skill_type_skills_type__skill_type_id__delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                skill_type_id: number;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid skill_type_id */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content: {
+          'application/json': components['schemas']['PostInterviewResultResponse'];
         };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    list_users_users_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserResponse"][];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
+  };
+  get_post_interview_for_application_postinterview_for_application__application_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        application_id: number;
+      };
+      cookie?: never;
     };
-    register_users_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RegisterRequest"];
-            };
+        content: {
+          'application/json': components['schemas']['PostInterviewResultResponse'];
         };
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Email already in use */
-            409: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
         };
+        content?: never;
+      };
+      /** @description Application {application_id} not found OR Post interview assessment for application {application_id} not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    get_user_endpoint_users__user_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                user_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserResponse"];
-                };
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description No such user */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  get_post_interview_postinterview__result_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        result_id: number;
+      };
+      cookie?: never;
     };
-    delete_user_endpoint_users__user_id__delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                user_id: number;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description No such user */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content: {
+          'application/json': components['schemas']['PostInterviewResultResponse'];
         };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid result_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    edit_user_endpoint_users__user_id__patch: {
-        parameters: {
-            query?: {
-                name?: string | null;
-                email?: string | null;
-                password?: string | null;
-                is_admin?: boolean | null;
-            };
-            header?: never;
-            path: {
-                user_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserResponse"];
-                };
-            };
-            /** @description No changes provided */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Only admins can change admin flag OR Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description No such user */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  delete_post_interview_postinterview__result_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        result_id: number;
+      };
+      cookie?: never;
     };
-    get_all_vacancies_vacancy_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["VacancyResponse"][];
-                };
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
+        content?: never;
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
         };
+        content?: never;
+      };
+      /** @description Invalid result_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    create_vacancy_vacancy_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["VacancyCreateRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["VacancyResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  edit_post_interview_postinterview__result_id__patch: {
+    parameters: {
+      query?: {
+        is_recommended?: boolean | null;
+        score?: number | null;
+        interview_summary?: string | null;
+        candidate_response?: string | null;
+        summary?: string | null;
+        application_id?: number | null;
+      };
+      header?: never;
+      path: {
+        result_id: number;
+      };
+      cookie?: never;
     };
-    get_all_vacancies_with_skills_vacancy_with_skills_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["VacancyWithSkillsResponse"][];
-                };
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
+        content: {
+          'application/json': components['schemas']['PreInterviewResponse'];
         };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid result_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    create_vacancy_with_skills_vacancy_with_skills_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["VacancyWithSkillsCreateRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["VacancyWithSkillsResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  create_pre_interview_preinterview_post: {
+    parameters: {
+      query: {
+        is_recommended: boolean;
+        score: number;
+        application_id: number;
+        reason: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
     };
-    get_vacancy_vacancy__vacancy_id__get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                vacancy_id: number;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["VacancyResponse"];
-                };
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Vacancy not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+        content: {
+          'application/json': components['schemas']['PreInterviewResponse'];
         };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    delete_vacancy_vacancy__vacancy_id__delete: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                vacancy_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Vacancy not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  get_pre_interview_for_application_preinterview_for_application__application_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        application_id: number;
+      };
+      cookie?: never;
     };
-    edit_vacancy_vacancy__vacancy_id__patch: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                vacancy_id: number;
-            };
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["VacancyEditRequest"];
-            };
+        content: {
+          'application/json': components['schemas']['PreInterviewResponse'];
         };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["VacancyResponse"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Vacancy not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
         };
+        content?: never;
+      };
+      /** @description Application {application_id} not found OR Pre interview assessment for application {application_id} not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
-    get_vacancy_with_skills_vacancy__vacancy_id__with_skills_get: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                vacancy_id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["VacancyWithSkillsResponse"];
-                };
-            };
-            /** @description Invalid token OR Invalid auth scheme */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Vacancy not found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
+  };
+  get_pre_interview_preinterview__result_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        result_id: number;
+      };
+      cookie?: never;
     };
-    get_vacancy_from_file_vacancy_from_file_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
         };
-        requestBody: {
-            content: {
-                "multipart/form-data": components["schemas"]["Body_get_vacancy_from_file_vacancy_from_file_post"];
-            };
+        content: {
+          'application/json': components['schemas']['PreInterviewResponse'];
         };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["VacancyFromFile"];
-                };
-            };
-            /** @description Admin only */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-            /** @description Vacancy extraction failed: {e} */
-            502: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
         };
+        content?: never;
+      };
+      /** @description Invalid result_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
     };
+  };
+  delete_pre_interview_preinterview__result_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        result_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid result_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  edit_pre_interview_preinterview__result_id__patch: {
+    parameters: {
+      query?: {
+        is_recommended?: boolean | null;
+        score?: number | null;
+        application_id?: number | null;
+      };
+      header?: never;
+      path: {
+        result_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['PreInterviewResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid result_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  create_skill_skills_post: {
+    parameters: {
+      query: {
+        weight: number;
+        details: string;
+        skill_type_id: number;
+        vacancy_id: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SkillResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_skill_skills__skill_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        skill_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SkillResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such skill */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  delete_skill_skills__skill_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        skill_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid skill_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  edit_skill_skills__skill_id__patch: {
+    parameters: {
+      query?: {
+        weight?: number | null;
+        details?: string | null;
+        skill_type_id?: number | null;
+        vacancy_id?: number | null;
+      };
+      header?: never;
+      path: {
+        skill_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SkillResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid skill_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_all_skill_types_skills_type_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SkillTypeResponse'][];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  create_skill_type_skills_type_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SkillTypeCreateRequest'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SkillTypeResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  edit_skill_type_skills_type_patch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SkillTypeUpdateRequest'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SkillTypeResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid skill_type_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_skill_type_skills_type__skill_type_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        skill_type_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['SkillTypeResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such skill type */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  delete_skill_type_skills_type__skill_type_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        skill_type_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid skill_type_id */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  list_users_users_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserResponse'][];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  register_users_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RegisterRequest'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Email already in use */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_user_endpoint_users__user_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        user_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserResponse'];
+        };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such user */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  delete_user_endpoint_users__user_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        user_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such user */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  edit_user_endpoint_users__user_id__patch: {
+    parameters: {
+      query?: {
+        name?: string | null;
+        email?: string | null;
+        password?: string | null;
+        is_admin?: boolean | null;
+      };
+      header?: never;
+      path: {
+        user_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['UserResponse'];
+        };
+      };
+      /** @description No changes provided */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Only admins can change admin flag OR Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description No such user */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_all_vacancies_vacancy_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['VacancyResponse'][];
+        };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  create_vacancy_vacancy_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['VacancyCreateRequest'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['VacancyResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_all_vacancies_with_skills_vacancy_with_skills_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['VacancyWithSkillsResponse'][];
+        };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  create_vacancy_with_skills_vacancy_with_skills_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['VacancyWithSkillsCreateRequest'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['VacancyWithSkillsResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_vacancy_vacancy__vacancy_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        vacancy_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['VacancyResponse'];
+        };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Vacancy not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  delete_vacancy_vacancy__vacancy_id__delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        vacancy_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Vacancy not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  edit_vacancy_vacancy__vacancy_id__patch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        vacancy_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['VacancyEditRequest'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['VacancyResponse'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Vacancy not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_vacancy_with_skills_vacancy__vacancy_id__with_skills_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        vacancy_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['VacancyWithSkillsResponse'];
+        };
+      };
+      /** @description Invalid token OR Invalid auth scheme */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Vacancy not found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_vacancy_from_file_vacancy_from_file_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'multipart/form-data': components['schemas']['Body_get_vacancy_from_file_vacancy_from_file_post'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['VacancyFromFile'];
+        };
+      };
+      /** @description Admin only */
+      403: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+      /** @description Vacancy extraction failed: {e} */
+      502: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
 }
