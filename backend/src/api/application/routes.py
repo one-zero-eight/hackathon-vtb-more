@@ -45,6 +45,7 @@ async def create_application(
     if type(github) is str and 'github' in github:
         username = github.rstrip('/').split('/')[-1]
         github_info = await parse_github_stats(username)
+        
     
     # Asking AI to evaluate our candidate's CV
     pre_interview_res = await pre_interview_assessment(
@@ -58,8 +59,8 @@ async def create_application(
         application = await application_repository.edit_application(application.id, status=Status.APPROVED_FOR_INTERVIEW)
     else:
         application = await application_repository.edit_application(application.id, status=Status.REJECTED_FOR_INTERVIEW)
-
-        application.github_stats = github_info
+        
+    application.github_stats = github_info
 
     return ApplicationResponse.model_validate(application)
 

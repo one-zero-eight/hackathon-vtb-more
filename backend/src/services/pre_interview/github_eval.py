@@ -20,7 +20,7 @@ class Stat(BaseSchema):
 class GithubStats(BaseSchema):
     github_stats_url: str
     fullname: str
-    rank: Literal["A+", "A", "B+", "B", "C+", "C", "D+", "D", "E+", "E", "F"]
+    rank: Literal["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "E+", "E", "E-", "F+", "F"]
     rank_progress: int = Field(ge=0, le=100)
     stats: list[Stat]
 
