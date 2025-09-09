@@ -45,6 +45,10 @@ async def get_post_interview_for_application(
     _: User = Depends(require_admin),
 ) -> PostInterviewResultResponse:
     application = await application_repository.get_application(application_id)
+    if application is None:
+        raise HTTPException(
+            status_code=404, detail=f"Application {application_id} not found"
+        )
     result = application.post_interview_result
     if result is None:
         raise HTTPException(404, f"Post interview assessment for application {application_id} not found")
