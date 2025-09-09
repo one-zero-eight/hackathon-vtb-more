@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, File, Form, HTTPException, Response, UploadFile
+from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, HTTPException, Response, UploadFile
 from fastapi import status as http_status
 from fastapi_derive_responses import AutoDeriveResponsesAPIRoute
 
 from src.api.auth.dependencies import get_current_user, require_admin
+from src.api.logging_ import logger
 from src.api.repositories.dependencies import (
     get_application_repository,
     get_converting_repository,
@@ -15,13 +16,35 @@ from src.db.repositories import ApplicationRepository, PreInterviewResultReposit
 from src.schemas import ApplicationResponse, ApplicationWithVacancyResponse, Status, VacancyResponse
 from src.services.ai.assessor import pre_interview_assessment
 from src.services.converting import ConvertingRepository
-from src.services.pre_interview.github_eval import parse_github_stats
+from src.services.pre_interview.github_eval import GithubStats, parse_github_stats
 
 router = APIRouter(prefix="/applications", tags=["Applications"], route_class=AutoDeriveResponsesAPIRoute)
 
 
+async def _run_pre_interview_and_update(
+    application_id: int,
+    vacancy_id: int,
+    github_info: GithubStats | None,
+    application_repository: ApplicationRepository,
+    vacancy_repository: VacancyRepository,
+    pre_interview_repository: PreInterviewResultRepository,
+):
+    vacancy = await vacancy_repository.get_vacancy(vacancy_id)
+    application = await application_repository.get_application(application_id)
+    res = await pre_interview_assessment(
+        application=application,
+        vacancy=vacancy,
+        repository=pre_interview_repository,
+        github=github_info,
+    )
+    new_status = Status.APPROVED_FOR_INTERVIEW if res.is_recommended else Status.REJECTED_FOR_INTERVIEW
+    await application_repository.edit_application(application_id, status=new_status)
+    logger.info(f'Pre-interview result for application {application_id} created')
+
+
 @router.post("", status_code=http_status.HTTP_201_CREATED)
 async def create_application(
+    background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
     vacancy_id: int = Form(...),
     github: str | None = Form(None),
@@ -43,21 +66,18 @@ async def create_application(
 
     github_info = None
     if type(github) is str and 'github' in github:
-        username = github.rstrip('/').split('/')[-1]
+        username = github.rstrip("/").split("/")[-1]
         github_info = await parse_github_stats(username)
 
-    # Asking AI to evaluate our candidate's CV
-    pre_interview_res = await pre_interview_assessment(
-        application=application,
-        vacancy=await vacancy_repository.get_vacancy(vacancy_id),
-        repository=pre_interview_repository,
-        github=github_info,
+    background_tasks.add_task(
+        _run_pre_interview_and_update,
+        application_id=application.id,
+        vacancy_id=vacancy_id,
+        github_info=github_info,
+        application_repository=application_repository,
+        vacancy_repository=vacancy_repository,
+        pre_interview_repository=pre_interview_repository,
     )
-
-    if pre_interview_res.is_recommended:
-        application = await application_repository.edit_application(application.id, status=Status.APPROVED_FOR_INTERVIEW)
-    else:
-        application = await application_repository.edit_application(application.id, status=Status.REJECTED_FOR_INTERVIEW)
 
     application.github_stats = github_info
 
