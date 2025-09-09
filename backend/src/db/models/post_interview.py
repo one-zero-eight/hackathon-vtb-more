@@ -26,6 +26,6 @@ class PostInterviewResult(Base):
 
     application: Mapped[Application] = relationship(
         "Application",
-        back_populates="pre_interview_result",
+        back_populates="post_interview_result",
         lazy="selectin",
     )

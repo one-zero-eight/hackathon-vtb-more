@@ -8,7 +8,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.db.models import Base
 
 if TYPE_CHECKING:
-    from src.db.models import Application, Vacancy
+    from src.db.models.application import Application
+    from src.db.models.vacancy import Vacancy
 
 
 class SkillType(Base):
