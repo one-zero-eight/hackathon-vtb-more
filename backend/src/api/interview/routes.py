@@ -28,6 +28,7 @@ from src.schemas import InterviewHistoryRequest, InterviewMessageResponse, Statu
 from src.services.ai.assessor import post_interview_assessment
 from src.services.ai.openai_client import async_client
 from src.services.ai.prompt_builder import build_realtime_prompt
+from src.services.pre_interview.github_eval import parse_github_stats
 
 router = APIRouter(prefix="/interview", tags=["Interview"], route_class=AutoDeriveResponsesAPIRoute)
 
@@ -66,11 +67,19 @@ async def get_ephemeral_session(
         raise HTTPException(status_code=404, detail=f"Application {application_id} not found")
 
     if application.status != Status.APPROVED_FOR_INTERVIEW:
-        raise HTTPException(status_code=403, detail=f"Application {application_id} has not been approved for interview. "
-                                                    f"Current status: {application.status}")
+        raise HTTPException(
+            status_code=403,
+            detail=f"Application {application_id} has not been approved for interview. "
+            f"Current status: {application.status}",
+        )
 
-    system_prompt = build_realtime_prompt(application, user)
+    github_info = None
+    if type(application.profile_url) is str and "github" in application.profile_url:
+        username = application.profile_url.rstrip("/").split("/")[-1]
+        github_info = await parse_github_stats(username)
 
+    system_prompt = build_realtime_prompt(application, user, github_info)
+    logger.info(system_prompt)
     session = await async_client.realtime.client_secrets.create(
         expires_after=ExpiresAfter(
             anchor="created_at",

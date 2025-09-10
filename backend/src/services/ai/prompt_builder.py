@@ -66,10 +66,13 @@ def _extract_text_from_pdf(pdf_path: str) -> str:
         return "\n".join(parts).strip()
 
 
-def build_realtime_prompt(application: Application, user: User) -> str:
+def build_realtime_prompt(application: Application, user: User, github_stats: GithubStats | None = None) -> str:
     vacancy_text = build_vacancy_prompt(application.vacancy)
     cv_text = _extract_text_from_pdf(application.cv)
     user_name = user.name
+
+    github_prompt = build_github_prompt(github_stats)
+
 
     return f"""
 Act as a real-time HR Interview Specialist AI conducting interviews with job applicants.
@@ -132,6 +135,11 @@ Vacancy:
 Candidate CV:
 <cv>
 {cv_text}
+</cv>
+
+Candidate Github:
+<cv>
+{github_prompt}
 </cv>
 """
 
