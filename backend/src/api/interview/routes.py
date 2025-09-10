@@ -58,7 +58,7 @@ async def _run_post_interview_and_update(
 @router.get("/session")
 async def get_ephemeral_session(
     application_id: int,
-    _: User = Depends(get_current_user),
+    user: User = Depends(get_current_user),
     application_repository: ApplicationRepository = Depends(get_application_repository),
 ) -> ClientSecretCreateResponse:
     application = await application_repository.get_application(application_id)
@@ -69,7 +69,7 @@ async def get_ephemeral_session(
         raise HTTPException(status_code=403, detail=f"Application {application_id} has not been approved for interview. "
                                                     f"Current status: {application.status}")
 
-    system_prompt = build_realtime_prompt(application)
+    system_prompt = build_realtime_prompt(application, user)
 
     session = await async_client.realtime.client_secrets.create(
         expires_after=ExpiresAfter(

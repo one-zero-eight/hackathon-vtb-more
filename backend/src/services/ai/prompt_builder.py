@@ -2,7 +2,7 @@ import json
 
 import PyPDF2
 
-from src.db.models import Application, InterviewMessage, PreInterviewResult, Skill, Vacancy
+from src.db.models import Application, InterviewMessage, PreInterviewResult, Skill, Vacancy, User
 from src.services.pre_interview.github_eval import GithubStats
 
 
@@ -66,9 +66,10 @@ def _extract_text_from_pdf(pdf_path: str) -> str:
         return "\n".join(parts).strip()
 
 
-def build_realtime_prompt(application: Application) -> str:
+def build_realtime_prompt(application: Application, user: User) -> str:
     vacancy_text = build_vacancy_prompt(application.vacancy)
     cv_text = _extract_text_from_pdf(application.cv)
+    user_name = user.name
 
     return f"""
 Act as a real-time HR Interview Specialist AI conducting interviews with job applicants.
@@ -118,6 +119,10 @@ Important Reminders:
 - Each output is a single professional interview question in Russian; do not greet, summarize, or comment.
 
 (Important: Your objective is to ask context-relevant interview questions based on the vacancy and resume, awaiting a response before proceeding. Do not evaluate or make conclusions about the candidate.)
+
+<candidate_info>
+Name: {user_name}
+</candidate_info>
 
 Vacancy:
 <vacancy>
