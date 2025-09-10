@@ -12,6 +12,9 @@ import {
   Settings,
   FileText,
   UserCheck,
+  Plus,
+  Users,
+  Shield,
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useNavigate } from '@tanstack/react-router';
@@ -21,7 +24,7 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, isAdmin, logout } = useAuth();
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -36,10 +39,19 @@ export default function Navbar() {
     navigate({ to: '/' });
   };
 
-  const menuItems = [
+  const baseMenuItems = [
     { label: 'Главная', href: '/', icon: Home },
-    { label: 'Вакансии', href: '/user/vacancies', icon: Briefcase }
+    { label: 'Вакансии', href: '/user/vacancies', icon: Briefcase },
   ];
+
+  const adminMenuItems = [
+    { label: 'Главная', href: '/', icon: Home },
+    { label: 'Вакансии', href: '/user/vacancies', icon: Briefcase },
+    { label: 'HR Вакансии', href: '/hr/vacancies', icon: Building2 },
+    { label: 'Создать вакансию', href: '/hr/vacancies/create', icon: Plus },
+  ];
+
+  const menuItems = isAdmin ? adminMenuItems : baseMenuItems;
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
@@ -47,32 +59,31 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Логотип */}
           <div className="flex items-center space-x-12">
-              <div className="flex items-center space-x-2">
-                  <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center">
-                      <Building2 className="w-6 h-6 text-primary-foreground" />
-                  </div>
-                  <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              AInna
-            </span>
+            <div className="flex items-center space-x-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center">
+                <Building2 className="w-6 h-6 text-primary-foreground" />
               </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                AInna
+              </span>
+            </div>
 
-              <div className="hidden md:flex items-center space-x-8">
-                  {menuItems.map(item => {
-                      const Icon = item.icon;
-                      return (
-                          <a
-                              key={item.href}
-                              href={item.href}
-                              className="flex items-center space-x-2 text-foreground/70 hover:text-foreground transition-colors duration-200 group"
-                          >
-                              <Icon className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                              <span className="font-medium">{item.label}</span>
-                          </a>
-                      );
-                  })}
-              </div>
+            <div className="hidden md:flex items-center space-x-8">
+              {menuItems.map(item => {
+                const Icon = item.icon;
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="flex items-center space-x-2 text-foreground/70 hover:text-foreground transition-colors duration-200 group"
+                  >
+                    <Icon className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                    <span className="font-medium">{item.label}</span>
+                  </a>
+                );
+              })}
+            </div>
           </div>
-
 
           {/* Правая часть - кнопки и переключатель темы */}
           <div className="flex items-center space-x-4">
@@ -93,6 +104,14 @@ export default function Navbar() {
             {/* Кнопки авторизации */}
             {isAuthenticated ? (
               <div className="hidden sm:flex items-center space-x-3">
+                {isAdmin && (
+                  <div className="flex items-center space-x-1 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20 px-2 py-1 rounded-full">
+                    <Shield className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                    <span className="text-xs font-medium text-purple-700 dark:text-purple-300">
+                      Admin
+                    </span>
+                  </div>
+                )}
                 <div
                   className="cursor-pointer flex items-center space-x-2"
                   onClick={() => navigate({ to: '/user/profile' })}
@@ -173,6 +192,14 @@ export default function Navbar() {
             <div className="space-y-3 px-4 pt-4 border-t border-border">
               {isAuthenticated ? (
                 <>
+                  {isAdmin && (
+                    <div className="flex items-center justify-center space-x-1 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20 px-3 py-2 rounded-full">
+                      <Shield className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                      <span className="text-sm font-medium text-purple-700 dark:text-purple-300">
+                        Admin
+                      </span>
+                    </div>
+                  )}
                   <Button
                     variant="outline"
                     className="w-full"

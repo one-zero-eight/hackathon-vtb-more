@@ -16,6 +16,8 @@ interface ApplicantCardProps {
   userId: number;
   vac_id: number;
   application_id?: number;
+  postInterviewData?: any; // PostInterviewResultResponse
+  isCompleted?: boolean;
 }
 
 const ApplicantCard = ({
@@ -27,6 +29,8 @@ const ApplicantCard = ({
   userId,
   vac_id,
   application_id,
+  postInterviewData,
+  isCompleted,
 }: ApplicantCardProps) => {
   // Определяем цвет скора в зависимости от значения
   const navigate = useNavigate();
@@ -112,7 +116,26 @@ const ApplicantCard = ({
               </h3>
 
               {/* Отображение информации о рекомендации */}
-              {localIsRecommended !== undefined && (
+              {isCompleted && postInterviewData ? (
+                <div className="mt-2">
+                  <div
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm ${
+                      postInterviewData.is_recommended
+                        ? 'bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border border-green-200 dark:from-green-900/20 dark:to-emerald-900/20 dark:text-green-300 dark:border-green-700'
+                        : 'bg-gradient-to-r from-red-50 to-rose-50 text-red-700 border border-red-200 dark:from-red-900/20 dark:to-rose-900/20 dark:text-red-300 dark:border-red-700'
+                    }`}
+                  >
+                    {postInterviewData.is_recommended ? (
+                      <CheckCircle className="w-3 h-3" />
+                    ) : (
+                      <XCircle className="w-3 h-3" />
+                    )}
+                    <span>
+                      {postInterviewData.is_recommended ? 'Принят' : 'Отклонен'}
+                    </span>
+                  </div>
+                </div>
+              ) : localIsRecommended !== undefined ? (
                 <div className="mt-2">
                   <div
                     className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm ${
@@ -131,16 +154,20 @@ const ApplicantCard = ({
                     </span>
                   </div>
                 </div>
-              )}
+              ) : null}
             </div>
           </div>
 
           {/* Центральная часть - скор */}
           <div className="flex items-center mx-4">
             <div className="text-center">
-              <div className={`text-2xl font-bold `}>{score}</div>
+              <div className={`text-2xl font-bold `}>
+                {isCompleted && postInterviewData
+                  ? postInterviewData.score
+                  : score}
+              </div>
               <div className="text-xs text-gray-500 dark:text-gray-400">
-                Рейтинг
+                {isCompleted ? 'Итоговый балл' : 'Рейтинг'}
               </div>
             </div>
           </div>
@@ -151,21 +178,29 @@ const ApplicantCard = ({
               variant="outline"
               size="lg"
               className="h-9 px-3 border-gray-300 dark:border-slate-600 hover:bg-gray-50 text-md dark:hover:bg-slate-800"
-              onClick={() =>
-                navigate({
-                  to: '/user/vacancy/$app_id/$id',
-                  params: {
-                    id: userId.toString(),
-                    app_id: vac_id.toString(),
-                  },
-                })
-              }
             >
               <Eye className="w-4 h-4 mr-1" />
               Профиль
             </Button>
 
-            {localIsRecommended ? (
+            {isCompleted ? (
+              <Button
+                variant="outline"
+                size="lg"
+                className="h-9 px-3 border-blue-800 text-blue-800 cursor-pointer dark:border-blue-800 hover:text-blue-800"
+                onClick={() =>
+                  navigate({
+                    to: '/hr/interview-results/$appId',
+                    params: {
+                      appId: application_id?.toString() || vac_id.toString(),
+                    },
+                  })
+                }
+              >
+                <FileText className="w-4 h-4 mr-1" />
+                Результаты
+              </Button>
+            ) : localIsRecommended ? (
               <Button
                 variant="outline"
                 size="lg"

@@ -8,6 +8,7 @@ import React, {
 
 interface AuthContextType {
   isAuthenticated: boolean;
+  isAdmin: boolean;
   token: string | null;
   login: (token: string) => void;
   logout: () => void;
@@ -30,6 +31,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   // Инициализация состояния при загрузке
   useEffect(() => {
@@ -37,23 +39,44 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (savedToken) {
       setToken(savedToken);
       setIsAuthenticated(true);
+      // Check admin status
+      checkAdminStatus(savedToken);
     }
   }, []);
+
+  const checkAdminStatus = async (token: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const user = await response.json();
+        setIsAdmin(user.is_admin || false);
+      }
+    } catch (error) {
+      console.error('Error checking admin status:', error);
+    }
+  };
 
   const login = (newToken: string) => {
     localStorage.setItem('token', newToken);
     setToken(newToken);
     setIsAuthenticated(true);
+    checkAdminStatus(newToken);
   };
 
   const logout = () => {
     localStorage.removeItem('token');
     setToken(null);
     setIsAuthenticated(false);
+    setIsAdmin(false);
   };
 
   const value: AuthContextType = {
     isAuthenticated,
+    isAdmin,
     token,
     login,
     logout,
