@@ -332,10 +332,10 @@ const VacancyDetail: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* GitHub Username */}
+                    {/* GitHub URL */}
                     <div className="flex flex-col gap-3">
                       <label className="text-md font-medium text-gray-700 dark:text-gray-300 ">
-                        GitHub username (необязательно)
+                        GitHub URL (необязательно)
                       </label>
                       <div className="relative">
                         <Github className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -343,7 +343,7 @@ const VacancyDetail: React.FC = () => {
                           type="text"
                           value={githubUsername}
                           onChange={e => setGithubUsername(e.target.value)}
-                          placeholder="Введите ваш GitHub username"
+                          placeholder="Введите ваш GitHub URL"
                           className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-800 dark:text-white"
                         />
                       </div>
