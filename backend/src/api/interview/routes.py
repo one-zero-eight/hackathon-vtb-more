@@ -97,7 +97,7 @@ async def get_ephemeral_session(
                     ),
                     turn_detection=InputTurnDetection(
                         type="server_vad",
-                        silence_duration_ms=5000,
+                        silence_duration_ms=1500,
                     ),
                 )
             ),
