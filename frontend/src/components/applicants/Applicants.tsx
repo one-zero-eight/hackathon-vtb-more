@@ -9,7 +9,6 @@ import { LoadingSpinner } from '../ui';
 
 const TABS = [
   { key: 'interview', label: 'Ожидают интервью' },
-  { key: 'decision', label: 'Ожидают результат' },
   { key: 'completed', label: 'Завершенные интервью' },
 ] as const;
 
@@ -243,11 +242,13 @@ const Applicants = () => {
       const applicant = {
         id: app.id,
         fullName: user?.name || 'Неизвестный пользователь',
-        score: score,
+        score: postInterviewDataForApp ? postInterviewDataForApp.score : score,
         user_id: app.user_id,
         status: app.status,
         userId: app.user_id,
-        isRecommended: recommendationInfo.isRecommended,
+        isRecommended: postInterviewDataForApp
+          ? postInterviewDataForApp.is_recommended
+          : recommendationInfo.isRecommended,
         reason: recommendationInfo.reason,
         postInterviewData: postInterviewDataForApp,
         isCompleted: postInterviewDataForApp !== undefined,
@@ -263,14 +264,15 @@ const Applicants = () => {
 
   // Разделяем заявки по статусам
   const applicantsInterview = useMemo(() => {
-    // Показываем заявки с pre-interview данными в "Ожидают интервью"
+    // Показываем заявки с pre-interview данными, но БЕЗ post-interview данных
     const filtered = allApplicants.filter(app => {
       const hasPreInterviewData = preInterviewData[app.id] !== undefined;
-      return hasPreInterviewData;
+      const hasPostInterviewData = postInterviewData[app.id] !== undefined;
+      return hasPreInterviewData && !hasPostInterviewData;
     });
     console.log('applicantsInterview filtered:', filtered);
     return filtered;
-  }, [allApplicants, preInterviewData]);
+  }, [allApplicants, preInterviewData, postInterviewData]);
 
   const applicantsDecision = useMemo(() => {
     // Показываем заявки БЕЗ pre-interview данных в "Ожидают результат"
@@ -378,11 +380,7 @@ const Applicants = () => {
             {TABS.map(tab => {
               const isActive = activeTab === tab.key;
               const count =
-                tab.key === 'interview'
-                  ? countInterview
-                  : tab.key === 'decision'
-                    ? countDecision
-                    : countCompleted;
+                tab.key === 'interview' ? countInterview : countCompleted;
               return (
                 <button
                   key={tab.key}
@@ -427,6 +425,7 @@ const Applicants = () => {
                 vac_id={applicant.id}
                 key={applicant.id}
                 userId={applicant.userId}
+                application_id={applicant.id}
                 checked={selectedIds.includes(applicant.id)}
                 onCheck={val => toggleSelect(applicant.id, Boolean(val))}
                 fullName={applicant.fullName}

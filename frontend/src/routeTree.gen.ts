@@ -19,9 +19,9 @@ import { Route as UserVacanciesIndexRouteImport } from './routes/user/vacancies/
 import { Route as UserProfileIndexRouteImport } from './routes/user/profile/index'
 import { Route as HrVacanciesIndexRouteImport } from './routes/hr/vacancies/index'
 import { Route as UserVacancyIdRouteImport } from './routes/user/vacancy/$id'
+import { Route as InterviewInterviewResultsAppIdRouteImport } from './routes/interview/interview-results/$appId'
 import { Route as HrVacanciesCreateRouteImport } from './routes/hr/vacancies/create'
 import { Route as HrVacanciesArchieveRouteImport } from './routes/hr/vacancies/archieve'
-import { Route as HrInterviewResultsAppIdRouteImport } from './routes/hr/interview-results/$appId'
 import { Route as HrVacanciesIdIndexRouteImport } from './routes/hr/vacancies/$id/index'
 import { Route as UserVacancyApp_idReportRouteImport } from './routes/user/vacancy/$app_id/report'
 import { Route as HrVacanciesIdUpdateRouteImport } from './routes/hr/vacancies/$id/update'
@@ -75,6 +75,12 @@ const UserVacancyIdRoute = UserVacancyIdRouteImport.update({
   path: '/user/vacancy/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InterviewInterviewResultsAppIdRoute =
+  InterviewInterviewResultsAppIdRouteImport.update({
+    id: '/interview/interview-results/$appId',
+    path: '/interview/interview-results/$appId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const HrVacanciesCreateRoute = HrVacanciesCreateRouteImport.update({
   id: '/vacancies/create',
   path: '/vacancies/create',
@@ -83,11 +89,6 @@ const HrVacanciesCreateRoute = HrVacanciesCreateRouteImport.update({
 const HrVacanciesArchieveRoute = HrVacanciesArchieveRouteImport.update({
   id: '/vacancies/archieve',
   path: '/vacancies/archieve',
-  getParentRoute: () => HrRoute,
-} as any)
-const HrInterviewResultsAppIdRoute = HrInterviewResultsAppIdRouteImport.update({
-  id: '/interview-results/$appId',
-  path: '/interview-results/$appId',
   getParentRoute: () => HrRoute,
 } as any)
 const HrVacanciesIdIndexRoute = HrVacanciesIdIndexRouteImport.update({
@@ -128,9 +129,9 @@ export interface FileRoutesByFullPath {
   '/hr': typeof Hr_layoutRoute
   '/interview/$applicationId': typeof InterviewApplicationIdRoute
   '/auth': typeof AuthIndexRoute
-  '/hr/interview-results/$appId': typeof HrInterviewResultsAppIdRoute
   '/hr/vacancies/archieve': typeof HrVacanciesArchieveRoute
   '/hr/vacancies/create': typeof HrVacanciesCreateRoute
+  '/interview/interview-results/$appId': typeof InterviewInterviewResultsAppIdRoute
   '/user/vacancy/$id': typeof UserVacancyIdRoute
   '/hr/vacancies': typeof HrVacanciesIndexRoute
   '/user/profile': typeof UserProfileIndexRoute
@@ -147,9 +148,9 @@ export interface FileRoutesByTo {
   '/hr': typeof Hr_layoutRoute
   '/interview/$applicationId': typeof InterviewApplicationIdRoute
   '/auth': typeof AuthIndexRoute
-  '/hr/interview-results/$appId': typeof HrInterviewResultsAppIdRoute
   '/hr/vacancies/archieve': typeof HrVacanciesArchieveRoute
   '/hr/vacancies/create': typeof HrVacanciesCreateRoute
+  '/interview/interview-results/$appId': typeof InterviewInterviewResultsAppIdRoute
   '/user/vacancy/$id': typeof UserVacancyIdRoute
   '/hr/vacancies': typeof HrVacanciesIndexRoute
   '/user/profile': typeof UserProfileIndexRoute
@@ -168,9 +169,9 @@ export interface FileRoutesById {
   '/hr/__layout': typeof Hr_layoutRoute
   '/interview/$applicationId': typeof InterviewApplicationIdRoute
   '/auth/': typeof AuthIndexRoute
-  '/hr/interview-results/$appId': typeof HrInterviewResultsAppIdRoute
   '/hr/vacancies/archieve': typeof HrVacanciesArchieveRoute
   '/hr/vacancies/create': typeof HrVacanciesCreateRoute
+  '/interview/interview-results/$appId': typeof InterviewInterviewResultsAppIdRoute
   '/user/vacancy/$id': typeof UserVacancyIdRoute
   '/hr/vacancies/': typeof HrVacanciesIndexRoute
   '/user/profile/': typeof UserProfileIndexRoute
@@ -189,9 +190,9 @@ export interface FileRouteTypes {
     | '/hr'
     | '/interview/$applicationId'
     | '/auth'
-    | '/hr/interview-results/$appId'
     | '/hr/vacancies/archieve'
     | '/hr/vacancies/create'
+    | '/interview/interview-results/$appId'
     | '/user/vacancy/$id'
     | '/hr/vacancies'
     | '/user/profile'
@@ -208,9 +209,9 @@ export interface FileRouteTypes {
     | '/hr'
     | '/interview/$applicationId'
     | '/auth'
-    | '/hr/interview-results/$appId'
     | '/hr/vacancies/archieve'
     | '/hr/vacancies/create'
+    | '/interview/interview-results/$appId'
     | '/user/vacancy/$id'
     | '/hr/vacancies'
     | '/user/profile'
@@ -228,9 +229,9 @@ export interface FileRouteTypes {
     | '/hr/__layout'
     | '/interview/$applicationId'
     | '/auth/'
-    | '/hr/interview-results/$appId'
     | '/hr/vacancies/archieve'
     | '/hr/vacancies/create'
+    | '/interview/interview-results/$appId'
     | '/user/vacancy/$id'
     | '/hr/vacancies/'
     | '/user/profile/'
@@ -248,6 +249,7 @@ export interface RootRouteChildren {
   HrRoute: typeof HrRouteWithChildren
   InterviewApplicationIdRoute: typeof InterviewApplicationIdRoute
   AuthIndexRoute: typeof AuthIndexRoute
+  InterviewInterviewResultsAppIdRoute: typeof InterviewInterviewResultsAppIdRoute
   UserVacancyIdRoute: typeof UserVacancyIdRoute
   UserProfileIndexRoute: typeof UserProfileIndexRoute
   UserVacanciesIndexRoute: typeof UserVacanciesIndexRoute
@@ -321,6 +323,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserVacancyIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/interview/interview-results/$appId': {
+      id: '/interview/interview-results/$appId'
+      path: '/interview/interview-results/$appId'
+      fullPath: '/interview/interview-results/$appId'
+      preLoaderRoute: typeof InterviewInterviewResultsAppIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/hr/vacancies/create': {
       id: '/hr/vacancies/create'
       path: '/vacancies/create'
@@ -333,13 +342,6 @@ declare module '@tanstack/react-router' {
       path: '/vacancies/archieve'
       fullPath: '/hr/vacancies/archieve'
       preLoaderRoute: typeof HrVacanciesArchieveRouteImport
-      parentRoute: typeof HrRoute
-    }
-    '/hr/interview-results/$appId': {
-      id: '/hr/interview-results/$appId'
-      path: '/interview-results/$appId'
-      fullPath: '/hr/interview-results/$appId'
-      preLoaderRoute: typeof HrInterviewResultsAppIdRouteImport
       parentRoute: typeof HrRoute
     }
     '/hr/vacancies/$id/': {
@@ -389,7 +391,6 @@ declare module '@tanstack/react-router' {
 
 interface HrRouteChildren {
   Hr_layoutRoute: typeof Hr_layoutRoute
-  HrInterviewResultsAppIdRoute: typeof HrInterviewResultsAppIdRoute
   HrVacanciesArchieveRoute: typeof HrVacanciesArchieveRoute
   HrVacanciesCreateRoute: typeof HrVacanciesCreateRoute
   HrVacanciesIndexRoute: typeof HrVacanciesIndexRoute
@@ -400,7 +401,6 @@ interface HrRouteChildren {
 
 const HrRouteChildren: HrRouteChildren = {
   Hr_layoutRoute: Hr_layoutRoute,
-  HrInterviewResultsAppIdRoute: HrInterviewResultsAppIdRoute,
   HrVacanciesArchieveRoute: HrVacanciesArchieveRoute,
   HrVacanciesCreateRoute: HrVacanciesCreateRoute,
   HrVacanciesIndexRoute: HrVacanciesIndexRoute,
@@ -416,6 +416,7 @@ const rootRouteChildren: RootRouteChildren = {
   HrRoute: HrRouteWithChildren,
   InterviewApplicationIdRoute: InterviewApplicationIdRoute,
   AuthIndexRoute: AuthIndexRoute,
+  InterviewInterviewResultsAppIdRoute: InterviewInterviewResultsAppIdRoute,
   UserVacancyIdRoute: UserVacancyIdRoute,
   UserProfileIndexRoute: UserProfileIndexRoute,
   UserVacanciesIndexRoute: UserVacanciesIndexRoute,

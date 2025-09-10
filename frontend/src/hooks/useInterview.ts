@@ -1,6 +1,8 @@
 // src/hooks/useInterview.ts
 import { $api } from '@/api';
+import { useNavigate } from '@tanstack/react-router';
 import { useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 type SessionResp = {
   client_secret: string;
@@ -229,6 +231,8 @@ export function useInterview(application_id: string) {
       console.error('Error parsing event:', e, 'Raw data:', raw);
     }
   }
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   function stopInterview() {
     dcRef.current?.close();
@@ -240,11 +244,46 @@ export function useInterview(application_id: string) {
     audioContextRef.current = null;
     setIsConnected(false);
     safeSetStatus('idle');
+
+    // Send interview data
     sendInterViewChat.mutate({
       body: {
         application_id: Number(application_id),
         messages: transcripts,
       },
+    });
+
+    // Update application status to indicate interview is completed
+    const updateApplicationStatus = async () => {
+      try {
+        const formData = new FormData();
+        formData.append('status', 'completed'); // Mark as interview completed
+
+        await fetch(
+          `${import.meta.env.VITE_API_URL}/applications/${application_id}`,
+          {
+            method: 'PATCH',
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: formData,
+          }
+        );
+
+        // Invalidate queries to refresh application data
+        queryClient.invalidateQueries({
+          queryKey: ['get', '/applications/my/with_vacancies'],
+        });
+        queryClient.invalidateQueries({ queryKey: ['get', '/applications'] });
+      } catch (error) {
+        console.error('Error updating application status:', error);
+      }
+    };
+
+    updateApplicationStatus();
+
+    navigate({
+      to: '/user/profile',
     });
   }
 

@@ -29,7 +29,7 @@ type InterviewMessage = components['schemas']['InterviewMessageResponse'];
 
 const InterviewResults = () => {
   const { appId } = useParams({
-    from: '/hr/interview-results/$appId',
+    from: '/interview/interview-results/$appId',
   });
   const navigate = useNavigate();
   const queryClient = useQueryClient();

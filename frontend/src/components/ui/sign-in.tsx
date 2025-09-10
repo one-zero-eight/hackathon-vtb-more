@@ -45,7 +45,7 @@ export const SignInPage: React.FC = () => {
           email: userData.email,
           password: userData.password,
           name: userData.full_name,
-          is_admin: true,
+          is_admin: false,
         },
       });
       login(response.access_token);

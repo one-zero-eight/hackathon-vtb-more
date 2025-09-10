@@ -26,7 +26,7 @@ function VoiceChat() {
         </div>
       )}
 
-      <div className="fixed bottom-4 left-4 right-4 max-h-64 overflow-y-auto bg-black/50 text-white p-4 rounded-lg">
+      {/* <div className="fixed bottom-4 left-4 right-4 max-h-64 overflow-y-auto bg-black/50 text-white p-4 rounded-lg">
         <div className="space-y-2">
           {transcripts.map((t, index) => (
             <div
@@ -48,7 +48,7 @@ function VoiceChat() {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
       {status === 'idle' && (
         <Button
           onClick={startInterview}
