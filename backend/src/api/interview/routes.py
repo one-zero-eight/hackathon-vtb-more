@@ -126,7 +126,6 @@ async def upload_message_history(
     background_tasks.add_task(
         _run_post_interview_and_update,
         application_id=application.id,
-        vacancy_id=vacancy.id,
         transcript=created_messages,
         pre_interview=pre_interview,
         post_interview_repository=post_interview_repository,
