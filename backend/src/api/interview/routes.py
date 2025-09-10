@@ -6,7 +6,7 @@ from openai.types.realtime.client_secret_create_params import (
     ExpiresAfter,
     RealtimeSessionCreateRequestParam,
 )
-from openai.types.realtime.realtime_audio_config_param import Input, InputTranscription
+from openai.types.realtime.realtime_audio_config_param import Input, InputTranscription, InputTurnDetection
 
 from src.api.auth.dependencies import get_current_user
 from src.api.logging_ import logger
@@ -94,7 +94,11 @@ async def get_ephemeral_session(
                     transcription=InputTranscription(
                         language=open_ai_realtime_settings.language,
                         model=open_ai_realtime_settings.transcription_model,
-                    )
+                    ),
+                    turn_detection=InputTurnDetection(
+                        type="server_vad",
+                        silence_duration_ms=5000,
+                    ),
                 )
             ),
         ),
