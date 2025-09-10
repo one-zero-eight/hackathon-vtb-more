@@ -34,7 +34,6 @@ router = APIRouter(prefix="/interview", tags=["Interview"], route_class=AutoDeri
 
 async def _run_post_interview_and_update(
     application_id: int,
-    vacancy_id: int,
     transcript: list[InterviewMessage],
     pre_interview,
     post_interview_repository: PostInterviewResultRepository,
@@ -42,7 +41,7 @@ async def _run_post_interview_and_update(
     skill_result_repository: SkillResultRepository,
 ):
     application = await application_repository.get_application(application_id)
-    vacancy = await application_repository.get_applications_vacancy(vacancy_id)
+    vacancy = await application_repository.get_applications_vacancy(application_id)
     res = await post_interview_assessment(
         application=application,
         vacancy=vacancy,
