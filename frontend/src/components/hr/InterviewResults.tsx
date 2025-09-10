@@ -22,6 +22,7 @@ import { $api, apiFetch } from '@/api';
 import { LoadingSpinner, ErrorState } from '../ui';
 import type { components } from '@/api/types';
 import { useQueryClient } from '@tanstack/react-query';
+import { convertScoreTo100 } from '@/lib/utils';
 
 type PostInterviewResult = components['schemas']['PostInterviewResultResponse'];
 type SkillResult = components['schemas']['SkillResultResponse'];
@@ -169,15 +170,17 @@ const InterviewResults = () => {
   }
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-600 dark:text-green-400';
-    if (score >= 60) return 'text-yellow-600 dark:text-yellow-400';
+    const score100 = convertScoreTo100(score);
+    if (score100 >= 80) return 'text-green-600 dark:text-green-400';
+    if (score100 >= 60) return 'text-yellow-600 dark:text-yellow-400';
     return 'text-red-600 dark:text-red-400';
   };
 
   const getScoreBadgeColor = (score: number) => {
-    if (score >= 80)
+    const score100 = convertScoreTo100(score);
+    if (score100 >= 80)
       return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300';
-    if (score >= 60)
+    if (score100 >= 60)
       return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300';
     return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300';
   };
@@ -265,7 +268,7 @@ const InterviewResults = () => {
                 <div
                   className={`text-6xl font-bold ${getScoreColor(interviewData.score)}`}
                 >
-                  {interviewData.score}
+                  {convertScoreTo100(interviewData.score)}
                 </div>
                 <div className="text-lg text-gray-600 dark:text-gray-400">
                   из 100 баллов
@@ -308,7 +311,7 @@ const InterviewResults = () => {
                       </div>
                     </div>
                     <Badge className={getScoreBadgeColor(skill.score)}>
-                      {skill.score} баллов
+                      {convertScoreTo100(skill.score)} баллов
                     </Badge>
                   </div>
                 ))}

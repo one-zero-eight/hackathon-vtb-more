@@ -6,6 +6,7 @@ import { $api, apiFetch } from '@/api';
 import { useParams } from '@tanstack/react-router';
 import type { components } from '@/api/types';
 import { LoadingSpinner } from '../ui';
+import { convertScoreTo100 } from '@/lib/utils';
 
 const TABS = [
   { key: 'interview', label: 'Ожидают интервью' },
@@ -192,7 +193,7 @@ const Applicants = () => {
     });
 
     if (preInterviewDataForApp?.score !== undefined) {
-      return preInterviewDataForApp.score;
+      return convertScoreTo100(preInterviewDataForApp.score);
     }
 
     // Если нет pre-interview данных, используем GitHub статистику
@@ -242,7 +243,9 @@ const Applicants = () => {
       const applicant = {
         id: app.id,
         fullName: user?.name || 'Неизвестный пользователь',
-        score: postInterviewDataForApp ? postInterviewDataForApp.score : score,
+        score: postInterviewDataForApp
+          ? convertScoreTo100(postInterviewDataForApp.score)
+          : score,
         user_id: app.user_id,
         status: app.status,
         userId: app.user_id,

@@ -6,6 +6,7 @@ import { Link, useNavigate } from '@tanstack/react-router';
 import { $api } from '@/api';
 import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { convertScoreTo100 } from '@/lib/utils';
 interface ApplicantCardProps {
   checked?: boolean;
   onCheck?: (checked: boolean) => void;
@@ -77,8 +78,8 @@ const ApplicantCard = ({
           query: {
             score:
               typeof score === 'string'
-                ? parseInt(score.replace('%', ''))
-                : score,
+                ? parseInt(score.replace('%', '')) / 100
+                : score / 100,
             is_recommended: type === 'rec',
             application_id: id,
           },
@@ -206,8 +207,12 @@ const ApplicantCard = ({
             <div className="text-center">
               <div className={`text-2xl font-bold `}>
                 {isCompleted && (localPostInterviewData || postInterviewData)
-                  ? (localPostInterviewData || postInterviewData)?.score
-                  : score}
+                  ? convertScoreTo100(
+                      (localPostInterviewData || postInterviewData)?.score
+                    )
+                  : typeof score === 'string'
+                    ? score
+                    : convertScoreTo100(score)}
               </div>
               <div className="text-xs text-gray-500 dark:text-gray-400">
                 {isCompleted ? 'Итоговый балл' : 'Рейтинг'}

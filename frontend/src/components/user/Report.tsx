@@ -19,6 +19,7 @@ import {
   Calendar,
 } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
+import { convertScoreTo100, convertScoreToPercentage } from '@/lib/utils';
 
 const Report = () => {
   const { app_id, id } = useParams({ strict: false });
@@ -79,18 +80,20 @@ const Report = () => {
   }
 
   const getScoreColor = (score: number) => {
-    if (score >= 90) return 'text-green-600 dark:text-green-400';
-    if (score >= 80) return 'text-blue-600 dark:text-blue-400';
-    if (score >= 70) return 'text-yellow-600 dark:text-yellow-400';
+    const score100 = convertScoreTo100(score);
+    if (score100 >= 90) return 'text-green-600 dark:text-green-400';
+    if (score100 >= 80) return 'text-blue-600 dark:text-blue-400';
+    if (score100 >= 70) return 'text-yellow-600 dark:text-yellow-400';
     return 'text-red-600 dark:text-red-400';
   };
 
   const getScoreBgColor = (score: number) => {
-    if (score >= 90)
+    const score100 = convertScoreTo100(score);
+    if (score100 >= 90)
       return 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700';
-    if (score >= 80)
+    if (score100 >= 80)
       return 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700';
-    if (score >= 70)
+    if (score100 >= 70)
       return 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-700';
     return 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700';
   };
@@ -166,7 +169,7 @@ const Report = () => {
                   <div
                     className={`text-4xl font-bold ${getScoreColor(reportData.score)} mb-2`}
                   >
-                    {reportData.score}%
+                    {convertScoreToPercentage(reportData.score)}
                   </div>
                   <div className="text-sm font-medium text-gray-600 dark:text-gray-400">
                     Общий балл
@@ -230,7 +233,7 @@ const Report = () => {
                     <div
                       className={`text-2xl font-bold ${getScoreColor(skill.score)}`}
                     >
-                      {skill.score}%
+                      {convertScoreToPercentage(skill.score)}
                     </div>
                   </div>
                 ))}
