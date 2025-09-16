@@ -131,7 +131,7 @@ async def get_application(
 ) -> ApplicationResponse:
     application = await application_repository.get_application(application_id)
     if not application:
-        raise HTTPException(status_code=404, detail="No such application")
+        raise HTTPException(status_code=404, detail=f"Application {application_id} not found")
 
     if application.user_id != user.id:
         raise HTTPException(status_code=403, detail="You are not authorized to view this application")
@@ -154,7 +154,7 @@ async def edit_application_endpoint(
 ) -> ApplicationResponse:
     application = await application_repository.get_application(application_id)
     if not application:
-        raise HTTPException(status_code=404, detail="No such application")
+        raise HTTPException(status_code=404, detail=f"Application {application_id} not found")
     vacancy = vacancy_repository.get_vacancy(vacancy_id)
     if not vacancy:
         raise HTTPException(status_code=404, detail="No such vacancy")
@@ -198,6 +198,6 @@ async def delete_application(
 ):
     application = await application_repository.delete_application(application_id)
     if application is None:
-        raise HTTPException(status_code=404, detail="No such application")
+        raise HTTPException(status_code=404, detail=f"Application {application_id} not found")
 
     return Response(status_code=http_status.HTTP_204_NO_CONTENT)

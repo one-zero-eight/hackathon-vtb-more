@@ -1,7 +1,7 @@
 import CandidateProfile from '@/components/user/CandidateProfile';
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/user/vacancy/$id/$id/')({
+export const Route = createFileRoute('/user/vacancy/$app_id/$id/')({
   component: RouteComponent,
 });
 

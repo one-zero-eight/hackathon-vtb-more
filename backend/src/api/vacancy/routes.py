@@ -127,7 +127,7 @@ async def get_vacancy_with_skills(
 ) -> VacancyWithSkillsResponse:
     vacancy = await vacancy_repository.get_vacancy(vacancy_id)
     if vacancy is None:
-        raise HTTPException(status_code=404, detail="Vacancy not found")
+        raise HTTPException(status_code=404, detail=f"Vacancy {vacancy_id} not found")
 
     return VacancyWithSkillsResponse(
         vacancy=VacancyResponse.model_validate(vacancy),
@@ -187,7 +187,7 @@ async def edit_vacancy(
     )
 
     if vacancy is None:
-        raise HTTPException(404, "Vacancy not found")
+        raise HTTPException(404, detail=f"Vacancy {vacancy_id} not found")
 
     return VacancyResponse.model_validate(vacancy)
 
@@ -200,6 +200,6 @@ async def delete_vacancy(
 ):
     vacancy = await vacancy_repository.delete_vacancy(vacancy_id)
     if vacancy is None:
-        raise HTTPException(404, "Vacancy not found")
+        raise HTTPException(404, detail=f"Vacancy {vacancy_id} not found")
 
     return Response(status_code=http_status.HTTP_204_NO_CONTENT)

@@ -2,32 +2,21 @@ import React, { useMemo, useState, useEffect } from 'react';
 import ApplicantCard from './ApplicantCard';
 import { Button } from '@/components/ui/button';
 import SearchBar from '../SearchBar';
-import { $api } from '@/api';
+import { $api, apiFetch } from '@/api';
 import { useParams } from '@tanstack/react-router';
-
-type Applicant = {
-  id: number;
-  fullName: string;
-  score: number | null;
-  profileUrl: string;
-  reportUrl?: string;
-  status: string;
-  userId: number;
-  isRecommended?: boolean;
-  reason?: string | null;
-};
-
-// Удаляем моковые данные - будем использовать реальные данные из API
+import type { components } from '@/api/types';
+import { LoadingSpinner } from '../ui';
+import { convertScoreTo100 } from '@/lib/utils';
 
 const TABS = [
   { key: 'interview', label: 'Ожидают интервью' },
-  { key: 'decision', label: 'Ожидают результат' },
+  { key: 'completed', label: 'Завершенные интервью' },
 ] as const;
 
 const Applicants = () => {
-  const [activeTab, setActiveTab] = useState<'interview' | 'decision'>(
-    'interview'
-  );
+  const [activeTab, setActiveTab] = useState<
+    'interview' | 'decision' | 'completed'
+  >('interview');
   const { id } = useParams({ from: '/hr/vacancies/$id/applicants' });
   const [query, setQuery] = useState('');
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -51,10 +40,16 @@ const Applicants = () => {
   }, [applications, id]);
 
   // Создаем Map для хранения pre-interview данных
-  const [preInterviewData, setPreInterviewData] = useState<Record<number, any>>(
-    {}
-  );
+  const [preInterviewData, setPreInterviewData] = useState<
+    Record<number, components['schemas']['PreInterviewResponse']>
+  >({});
   const [isLoadingPreInterviews, setIsLoadingPreInterviews] = useState(false);
+
+  // Создаем Map для хранения post-interview данных
+  const [postInterviewData, setPostInterviewData] = useState<
+    Record<number, components['schemas']['PostInterviewResultResponse']>
+  >({});
+  const [isLoadingPostInterviews, setIsLoadingPostInterviews] = useState(false);
 
   // Загружаем pre-interview данные для всех заявок
   useEffect(() => {
@@ -65,34 +60,38 @@ const Applicants = () => {
 
     const loadPreInterviewData = async () => {
       setIsLoadingPreInterviews(true);
-      const data: Record<number, any> = {};
+      const data: Record<
+        number,
+        components['schemas']['PreInterviewResponse']
+      > = {};
 
       // Загружаем данные для каждой заявки параллельно
       const promises = vacancyApplications.map(async app => {
         try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/preinterview/for_application/${app.id}`,
+          const response = await apiFetch.GET(
+            '/preinterview/for_application/{application_id}',
             {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              params: {
+                path: {
+                  application_id: app.id,
+                },
               },
             }
           );
 
-          if (response.ok) {
-            const result = await response.json();
-            data[app.id] = result;
+          if (response.data) {
+            data[app.id] = response.data;
             console.log(
               `Loaded pre-interview data for application ${app.id}:`,
-              result
+              response.data
             );
           } else {
             console.log(
-              `No pre-interview data for application ${app.id}, status: ${response.status}`
+              `No pre-interview data for application ${app.id}, status: ${response.response?.status}`
             );
             // Не сохраняем данные для заявок без pre-interview
           }
-        } catch (error) {
+        } catch (error: any) {
           console.warn(
             `Failed to load pre-interview data for application ${app.id}:`,
             error
@@ -109,6 +108,62 @@ const Applicants = () => {
     loadPreInterviewData();
   }, [vacancyApplications]);
 
+  // Загружаем post-interview данные для всех заявок
+  useEffect(() => {
+    if (!vacancyApplications || vacancyApplications.length === 0) {
+      setPostInterviewData({});
+      return;
+    }
+
+    const loadPostInterviewData = async () => {
+      setIsLoadingPostInterviews(true);
+      const data: Record<
+        number,
+        components['schemas']['PostInterviewResultResponse']
+      > = {};
+
+      // Загружаем данные для каждой заявки параллельно
+      const promises = vacancyApplications.map(async app => {
+        try {
+          const response = await apiFetch.GET(
+            '/postinterview/for_application/{application_id}',
+            {
+              params: {
+                path: {
+                  application_id: app.id,
+                },
+              },
+            }
+          );
+
+          if (response.data) {
+            data[app.id] = response.data;
+            console.log(
+              `Loaded post-interview data for application ${app.id}:`,
+              response.data
+            );
+          } else {
+            console.log(
+              `No post-interview data for application ${app.id}, status: ${response.response?.status}`
+            );
+          }
+        } catch (error: any) {
+          console.warn(
+            `Failed to load post-interview data for application ${app.id}:`,
+            error
+          );
+        }
+      });
+
+      await Promise.all(promises);
+      console.log('All post-interview data loaded:', data);
+      setPostInterviewData(data);
+      setIsLoadingPostInterviews(false);
+    };
+
+    loadPostInterviewData();
+  }, [vacancyApplications]);
+
   // Создаем объект пользователей для быстрого поиска
   const usersMap = useMemo(() => {
     if (!users) return {};
@@ -117,12 +172,15 @@ const Applicants = () => {
         acc[user.id] = user;
         return acc;
       },
-      {} as Record<number, any>
+      {} as Record<number, components['schemas']['UserResponse']>
     );
   }, [users]);
 
   // Функция для получения скора из pre-interview данных или GitHub статистики
-  const getScore = (applicationId: number, githubStats: any) => {
+  const getScore = (
+    applicationId: number,
+    githubStats: components['schemas']['GithubStats'] | null | undefined
+  ) => {
     // Сначала ищем pre-interview данные для этой заявки
     const preInterviewDataForApp = preInterviewData[applicationId];
 
@@ -135,7 +193,7 @@ const Applicants = () => {
     });
 
     if (preInterviewDataForApp?.score !== undefined) {
-      return preInterviewDataForApp.score;
+      return convertScoreTo100(preInterviewDataForApp.score);
     }
 
     // Если нет pre-interview данных, используем GitHub статистику
@@ -172,59 +230,90 @@ const Applicants = () => {
     };
   };
 
-  // Преобразуем заявки в формат Applicant (ТОЛЬКО те, у кого есть pre-interview данные)
+  // Преобразуем заявки в формат Applicant
   const allApplicants = useMemo(() => {
     if (!vacancyApplications || !usersMap) return [];
 
-    const applicants = vacancyApplications
-      .filter(app => {
-        // Показываем ТОЛЬКО заявки с pre-interview данными
-        const hasPreInterviewData = preInterviewData[app.id];
-        return hasPreInterviewData;
-      })
-      .map(app => {
-        const user = usersMap[app.user_id];
-        const score = getScore(app.id, app.github_stats);
-        const recommendationInfo = getRecommendationInfo(app.id);
+    const applicants = vacancyApplications.map(app => {
+      const user = usersMap[app.user_id];
+      const score = getScore(app.id, app.github_stats);
+      const recommendationInfo = getRecommendationInfo(app.id);
+      const postInterviewDataForApp = postInterviewData[app.id];
 
-        const applicant = {
-          id: app.id,
-          fullName: user?.name || 'Неизвестный пользователь',
-          score: score,
-          profileUrl: app.profile_url || `/profile/${app.user_id}`,
-          reportUrl: `/report/${app.id}`,
-          status: app.status,
-          userId: app.user_id,
-          isRecommended: recommendationInfo.isRecommended,
-          reason: recommendationInfo.reason,
-        };
+      const applicant = {
+        id: app.id,
+        fullName: user?.name || 'Неизвестный пользователь',
+        score: postInterviewDataForApp
+          ? convertScoreTo100(postInterviewDataForApp.score)
+          : score,
+        user_id: app.user_id,
+        status: app.status,
+        userId: app.user_id,
+        isRecommended: postInterviewDataForApp
+          ? postInterviewDataForApp.is_recommended
+          : recommendationInfo.isRecommended,
+        reason: recommendationInfo.reason,
+        postInterviewData: postInterviewDataForApp,
+        isCompleted: postInterviewDataForApp !== undefined,
+      };
 
-        console.log(`Created applicant for ${app.id}:`, applicant);
-        return applicant;
-      });
+      console.log(`Created applicant for ${app.id}:`, applicant);
+      return applicant;
+    });
 
-    console.log(
-      'All applicants created (only with pre-interview data):',
-      applicants
-    );
+    console.log('All applicants created:', applicants);
     return applicants;
-  }, [vacancyApplications, usersMap, preInterviewData]);
+  }, [vacancyApplications, usersMap, preInterviewData, postInterviewData]);
 
   // Разделяем заявки по статусам
   const applicantsInterview = useMemo(() => {
-    // Все заявки с pre-interview данными показываем в "Ожидают интервью"
-    return allApplicants;
-  }, [allApplicants]);
+    // Показываем заявки с pre-interview данными, но БЕЗ post-interview данных
+    const filtered = allApplicants.filter(app => {
+      const hasPreInterviewData = preInterviewData[app.id] !== undefined;
+      const hasPostInterviewData = postInterviewData[app.id] !== undefined;
+      return hasPreInterviewData && !hasPostInterviewData;
+    });
+    console.log('applicantsInterview filtered:', filtered);
+    return filtered;
+  }, [allApplicants, preInterviewData, postInterviewData]);
 
   const applicantsDecision = useMemo(() => {
-    // Заявки с результатами после завершения интервью (пока пустой, так как все заявки с pre-interview данными)
-    return [];
-  }, []);
+    // Показываем заявки БЕЗ pre-interview данных в "Ожидают результат"
+    const filtered = allApplicants.filter(app => {
+      const hasPreInterviewData = preInterviewData[app.id] !== undefined;
+      const hasPostInterviewData = postInterviewData[app.id] !== undefined;
+      console.log(
+        `Application ${app.id}: hasPreInterviewData = ${hasPreInterviewData}, hasPostInterviewData = ${hasPostInterviewData}`
+      );
+      return !hasPreInterviewData && !hasPostInterviewData;
+    });
+    console.log('applicantsDecision filtered:', filtered);
+    return filtered;
+  }, [allApplicants, preInterviewData, postInterviewData]);
+
+  const applicantsCompleted = useMemo(() => {
+    // Показываем заявки с post-interview данными в "Завершенные интервью"
+    const filtered = allApplicants.filter(app => {
+      const hasPostInterviewData = postInterviewData[app.id] !== undefined;
+      return hasPostInterviewData;
+    });
+    console.log('applicantsCompleted filtered:', filtered);
+    return filtered;
+  }, [allApplicants, postInterviewData]);
 
   // Получаем текущий список заявок в зависимости от активной вкладки
   const currentApplicants = useMemo(() => {
-    return activeTab === 'interview' ? applicantsInterview : applicantsDecision;
-  }, [activeTab, applicantsInterview, applicantsDecision]);
+    switch (activeTab) {
+      case 'interview':
+        return applicantsInterview;
+      case 'decision':
+        return applicantsDecision;
+      case 'completed':
+        return applicantsCompleted;
+      default:
+        return applicantsInterview;
+    }
+  }, [activeTab, applicantsInterview, applicantsDecision, applicantsCompleted]);
 
   const applicants = useMemo(() => {
     const filtered = currentApplicants.filter(a =>
@@ -256,31 +345,17 @@ const Applicants = () => {
 
   const countInterview = applicantsInterview.length;
   const countDecision = applicantsDecision.length;
+  const countCompleted = applicantsCompleted.length;
 
   // Состояние загрузки
   const isLoading =
-    isLoadingApplications || isLoadingUsers || isLoadingPreInterviews;
-
-  const handleApprove = () => {
-    // Placeholder action
-    console.log('Approved ids:', selectedIds);
-  };
+    isLoadingApplications ||
+    isLoadingUsers ||
+    isLoadingPreInterviews ||
+    isLoadingPostInterviews;
 
   if (isLoading) {
-    return (
-      <div className="w-full flex flex-col items-center gap-6 md:gap-8">
-        <div className="container-w mx-auto space-y-6 px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex items-center justify-center py-12">
-            <div className="text-center">
-              <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400">
-                Загрузка заявок...
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
@@ -308,7 +383,7 @@ const Applicants = () => {
             {TABS.map(tab => {
               const isActive = activeTab === tab.key;
               const count =
-                tab.key === 'interview' ? countInterview : countDecision;
+                tab.key === 'interview' ? countInterview : countCompleted;
               return (
                 <button
                   key={tab.key}
@@ -333,7 +408,6 @@ const Applicants = () => {
             })}
           </nav>
           <Button
-            onClick={handleApprove}
             variant="outline"
             size="lg"
             className="cursor-pointer px-4 md:px-6 lg:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-xl md:rounded-2xl border-2 hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-all duration-300 dark:border-indigo-600 border-indigo-600"
@@ -351,16 +425,18 @@ const Applicants = () => {
           ) : (
             applicants.map(applicant => (
               <ApplicantCard
+                vac_id={applicant.id}
                 key={applicant.id}
+                userId={applicant.userId}
+                application_id={applicant.id}
                 checked={selectedIds.includes(applicant.id)}
                 onCheck={val => toggleSelect(applicant.id, Boolean(val))}
                 fullName={applicant.fullName}
                 score={applicant.score !== null ? `${applicant.score}%` : 'N/A'}
-                profileUrl={applicant.profileUrl}
-                reportUrl={applicant.reportUrl}
                 status={applicant.status}
                 isRecommended={applicant.isRecommended}
-                reason={applicant.reason}
+                postInterviewData={applicant.postInterviewData}
+                isCompleted={applicant.isCompleted}
               />
             ))
           )}

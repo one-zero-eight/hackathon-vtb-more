@@ -3,6 +3,7 @@ import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { $api } from '@/api';
 import { useNavigate } from '@tanstack/react-router';
 import { useToast } from './toast-1';
+import { useAuth } from '@/contexts/AuthContext';
 // --- SUB-COMPONENTS ---
 
 const GlassInputWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -16,6 +17,7 @@ const GlassInputWrapper = ({ children }: { children: React.ReactNode }) => (
 export const SignInPage: React.FC = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
+  const { login } = useAuth();
   const [authState, setAuthState] = useState<'signup' | 'login'>('login');
   const [showPassword, setShowPassword] = useState(false);
   const [userData, setUserData] = useState({
@@ -43,10 +45,10 @@ export const SignInPage: React.FC = () => {
           email: userData.email,
           password: userData.password,
           name: userData.full_name,
-          is_admin: true,
+          is_admin: false,
         },
       });
-      localStorage.setItem('token', response.access_token);
+      login(response.access_token);
       showToast('Аккаунт успешно создан', 'success', 'top-right');
       navigate({ to: '/user/profile' });
     } catch (error) {
@@ -66,7 +68,7 @@ export const SignInPage: React.FC = () => {
           password: userData.password,
         },
       });
-      localStorage.setItem('token', response.access_token);
+      login(response.access_token);
       showToast('Вход в систему', 'success', 'top-right');
       navigate({ to: '/user/profile' });
     } catch (error) {
